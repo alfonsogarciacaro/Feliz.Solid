@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "isRoot": true,
+  "tools": {
+    "fable": {
+      "version": "4.0.0-snake-island-alpha-003",
+      "commands": [
+        "fable"
+      ]
+    }
+  }
+}
