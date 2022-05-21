@@ -1,7 +1,7 @@
 module Components
 
 open Browser.Types
-open Feliz
+open Feliz.JSX
 open Fable.Core
 open Fable.Core.JsInterop
 
@@ -214,6 +214,7 @@ module TodoMVC =
                 Html.input [
                     Solid.ref inputRef
                     Attr.classes [ "input"; "is-medium" ]
+                    Attr.autoFocus true
                     Ev.onKeyUp (onEnterOrEscape (AddNewTodo >> dispatch) ignore)
                 ]
             ]

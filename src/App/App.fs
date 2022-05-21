@@ -1,7 +1,7 @@
 module App
 
 open Browser
-open Feliz
+open Feliz.JSX
 open Fable.Core
 open Components
 

@@ -1,15 +1,3 @@
-namespace Feliz
-
-// TODO: Should we just make the classes static (like in original Feliz)
-// as they're not customizable for Feliz.JSX?
-[<AutoOpen>]
-module Solid =
-    let Html = HtmlEngine()
-    // let Svg = SvgEngine()
-    let Css = CssEngine()
-    let Attr = AttrEngine()
-    let Ev = EventEngine()
-
 namespace global
 
 open System
@@ -17,11 +5,6 @@ open Fable.Core
 open Fable.Core.JsInterop
 
 type Solid =
-    // [<ImportDefault("solid-js/h")>]
-    // static member h(tag: obj, attrs: obj, [<ParamSeq>] children: JSX.Element seq): JSX.Element = jsNative
-
-    // static member inline text(text: string): JSX.Element = unbox text
-
     [<ImportMember("solid-js/web")>]
     static member render(f: unit -> JSX.Element, el: Browser.Types.Element): unit = jsNative
 

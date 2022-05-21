@@ -1,4 +1,6 @@
-namespace Feliz.Styles
+namespace Feliz.JSX
+
+open System
 
 type IBackgroundRepeat = abstract AsString: string
 type IBorderStyle = abstract AsString: string
@@ -24,11 +26,6 @@ type ITransformProperty = abstract AsString: string
 // type IOverflow = interface end
 // type IWordWrap = interface end
 // type IBackgroundClip = interface end
-
-namespace Feliz
-
-open System
-open Feliz.Styles
 
 type Util =
     static member inline asString(x: string): string = x

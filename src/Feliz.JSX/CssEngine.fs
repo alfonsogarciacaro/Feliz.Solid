@@ -1,7 +1,6 @@
-﻿namespace Feliz
+﻿namespace Feliz.JSX
 
 open System
-open Feliz.Styles
 
 module CssUtil =
     let inline mk (key: string) (value: string): string * string = key, value
@@ -10,16 +9,16 @@ open type Util
 open CssUtil
 
 /// <summary>CSS generator API.</summary>
-type CssEngine() =
+type Css =
     /// Define a custom property
-    member inline _.custom(key: string, value: string) = mk key value
+    static member inline custom(key: string, value: string) = mk key value
 
     /// Specifies that all the element's properties should be changed to their initial values.
-    member inline _.allInitial = mk "all" "initial"
+    static member inline allInitial = mk "all" "initial"
     /// Specifies that all the element's properties should be changed to their inherited values.
-    member inline _.allInherit = mk "all" "inherit"
+    static member inline allInherit = mk "all" "inherit"
     /// Specifies that all the element's properties should be changed to their inherited values if they inherit by default, or to their initial values if not.
-    member inline _.allUnset = mk "all" "unset"
+    static member inline allUnset = mk "all" "unset"
     /// Specifies behavior that depends on the stylesheet origin to which the declaration belongs:
     ///
     /// User-agent origin
@@ -28,24 +27,24 @@ type CssEngine() =
     ///     Rolls back the cascade to the user-agent level, so that the specified values are calculated as if no author-level or user-level rules were specified for the element.
     /// Author origin
     ///     Rolls back the cascade to the user level, so that the specified values are calculated as if no author-level rules were specified for the element. For purposes of revert, the Author origin includes the Override and Animation origins.
-    member inline _.allRevert = mk "all" "revert"
+    static member inline allRevert = mk "all" "revert"
 
-    member inline _.boxShadow(value: string) = mk "box-shadow" value
+    static member inline boxShadow(value: string) = mk "box-shadow" value
 
-    member inline _.boxShadow(horizontalOffset: int, verticalOffset: int, color: string) =
+    static member inline boxShadow(horizontalOffset: int, verticalOffset: int, color: string) =
         mk "box-shadow" (
             (asString horizontalOffset) + "px " +
             (asString verticalOffset) + "px " +
             color
         )
-    member inline _.boxShadow(horizontalOffset: int, verticalOffset: int, blur: int, color: string) =
+    static member inline boxShadow(horizontalOffset: int, verticalOffset: int, blur: int, color: string) =
         mk "box-shadow" (
             (asString horizontalOffset) + "px " +
             (asString verticalOffset) + "px " +
             (asString blur) + "px " +
             color
         )
-    member inline _.boxShadow(horizontalOffset: int, verticalOffset: int, blur: int, spread: int, color: string) =
+    static member inline boxShadow(horizontalOffset: int, verticalOffset: int, blur: int, spread: int, color: string) =
         mk "box-shadow" (
             (asString horizontalOffset) + "px " +
             (asString verticalOffset) + "px " +
@@ -53,575 +52,575 @@ type CssEngine() =
             (asString spread) + "px " +
             color
         )
-    member inline _.boxShadowNone = mk "box-shadow" "none"
+    static member inline boxShadowNone = mk "box-shadow" "none"
     /// Inherits this property from its parent element.
-    member inline _.boxShadowInheritFromParent = mk "box-shadow" "inherit"
+    static member inline boxShadowInheritFromParent = mk "box-shadow" "inherit"
 
-    member inline _.height(value: int) = mk "height" (asString value + "px")
-    member inline _.height(value: ICssUnit) = mk "height" (asString value)
+    static member inline height(value: int) = mk "height" (asString value + "px")
+    static member inline height(value: ICssUnit) = mk "height" (asString value)
     /// Inherits this property from its parent element.
-    member inline _.heightInheritFromParent = mk "height" "inherit"
+    static member inline heightInheritFromParent = mk "height" "inherit"
     /// Sets this property to its default value.
-    member inline _.heightInitial = mk "height" "initial"
+    static member inline heightInitial = mk "height" "initial"
     /// The intrinsic preferred height.
-    member inline _.heightMaxContent = mk "height" "max-content"
+    static member inline heightMaxContent = mk "height" "max-content"
     /// The intrinsic minimum height.
-    member inline _.heightMinContent = mk "height" "min-content"
+    static member inline heightMinContent = mk "height" "min-content"
 
-    member inline _.maxHeight(value: int) = mk "max-height" (asString value + "px")
-    member inline _.maxHeight(value: ICssUnit) = mk "max-height" (asString value)
+    static member inline maxHeight(value: int) = mk "max-height" (asString value + "px")
+    static member inline maxHeight(value: ICssUnit) = mk "max-height" (asString value)
     /// Inherits this property from its parent element.
-    member inline _.maxHeightInheritFromParent = mk "max-height" "inherit"
+    static member inline maxHeightInheritFromParent = mk "max-height" "inherit"
     /// Sets this property to its default value.
-    member inline _.maxHeightInitial = mk "max-height" "initial"
+    static member inline maxHeightInitial = mk "max-height" "initial"
     /// The intrinsic preferred height.
-    member inline _.maxHeightMaxContent = mk "height" "max-content"
+    static member inline maxHeightMaxContent = mk "height" "max-content"
     /// The intrinsic minimum height.
-    member inline _.maxHeightMinContent = mk "height" "min-content"
+    static member inline maxHeightMinContent = mk "height" "min-content"
 
-    member inline _.minHeight(value: int) = mk "min-height" (asString value + "px")
-    member inline _.minHeight(value: ICssUnit) = mk "min-height" (asString value)
+    static member inline minHeight(value: int) = mk "min-height" (asString value + "px")
+    static member inline minHeight(value: ICssUnit) = mk "min-height" (asString value)
     /// Inherits this property from its parent element.
-    member inline _.minHeightInheritFromParent = mk "min-height" "inherit"
+    static member inline minHeightInheritFromParent = mk "min-height" "inherit"
     /// Sets this property to its default value.
-    member inline _.minHeightInitial = mk "min-height" "initial"
+    static member inline minHeightInitial = mk "min-height" "initial"
     /// The intrinsic preferred height.
-    member inline _.minHeightMaxContent = mk "height" "max-content"
+    static member inline minHeightMaxContent = mk "height" "max-content"
     /// The intrinsic minimum height.
-    member inline _.minHeightMinContent = mk "height" "min-content"
+    static member inline minHeightMinContent = mk "height" "min-content"
 
     /// The browser determines the justification algorithm
-    member inline _.textJustifyAuto = mk "text-justify" "auto"
+    static member inline textJustifyAuto = mk "text-justify" "auto"
     /// Increases/Decreases the space between words
-    member inline _.textJustifyInterWord = mk "text-justify" "inter-word"
+    static member inline textJustifyInterWord = mk "text-justify" "inter-word"
     /// Increases/Decreases the space between characters
-    member inline _.textJustifyInterCharacter = mk "text-justify" "inter-character"
+    static member inline textJustifyInterCharacter = mk "text-justify" "inter-character"
     /// Disables justification methods
-    member inline _.textJustifyNone = mk "text-justify" "none"
-    member inline _.textJustifyInitial = mk "text-justify" "initial"
+    static member inline textJustifyNone = mk "text-justify" "none"
+    static member inline textJustifyInitial = mk "text-justify" "initial"
     /// Inherits this property from its parent element.
-    member inline _.textJustifyInheritFromParent = mk "text-justify" "inherit"
+    static member inline textJustifyInheritFromParent = mk "text-justify" "inherit"
 
     /// Sequences of whitespace will collapse into a single whitespace. Text will wrap when necessary. This is default.
-    member inline _. whiteSpaceNormal = mk "white-space" "normal"
+    static member inline  whiteSpaceNormal = mk "white-space" "normal"
     /// Sequences of whitespace will collapse into a single whitespace. Text will never wrap to the next line.
     /// The text continues on the same line until a `<br> ` tag is encountered.
-    member inline _. whiteSpaceNowrap = mk "white-space" "nowrap"
+    static member inline  whiteSpaceNowrap = mk "white-space" "nowrap"
     /// Whitespace is preserved by the browser. Text will only wrap on line breaks. Acts like the <pre> tag in HTML.
-    member inline _. whiteSpacePre = mk "white-space" "pre"
+    static member inline  whiteSpacePre = mk "white-space" "pre"
     /// Sequences of whitespace will collapse into a single whitespace. Text will wrap when necessary, and on line breaks
-    member inline _. whiteSpacePreLine = mk "white-space" "pre-line"
+    static member inline  whiteSpacePreLine = mk "white-space" "pre-line"
     /// Whitespace is preserved by the browser. Text will wrap when necessary, and on line breaks
-    member inline _. whiteSpacePreWrap = mk "white-space" "pre-wrap"
+    static member inline  whiteSpacePreWrap = mk "white-space" "pre-wrap"
     /// Sets this property to its default value.
-    member inline _. whiteSpaceInitial = mk "white-space" "initial"
+    static member inline  whiteSpaceInitial = mk "white-space" "initial"
     /// Inherits this property from its parent element.
-    member inline _. whiteSpaceInheritFromParent = mk "white-space" "inherit"
+    static member inline  whiteSpaceInheritFromParent = mk "white-space" "inherit"
 
     /// Default value. Uses default line break rules.
-    member inline _.wordbreakNormal = mk "word-break" "normal"
+    static member inline wordbreakNormal = mk "word-break" "normal"
     /// To prevent overflow, word may be broken at any character
-    member inline _.wordbreakBreakAll = mk "word-break" "break-all"
+    static member inline wordbreakBreakAll = mk "word-break" "break-all"
     /// Word breaks should not be used for Chinese/Japanese/Korean (CJK) text. Non-CJK text behavior is the same as value "normal"
-    member inline _.wordbreakKeepAll = mk "word-break" "keep-all"
+    static member inline wordbreakKeepAll = mk "word-break" "keep-all"
     /// To prevent overflow, word may be broken at arbitrary points.
-    member inline _.wordbreakBreakWord = mk "word-break" "break-word"
+    static member inline wordbreakBreakWord = mk "word-break" "break-word"
     /// Sets this property to its default value.
-    member inline _.wordbreakInitial = mk "word-break" "initial"
+    static member inline wordbreakInitial = mk "word-break" "initial"
     /// Inherits this property from its parent element.
-    member inline _.wordbreakInheritFromParent = mk "word-break" "inherit"
+    static member inline wordbreakInheritFromParent = mk "word-break" "inherit"
 
     /// Allows a straight jump "scroll effect" between elements within the scrolling box. This is default
-    member inline _.scrollBehaviorAuto = mk "scroll-behavior" "auto"
+    static member inline scrollBehaviorAuto = mk "scroll-behavior" "auto"
     /// Allows a smooth animated "scroll effect" between elements within the scrolling box.
-    member inline _.scrollBehaviorSmooth = mk "scroll-behavior" "smooth"
+    static member inline scrollBehaviorSmooth = mk "scroll-behavior" "smooth"
     /// Sets this property to its default value.
-    member inline _.scrollBehaviorInitial = mk "scroll-behavior" "initial"
+    static member inline scrollBehaviorInitial = mk "scroll-behavior" "initial"
     /// Inherits this property from its parent element.
-    member inline _.scrollBehaviorInheritFromParent = mk "scroll-behavior" "inherit"
+    static member inline scrollBehaviorInheritFromParent = mk "scroll-behavior" "inherit"
 
     /// The content is not clipped, and it may be rendered outside the left and right edges. This is default.
-    member inline _.overflowVisible = mk "overflow" "visibile"
+    static member inline overflowVisible = mk "overflow" "visibile"
     /// The content is clipped - and no scrolling mechanism is provided.
-    member inline _.overflowHidden = mk "overflow" "hidden"
+    static member inline overflowHidden = mk "overflow" "hidden"
     /// The content is clipped and a scrolling mechanism is provided.
-    member inline _.overflowScroll = mk "overflow" "scroll"
+    static member inline overflowScroll = mk "overflow" "scroll"
     /// Should cause a scrolling mechanism to be provided for overflowing boxes
-    member inline _.overflowAuto = mk "overflow" "auto"
+    static member inline overflowAuto = mk "overflow" "auto"
     /// Sets this property to its default value.
-    member inline _.overflowInitial = mk "overflow" "initial"
+    static member inline overflowInitial = mk "overflow" "initial"
     /// Inherits this property from its parent element.
-    member inline _.overflowInheritFromParent = mk "overflow" "inherit"
+    static member inline overflowInheritFromParent = mk "overflow" "inherit"
 
     /// The content is not clipped, and it may be rendered outside the left and right edges. This is default.
-    member inline _.overflowXVisible = mk "overflow-x" "visibile"
+    static member inline overflowXVisible = mk "overflow-x" "visibile"
     /// The content is clipped - and no scrolling mechanism is provided.
-    member inline _.overflowXHidden = mk "overflow-x" "hidden"
+    static member inline overflowXHidden = mk "overflow-x" "hidden"
     /// The content is clipped and a scrolling mechanism is provided.
-    member inline _.overflowXScroll = mk "overflow-x" "scroll"
+    static member inline overflowXScroll = mk "overflow-x" "scroll"
     /// Should cause a scrolling mechanism to be provided for overflowing boxes
-    member inline _.overflowXAuto = mk "overflow-x" "auto"
+    static member inline overflowXAuto = mk "overflow-x" "auto"
     /// Sets this property to its default value.
-    member inline _.overflowXInitial = mk "overflow-x" "initial"
+    static member inline overflowXInitial = mk "overflow-x" "initial"
     /// Inherits this property from its parent element.
-    member inline _.overflowXInheritFromParent = mk "overflow-x" "inherit"
+    static member inline overflowXInheritFromParent = mk "overflow-x" "inherit"
 
     /// The content is not clipped, and it may be rendered outside the left and right edges. This is default.
-    member inline _.overflowYVisible = mk "overflow-y" "visibile"
+    static member inline overflowYVisible = mk "overflow-y" "visibile"
     /// The content is clipped - and no scrolling mechanism is provided.
-    member inline _.overflowYHidden = mk "overflow-y" "hidden"
+    static member inline overflowYHidden = mk "overflow-y" "hidden"
     /// The content is clipped and a scrolling mechanism is provided.
-    member inline _.overflowYScroll = mk "overflow-y" "scroll"
+    static member inline overflowYScroll = mk "overflow-y" "scroll"
     /// Should cause a scrolling mechanism to be provided for overflowing boxes
-    member inline _.overflowYAuto = mk "overflow-y" "auto"
+    static member inline overflowYAuto = mk "overflow-y" "auto"
     /// Sets this property to its default value.
-    member inline _.overflowYInitial = mk "overflow-y" "initial"
+    static member inline overflowYInitial = mk "overflow-y" "initial"
     /// Inherits this property from its parent element.
-    member inline _.overflowYInheritFromParent = mk "overflow-y" "inherit"
+    static member inline overflowYInheritFromParent = mk "overflow-y" "inherit"
 
     /// The element is hidden (but still takes up space).
-    member inline _.visibilityHidden = mk "visibility" "hidden"
+    static member inline visibilityHidden = mk "visibility" "hidden"
     /// Default value. The element is visible.
-    member inline _.visibilityVisible = mk "visibility" "visible"
+    static member inline visibilityVisible = mk "visibility" "visible"
     /// Only for table rows (`<tr> `), row groups (`<tbody> `), columns (`<col> `), column groups
     /// (`<colgroup> `). This value removes a row or column, but it does not affect the table layout.
     /// The space taken up by the row or column will be available for other content.
     ///
     /// If collapse is used on other elements, it renders as "hidden"
-    member inline _.visibilityCollapse = mk "visibility" "collapse"
+    static member inline visibilityCollapse = mk "visibility" "collapse"
     /// Sets this property to its default value.
-    member inline _.visibilityInitial = mk "visibility" "initial"
+    static member inline visibilityInitial = mk "visibility" "initial"
     /// Inherits this property from its parent element.
-    member inline _.visibilityInheritFromParent = mk "visibility" "inherit"
+    static member inline visibilityInheritFromParent = mk "visibility" "inherit"
 
     /// Default value. The length is equal to the length of the flexible item. If the item has
     /// no length specified, the length will be according to its content.
-    member inline _.flexBasisAuto = mk "flex-basis" "auto"
+    static member inline flexBasisAuto = mk "flex-basis" "auto"
     /// Sets this property to its default value.
-    member inline _.flexBasisInitial = mk "flex-basis" "initial"
+    static member inline flexBasisInitial = mk "flex-basis" "initial"
     /// Inherits this property from its parent element.
-    member inline _.flexBasisInheritFromParent = mk "flex-basis" "inherit"
+    static member inline flexBasisInheritFromParent = mk "flex-basis" "inherit"
 
     /// Default value. The flexible items are displayed horizontally, as a row
-    member inline _.flexDirectionRow = mk "flex-direction" "row"
+    static member inline flexDirectionRow = mk "flex-direction" "row"
     /// Same as row, but in reverse order.
-    member inline _.flexDirectionRowReverse = mk "flex-direction" "row-reverse"
+    static member inline flexDirectionRowReverse = mk "flex-direction" "row-reverse"
     /// The flexible items are displayed vertically, as a column
-    member inline _.flexDirectionColumn = mk "flex-direction" "column"
+    static member inline flexDirectionColumn = mk "flex-direction" "column"
     /// Same as column, but in reverse order
-    member inline _.flexDirectionColumnReverse = mk "flex-direction" "column-reverse"
+    static member inline flexDirectionColumnReverse = mk "flex-direction" "column-reverse"
     /// Sets this property to its default value.
-    member inline _.flexDirectionInitial = mk "flex-basis" "initial"
+    static member inline flexDirectionInitial = mk "flex-basis" "initial"
     /// Inherits this property from its parent element.
-    member inline _.flexDirectionInheritFromParent = mk "flex-basis" "inherit"
+    static member inline flexDirectionInheritFromParent = mk "flex-basis" "inherit"
 
     /// Default value. Specifies that the flexible items will not wrap.
-    member inline _.flexWrapNowrap = mk "flex-wrap" "nowrap"
+    static member inline flexWrapNowrap = mk "flex-wrap" "nowrap"
     /// Specifies that the flexible items will wrap if necessary
-    member inline _.flexWrapWrap = mk "flex-wrap" "wrap"
+    static member inline flexWrapWrap = mk "flex-wrap" "wrap"
     /// Specifies that the flexible items will wrap, if necessary, in reverse order
-    member inline _.flexWrapWrapReverse = mk "flex-wrap" "wrap-reverse"
+    static member inline flexWrapWrapReverse = mk "flex-wrap" "wrap-reverse"
     /// Sets this property to its default value.
-    member inline _.flexWrapInitial = mk "flex-wrap" "initial"
+    static member inline flexWrapInitial = mk "flex-wrap" "initial"
     /// Inherits this property from its parent element.
-    member inline _.flexWrapInheritFromParent = mk "flex-wrap" "inherit"
+    static member inline flexWrapInheritFromParent = mk "flex-wrap" "inherit"
 
     /// The element must float on the left side of its containing block.
-    member inline _.floatLeft = mk "float" "left"
+    static member inline floatLeft = mk "float" "left"
     /// The element must float on the right side of its containing block.
-    member inline _.floatRight = mk "float" "right"
+    static member inline floatRight = mk "float" "right"
     /// The element must not float.
-    member inline _.floatNone = mk "float" "none"
+    static member inline floatNone = mk "float" "none"
 
     /// The font display strategy is defined by the user agent.
     ///
     /// Default value
-    member inline _.fontDisplayAuto = mk "font-display" "auto"
+    static member inline fontDisplayAuto = mk "font-display" "auto"
     /// Gives the font face a short block period and an infinite swap period.
-    member inline _.fontDisplayBlock = mk "font-display" "block"
+    static member inline fontDisplayBlock = mk "font-display" "block"
     /// Gives the font face an extremely small block period and an infinite swap period.
-    member inline _.fontDisplaySwap = mk "font-display" "swap"
+    static member inline fontDisplaySwap = mk "font-display" "swap"
     /// Gives the font face an extremely small block period and a short swap period.
-    member inline _.fontDisplayFallback = mk "font-display" "fallback"
+    static member inline fontDisplayFallback = mk "font-display" "fallback"
     /// Gives the font face an extremely small block period and no swap period.
-    member inline _.fontDisplayOptional = mk "font-display" "optional"
+    static member inline fontDisplayOptional = mk "font-display" "optional"
 
     /// Default. The browser determines whether font kerning should be applied or not
-    member inline _.fontKerningAuto = mk "font-kerning" "auto"
+    static member inline fontKerningAuto = mk "font-kerning" "auto"
     /// Specifies that font kerning is applied
-    member inline _.fontKerningNormal = mk "font-kerning" "normal"
+    static member inline fontKerningNormal = mk "font-kerning" "normal"
     /// Specifies that font kerning is not applied
-    member inline _.fontKerningNone = mk "font-kerning" "none"
+    static member inline fontKerningNone = mk "font-kerning" "none"
 
     /// Defines from thin to thick characters. 400 is the same as normal, and 700 is the same as bold.
     /// Possible values are [100, 200, 300, 400, 500, 600, 700, 800, 900]
-    member inline _.fontWeight(weight: int) = mk "font-weight" (asString weight)
+    static member inline fontWeight(weight: int) = mk "font-weight" (asString weight)
     /// Defines normal characters. This is default.
-    member inline _.fontWeightNormal = mk "font-weight" "normal"
+    static member inline fontWeightNormal = mk "font-weight" "normal"
     /// Defines thick characters.
-    member inline _.fontWeightBold = mk "font-weight" "bold"
+    static member inline fontWeightBold = mk "font-weight" "bold"
     /// Defines thicker characters
-    member inline _.fontWeightBolder = mk "font-weight" "bolder"
+    static member inline fontWeightBolder = mk "font-weight" "bolder"
     /// Defines lighter characters.
-    member inline _.fontWeightLighter = mk "font-weight" "lighter"
+    static member inline fontWeightLighter = mk "font-weight" "lighter"
     /// Sets this property to its default value.
-    member inline _.fontWeightInitial = mk "font-weight" "initial"
+    static member inline fontWeightInitial = mk "font-weight" "initial"
     /// Inherits this property from its parent element.
-    member inline _.fontWeightInheritFromParent = mk "font-weight" "inherit"
+    static member inline fontWeightInheritFromParent = mk "font-weight" "inherit"
 
     /// The browser displays a normal font style. This is defaut.
-    member inline _.fontStyleNormal = mk "font-style" "normal"
+    static member inline fontStyleNormal = mk "font-style" "normal"
     /// The browser displays an italic font style.
-    member inline _.fontStyleItalic = mk "font-style" "italic"
+    static member inline fontStyleItalic = mk "font-style" "italic"
     /// The browser displays an oblique font style.
-    member inline _.fontStyleOblique = mk "font-style" "oblique"
+    static member inline fontStyleOblique = mk "font-style" "oblique"
     /// Sets this property to its default value.
-    member inline _.fontStyleInitial = mk "font-style" "initial"
+    static member inline fontStyleInitial = mk "font-style" "initial"
     /// Inherits this property from its parent element.
-    member inline _.fontStyleInheritFromParent = mk "font-style" "inherit"
+    static member inline fontStyleInheritFromParent = mk "font-style" "inherit"
 
     /// The browser displays a normal font. This is default
-    member inline _.fontVariantNormal = mk "font-variant" "normal"
+    static member inline fontVariantNormal = mk "font-variant" "normal"
     /// The browser displays a small-caps font
-    member inline _.fontVariantSmallCaps = mk "font-variant" "small-caps"
+    static member inline fontVariantSmallCaps = mk "font-variant" "small-caps"
     /// Sets this property to its default value.
-    member inline _.fontVariantInitial = mk "font-variant" "initial"
+    static member inline fontVariantInitial = mk "font-variant" "initial"
     /// Inherits this property from its parent element.
-    member inline _.fontVariantInheritFromParent = mk "font-variant" "inherit"
+    static member inline fontVariantInheritFromParent = mk "font-variant" "inherit"
 
     /// Break words only at allowed break points
-    member inline _.wordWrapNormal = mk "word-wrap" "normal"
+    static member inline wordWrapNormal = mk "word-wrap" "normal"
     /// Allows unbreakable words to be broken
-    member inline _.wordWrapBreakWord = mk "word-wrap" "break-word"
+    static member inline wordWrapBreakWord = mk "word-wrap" "break-word"
     /// Sets this property to its default value.
-    member inline _.wordWrapInitial = mk "word-wrap" "initial"
+    static member inline wordWrapInitial = mk "word-wrap" "initial"
     /// Inherits this property from its parent element.
-    member inline _.wordWrapInheritFromParent = mk "word-wrap" "inherit"
+    static member inline wordWrapInheritFromParent = mk "word-wrap" "inherit"
 
     /// Default. The element inherits its parent container's align-items property, or "stretch" if it has no parent container.
-    member inline _.alignSelfAuto = mk "align-self" "auto"
+    static member inline alignSelfAuto = mk "align-self" "auto"
     /// The element is positioned to fit the container (align-self overrides align-items)
-    member inline _.alignSelfStretch = mk "align-self" "stretch"
+    static member inline alignSelfStretch = mk "align-self" "stretch"
     /// The element is positioned at the center of the container (align-self overrides align-items)
-    member inline _.alignSelfCenter = mk "align-self" "center"
+    static member inline alignSelfCenter = mk "align-self" "center"
     /// The element is positioned at the beginning of the container (align-self overrides align-items)
-    member inline _.alignSelfFlexStart = mk "align-self" "flex-start"
+    static member inline alignSelfFlexStart = mk "align-self" "flex-start"
     /// The element is positioned at the end of the container (align-self overrides align-items)
-    member inline _.alignSelfFlexEnd = mk "align-self" "flex-end"
+    static member inline alignSelfFlexEnd = mk "align-self" "flex-end"
     /// The element is positioned at the baseline of the container (align-self overrides align-items)
-    member inline _.alignSelfBaseline = mk "align-self" "baseline"
+    static member inline alignSelfBaseline = mk "align-self" "baseline"
     /// Sets this property to its default value
-    member inline _.alignSelfInitial = mk "align-self" "initial"
+    static member inline alignSelfInitial = mk "align-self" "initial"
     /// Inherits this property from its parent element
-    member inline _.alignSelfInheritFromParent = mk "align-self" "inherit"
+    static member inline alignSelfInheritFromParent = mk "align-self" "inherit"
 
     /// Default. Items are stretched to fit the container along the cross axis
-    member inline _.alignItemsStretch = mk "align-items" "stretch"
+    static member inline alignItemsStretch = mk "align-items" "stretch"
     /// Items are positioned at the center of the container along the cross axis
-    member inline _.alignItemsCenter = mk "align-items" "center"
+    static member inline alignItemsCenter = mk "align-items" "center"
     /// Items are positioned at the beginning of the container along the cross axis
-    member inline _.alignItemsFlexStart = mk "align-items" "flex-start"
+    static member inline alignItemsFlexStart = mk "align-items" "flex-start"
     /// Items are positioned at the end of the container along the cross axis
-    member inline _.alignItemsFlexEnd = mk "align-items" "flex-end"
+    static member inline alignItemsFlexEnd = mk "align-items" "flex-end"
     /// Items are positioned at the baseline of the container along the cross axis
-    member inline _.alignItemsBaseline = mk "align-items" "baseline"
+    static member inline alignItemsBaseline = mk "align-items" "baseline"
     /// Sets this property to its default value
-    member inline _.alignItemsInitial = mk "align-items" "initial"
+    static member inline alignItemsInitial = mk "align-items" "initial"
     /// Inherits this property from its parent element
-    member inline _.alignItemsInheritFromParent = mk "align-items" "inherit"
+    static member inline alignItemsInheritFromParent = mk "align-items" "inherit"
 
     /// Default value. Lines stretch to take up the remaining space.
-    member inline _.alignContentStretch = mk "align-content" "stretch"
+    static member inline alignContentStretch = mk "align-content" "stretch"
     /// Lines are packed toward the center of the flex container.
-    member inline _.alignContentCenter = mk "align-content" "center"
+    static member inline alignContentCenter = mk "align-content" "center"
     /// Lines are packed toward the start of the flex container.
-    member inline _.alignContentFlexStart = mk "align-content" "flex-start"
+    static member inline alignContentFlexStart = mk "align-content" "flex-start"
     /// Lines are packed toward the end of the flex container.
-    member inline _.alignContentFlexEnd = mk "align-content" "flex-end"
+    static member inline alignContentFlexEnd = mk "align-content" "flex-end"
     /// Lines are evenly distributed in the flex container.
-    member inline _.alignContentSpaceBetween = mk "align-content" "space-between"
+    static member inline alignContentSpaceBetween = mk "align-content" "space-between"
     /// Lines are evenly distributed in the flex container, with half-size spaces on either end.
-    member inline _.alignContentSpaceAround = mk "align-content" "space-around"
-    member inline _.alignContentInitial = mk "align-content" "initial"
-    member inline _.alignContentInheritFromParent = mk "align-content" "inherit"
+    static member inline alignContentSpaceAround = mk "align-content" "space-around"
+    static member inline alignContentInitial = mk "align-content" "initial"
+    static member inline alignContentInheritFromParent = mk "align-content" "inherit"
 
     /// Default value. Items are positioned at the beginning of the container along the main axis.
-    member inline _.justifyContentFlexStart = mk "justify-content" "flex-start"
+    static member inline justifyContentFlexStart = mk "justify-content" "flex-start"
     /// Items are positioned at the end of the container along the main axis.
-    member inline _.justifyContentFlexEnd = mk "justify-content" "flex-end"
+    static member inline justifyContentFlexEnd = mk "justify-content" "flex-end"
     /// Items are positioned at the center of the containe along the main axis.
-    member inline _.justifyContentCenter = mk "justify-content" "center"
+    static member inline justifyContentCenter = mk "justify-content" "center"
     /// Items are positioned with space between the line along the main axis.
-    member inline _.justifyContentSpaceBetween = mk "justify-content" "space-between"
+    static member inline justifyContentSpaceBetween = mk "justify-content" "space-between"
     /// Items are positioned with space before, between, and after the lines along the main axis.
-    member inline _.justifyContentSpaceAround = mk "justify-content" "space-around"
+    static member inline justifyContentSpaceAround = mk "justify-content" "space-around"
     /// Sets this property to its default value.
-    member inline _.justifyContentInitial = mk "justify-content" "initial"
+    static member inline justifyContentInitial = mk "justify-content" "initial"
     /// Inherits this property from its parent element.
-    member inline _.justifyContentInheritFromParent = mk "justify-content" "inherit"
+    static member inline justifyContentInheritFromParent = mk "justify-content" "inherit"
 
-    member inline _.outlineWidth(width: int) = mk "outline-width" (asString width + "px")
-    member inline _.outlineWidth(width: ICssUnit) = mk "outline-width" (asString width)
+    static member inline outlineWidth(width: int) = mk "outline-width" (asString width + "px")
+    static member inline outlineWidth(width: ICssUnit) = mk "outline-width" (asString width)
     /// Specifies a medium outline. This is default.
-    member inline _.outlineWidthMedium = mk "outline-width" "medium"
+    static member inline outlineWidthMedium = mk "outline-width" "medium"
     /// Specifies a thin outline.
-    member inline _.outlineWidthThin = mk "outline-width" "thin"
+    static member inline outlineWidthThin = mk "outline-width" "thin"
     /// Specifies a thick outline.
-    member inline _.outlineWidthThick = mk "outline-width" "thick"
+    static member inline outlineWidthThick = mk "outline-width" "thick"
     /// Sets this property to its default value
-    member inline _.outlineWidthInitial = mk "outline-width" "initial"
+    static member inline outlineWidthInitial = mk "outline-width" "initial"
     /// Inherits this property from its parent element
-    member inline _.outlineWidthInheritFromParent = mk "outline-width" "inherit"
+    static member inline outlineWidthInheritFromParent = mk "outline-width" "inherit"
 
     /// Default value. The marker is a filled circle
-    member inline _.listStyleTypeDisc = mk "list-style-type" "disc"
+    static member inline listStyleTypeDisc = mk "list-style-type" "disc"
     /// The marker is traditional Armenian numbering
-    member inline _.listStyleTypeArmenian = mk "list-style-type" "armenian"
+    static member inline listStyleTypeArmenian = mk "list-style-type" "armenian"
     /// The marker is a circle
-    member inline _.listStyleTypeCircle = mk "list-style-type" "circle"
+    static member inline listStyleTypeCircle = mk "list-style-type" "circle"
     /// The marker is plain ideographic numbers
-    member inline _.listStyleTypeCjkIdeographic = mk "list-style-type" "cjk-ideographic"
+    static member inline listStyleTypeCjkIdeographic = mk "list-style-type" "cjk-ideographic"
     /// The marker is a number
-    member inline _.listStyleTypeDecimal = mk "list-style-type" "decimal"
+    static member inline listStyleTypeDecimal = mk "list-style-type" "decimal"
     /// The marker is a number with leading zeros (01, 02, 03, etc.)
-    member inline _.listStyleTypeDecimalLeadingZero = mk "list-style-type" "decimal-leading-zero"
+    static member inline listStyleTypeDecimalLeadingZero = mk "list-style-type" "decimal-leading-zero"
     /// The marker is traditional Georgian numbering
-    member inline _.listStyleTypeGeorgian = mk "list-style-type" "georgian"
+    static member inline listStyleTypeGeorgian = mk "list-style-type" "georgian"
     /// The marker is traditional Hebrew numbering
-    member inline _.listStyleTypeHebrew = mk "list-style-type" "hebrew"
+    static member inline listStyleTypeHebrew = mk "list-style-type" "hebrew"
     /// The marker is traditional Hiragana numbering
-    member inline _.listStyleTypeHiragana = mk "list-style-type" "hiragana"
+    static member inline listStyleTypeHiragana = mk "list-style-type" "hiragana"
     /// The marker is traditional Hiragana iroha numbering
-    member inline _.listStyleTypeHiraganaIroha = mk "list-style-type" "hiragana-iroha"
+    static member inline listStyleTypeHiraganaIroha = mk "list-style-type" "hiragana-iroha"
     /// The marker is traditional Katakana numbering
-    member inline _.listStyleTypeKatakana = mk "list-style-type" "katakana"
+    static member inline listStyleTypeKatakana = mk "list-style-type" "katakana"
     /// The marker is traditional Katakana iroha numbering
-    member inline _.listStyleTypeKatakanaIroha = mk "list-style-type" "katakana-iroha"
+    static member inline listStyleTypeKatakanaIroha = mk "list-style-type" "katakana-iroha"
     /// The marker is lower-alpha (a, b, c, d, e, etc.)
-    member inline _.listStyleTypeLowerAlpha = mk "list-style-type" "lower-alpha"
+    static member inline listStyleTypeLowerAlpha = mk "list-style-type" "lower-alpha"
     /// The marker is lower-greek
-    member inline _.listStyleTypeLowerGreek = mk "list-style-type" "lower-greek"
+    static member inline listStyleTypeLowerGreek = mk "list-style-type" "lower-greek"
     /// The marker is lower-latin (a, b, c, d, e, etc.)
-    member inline _.listStyleTypeLowerLatin = mk "list-style-type" "lower-latin"
+    static member inline listStyleTypeLowerLatin = mk "list-style-type" "lower-latin"
     /// The marker is lower-roman (i, ii, iii, iv, v, etc.)
-    member inline _.listStyleTypeLowerRoman = mk "list-style-type" "lower-roman"
+    static member inline listStyleTypeLowerRoman = mk "list-style-type" "lower-roman"
     /// No marker is shown
-    member inline _.listStyleTypeNone = mk "list-style-type" "none"
+    static member inline listStyleTypeNone = mk "list-style-type" "none"
     /// The marker is a square
-    member inline _.listStyleTypeSquare = mk "list-style-type" "square"
+    static member inline listStyleTypeSquare = mk "list-style-type" "square"
     /// The marker is upper-alpha (A, B, C, D, E, etc.)
-    member inline _.listStyleTypeUpperAlpha = mk "list-style-type" "upper-alpha"
+    static member inline listStyleTypeUpperAlpha = mk "list-style-type" "upper-alpha"
     /// The marker is upper-greek
-    member inline _.listStyleTypeUpperGreek = mk "list-style-type" "upper-greek"
+    static member inline listStyleTypeUpperGreek = mk "list-style-type" "upper-greek"
     /// The marker is upper-latin (A, B, C, D, E, etc.)
-    member inline _.listStyleTypeUpperLatin = mk "list-style-type" "upper-latin"
+    static member inline listStyleTypeUpperLatin = mk "list-style-type" "upper-latin"
     /// The marker is upper-roman (I, II, III, IV, V, etc.)
-    member inline _.listStyleTypeUpperRoman = mk "list-style-type" "upper-roman"
+    static member inline listStyleTypeUpperRoman = mk "list-style-type" "upper-roman"
     /// Sets this property to its default value.
     ///
     /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_text-align&preval=initial
-    member inline _.listStyleTypeInitial = mk "list-style-type" "initial"
+    static member inline listStyleTypeInitial = mk "list-style-type" "initial"
     /// Inherits this property from its parent element.
     ///
     /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_text-align&preval=initial
-    member inline _.listStyleTypeInheritFromParent = mk "list-style-type" "inherit"
+    static member inline listStyleTypeInheritFromParent = mk "list-style-type" "inherit"
 
-    member inline _.propertyNone = mk "list-style-image" "none"
+    static member inline propertyNone = mk "list-style-image" "none"
     /// The path to the image to be used as a list-item marker
-    member inline _.propertyUrl (path: string) = mk "list-style-image" ("url('" + path + "')")
+    static member inline propertyUrl (path: string) = mk "list-style-image" ("url('" + path + "')")
     /// Sets this property to its default value.
     ///
     /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_text-align&preval=initial
-    member inline _.propertyInitial = mk "list-style-image" "initial"
+    static member inline propertyInitial = mk "list-style-image" "initial"
     /// Inherits this property from its parent element.
     ///
     /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_text-align&preval=initial
-    member inline _.propertyInheritFromParent = mk "list-style-image" "inherit"
+    static member inline propertyInheritFromParent = mk "list-style-image" "inherit"
 
     /// The bullet points will be inside the list item
-    member inline _.listStylePositionInside = mk "list-style-position" "inside"
+    static member inline listStylePositionInside = mk "list-style-position" "inside"
     /// The bullet points will be outside the list item. This is default
-    member inline _.listStylePositionOutside = mk "list-style-position" "outside"
+    static member inline listStylePositionOutside = mk "list-style-position" "outside"
     /// Sets this property to its default value.
     ///
     /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_text-align&preval=initial
-    member inline _.listStylePositionInitial = mk "list-style-position" "initial"
+    static member inline listStylePositionInitial = mk "list-style-position" "initial"
     /// Inherits this property from its parent element.
     ///
     /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_text-align&preval=initial
-    member inline _.listStylePositionInheritFromParent = mk "list-style-position" "inherit"
+    static member inline listStylePositionInheritFromParent = mk "list-style-position" "inherit"
 
-    member inline _.textDecorationLine(line: ITextDecorationLine) = mk "text-decoration-line" (asString line)
-    member inline _.textDecorationLineNone = mk "text-decoration-line" "none"
-    member inline _.textDecorationLineUnderline = mk "text-decoration-line" "underline"
-    member inline _.textDecorationLineOverline = mk "text-decoration-line" "overline"
-    member inline _.textDecorationLineLineThrough = mk "text-decoration-line" "line-through"
-    member inline _.textDecorationLineInitial = mk "text-decoration-line" "initial"
+    static member inline textDecorationLine(line: ITextDecorationLine) = mk "text-decoration-line" (asString line)
+    static member inline textDecorationLineNone = mk "text-decoration-line" "none"
+    static member inline textDecorationLineUnderline = mk "text-decoration-line" "underline"
+    static member inline textDecorationLineOverline = mk "text-decoration-line" "overline"
+    static member inline textDecorationLineLineThrough = mk "text-decoration-line" "line-through"
+    static member inline textDecorationLineInitial = mk "text-decoration-line" "initial"
     /// Inherits this property from its parent element.
-    member inline _.textDecorationLineInheritFromParent = mk "text-decoration-line" "inherit"
+    static member inline textDecorationLineInheritFromParent = mk "text-decoration-line" "inherit"
 
-    member inline _.textDecoration(line: ITextDecorationLine) = mk "text-decoration" (asString line)
-    member inline _.textDecoration(bottom: ITextDecorationLine, top: ITextDecorationLine) =
+    static member inline textDecoration(line: ITextDecorationLine) = mk "text-decoration" (asString line)
+    static member inline textDecoration(bottom: ITextDecorationLine, top: ITextDecorationLine) =
         mk "text-decoration" (asString bottom + " " + asString top)
-    member inline _.textDecoration(bottom: ITextDecorationLine, top: ITextDecorationLine, style: ITextDecoration) =
+    static member inline textDecoration(bottom: ITextDecorationLine, top: ITextDecorationLine, style: ITextDecoration) =
         mk "text-decoration" ((asString bottom) + " " + (asString top) + " " + (asString style))
-    member inline _.textDecoration(bottom: ITextDecorationLine, top: ITextDecorationLine, style: ITextDecoration, color: string) =
+    static member inline textDecoration(bottom: ITextDecorationLine, top: ITextDecorationLine, style: ITextDecoration, color: string) =
         mk "text-decoration" ((asString bottom) + " " + (asString top) + " " + (asString style) + " " + color)
-    member inline _.textDecorationNone = mk "text-decoration" "none"
-    member inline _.textDecorationUnderline = mk "text-decoration" "underline"
-    member inline _.textDecorationOverline = mk "text-decoration" "overline"
-    member inline _.textDecorationLineThrough = mk "text-decoration" "line-through"
-    member inline _.textDecorationInitial = mk "text-decoration" "initial"
+    static member inline textDecorationNone = mk "text-decoration" "none"
+    static member inline textDecorationUnderline = mk "text-decoration" "underline"
+    static member inline textDecorationOverline = mk "text-decoration" "overline"
+    static member inline textDecorationLineThrough = mk "text-decoration" "line-through"
+    static member inline textDecorationInitial = mk "text-decoration" "initial"
     /// Inherits this property from its parent element.
-    member inline _.textDecorationInheritFromParent = mk "text-decoration" "inherit"
+    static member inline textDecorationInheritFromParent = mk "text-decoration" "inherit"
 
     /// Specifies that child elements will NOT preserve its 3D position. This is default.
-    member inline _.transformStyleFlat = mk "transform-style" "flat"
+    static member inline transformStyleFlat = mk "transform-style" "flat"
     /// Specifies that child elements will preserve its 3D position
-    member inline _.transformStylePreserve3D = mk "transform-style" "preserve-3d"
-    member inline _.transformStyleInitial = mk "transform-style" "initial"
+    static member inline transformStylePreserve3D = mk "transform-style" "preserve-3d"
+    static member inline transformStyleInitial = mk "transform-style" "initial"
     /// Inherits this property from its parent element.
-    member inline _.transformStyleInheritFromParent = mk "transform-style" "inherit"
+    static member inline transformStyleInheritFromParent = mk "transform-style" "inherit"
 
     /// No capitalization. The text renders as it is. This is default.
-    member inline _.textTransformNone = mk "text-transform" "none"
+    static member inline textTransformNone = mk "text-transform" "none"
     /// Transforms the first character of each word to uppercase.
-    member inline _.textTransformCapitalize = mk "text-transform" "capitalize"
+    static member inline textTransformCapitalize = mk "text-transform" "capitalize"
     /// Transforms all characters to uppercase.
-    member inline _.textTransformUppercase = mk "text-transform" "uppercase"
+    static member inline textTransformUppercase = mk "text-transform" "uppercase"
     /// Transforms all characters to lowercase.
-    member inline _.textTransformLowercase = mk "text-transform" "lowercase"
-    member inline _.textTransformInitial = mk "text-transform" "initial"
+    static member inline textTransformLowercase = mk "text-transform" "lowercase"
+    static member inline textTransformInitial = mk "text-transform" "initial"
     /// Inherits this property from its parent element.
-    member inline _.textTransformInheritFromParent = mk "text-transform" "inherit"
+    static member inline textTransformInheritFromParent = mk "text-transform" "inherit"
 
     /// Default value. The text is clipped and not accessible.
-    member inline _.textOverflowClip = mk "text-overflow" "clip"
+    static member inline textOverflowClip = mk "text-overflow" "clip"
     /// Render an ellipsis ("...") to represent the clipped text.
-    member inline _.textOverflowEllipsis = mk "text-overflow" "ellipsis"
+    static member inline textOverflowEllipsis = mk "text-overflow" "ellipsis"
     /// Render the given asString to represent the clipped text.
-    member inline _.textOverflowInitial = mk "text-overflow" "initial"
+    static member inline textOverflowInitial = mk "text-overflow" "initial"
     /// Inherits this property from its parent element.
-    member inline _.textOverflowInheritFromParent = mk "text-overflow" "inherit"
+    static member inline textOverflowInheritFromParent = mk "text-overflow" "inherit"
 
     /// Default value. Specifies no effects.
-    member inline _.filterNone = mk "filter" "none"
+    static member inline filterNone = mk "filter" "none"
     /// Applies a blur effect to the elemeen. A larger value will create more blur.
     ///
     /// This overload takes an integer that represents a percentage from 0 to 100.
-    member inline _.filterBlur(value: int) = mk "filter" ("blur(" + ((asString value) + "%)"))
+    static member inline filterBlur(value: int) = mk "filter" ("blur(" + ((asString value) + "%)"))
     /// Applies a blur effect to the elemeen. A larger value will create more blur.
     ///
     /// This overload takes a floating number that goes from 0 to 1,
-    member inline _.filterBlur(value: double) = mk "filter" ("blur(" + ((asString value) + ")"))
+    static member inline filterBlur(value: double) = mk "filter" ("blur(" + ((asString value) + ")"))
     /// Adjusts the brightness of the elemeen
     ///
     /// This overload takes an integer that represents a percentage from 0 to 100.
     ///
     /// Values over 100% will provide brighter results.
-    member inline _.filterBrightness(value: int) = mk "filter" ("brightness(" + ((asString value) + "%)"))
+    static member inline filterBrightness(value: int) = mk "filter" ("brightness(" + ((asString value) + "%)"))
     /// Adjusts the brightness of the elemeen. A larger value will create more blur.
     ///
     /// This overload takes a floating number that goes from 0 to 1,
-    member inline _.filterBrightness(value: double) = mk "filter" ("brightness(" + ((asString value) + ")"))
+    static member inline filterBrightness(value: double) = mk "filter" ("brightness(" + ((asString value) + ")"))
     /// Adjusts the contrast of the element.
     ///
     /// This overload takes an integer that represents a percentage from 0 to 100.
-    member inline _.filterContrast(value: int) = mk "filter" ("contrast(" + ((asString value) + "%)"))
+    static member inline filterContrast(value: int) = mk "filter" ("contrast(" + ((asString value) + "%)"))
     /// Adjusts the contrast of the element. A larger value will create more contrast.
     ///
     /// This overload takes a floating number that goes from 0 to 1
-    member inline _.filterContrast(value: double) = mk "filter" ("contrast(" + ((asString value) + ")"))
+    static member inline filterContrast(value: double) = mk "filter" ("contrast(" + ((asString value) + ")"))
     /// Applies a drop shadow effect.
-    member inline _.filterDropShadow(horizontalOffset: int, verticalOffset: int, blur: int, spread: int,  color: string) = mk "filter" ("drop-shadow(" + (asString horizontalOffset) + "px " + (asString verticalOffset) + "px " + (asString blur) + "px " + (asString spread) + "px " + color + ")")
+    static member inline filterDropShadow(horizontalOffset: int, verticalOffset: int, blur: int, spread: int,  color: string) = mk "filter" ("drop-shadow(" + (asString horizontalOffset) + "px " + (asString verticalOffset) + "px " + (asString blur) + "px " + (asString spread) + "px " + color + ")")
     /// Applies a drop shadow effect.
-    member inline _.filterDropShadow(horizontalOffset: int, verticalOffset: int, blur: int, color: string) = mk "filter" ("drop-shadow(" + (asString horizontalOffset) + "px " + (asString verticalOffset) + "px " + (asString blur) + "px " + color + ")")
+    static member inline filterDropShadow(horizontalOffset: int, verticalOffset: int, blur: int, color: string) = mk "filter" ("drop-shadow(" + (asString horizontalOffset) + "px " + (asString verticalOffset) + "px " + (asString blur) + "px " + color + ")")
     /// Applies a drop shadow effect.
-    member inline _.filterDropShadow(horizontalOffset: int, verticalOffset: int, color: string) = mk "filter" ("drop-shadow(" + (asString horizontalOffset) + "px " + (asString verticalOffset) + "px " + color + ")")
+    static member inline filterDropShadow(horizontalOffset: int, verticalOffset: int, color: string) = mk "filter" ("drop-shadow(" + (asString horizontalOffset) + "px " + (asString verticalOffset) + "px " + color + ")")
     /// Converts the image to grayscale
     ///
     /// This overload takes an integer that represents a percentage from 0 to 100.
-    member inline _.filterGrayscale(value: int) = mk "filter" ("grayscale(" + ((asString value) + "%)"))
+    static member inline filterGrayscale(value: int) = mk "filter" ("grayscale(" + ((asString value) + "%)"))
     /// Converts the image to grayscale
     ///
     /// This overload takes a floating number that goes from 0 to 1
-    member inline _.filterGrayscale(value: double) = mk "filter" ("grayscale(" + ((asString value) + ")"))
+    static member inline filterGrayscale(value: double) = mk "filter" ("grayscale(" + ((asString value) + ")"))
     /// Applies a hue rotation on the image. The value defines the number of degrees around the color circle the image
     /// samples will be adjusted. 0deg is default, and represents the original image.
     ///
     /// **Note**: Maximum value is 360
-    member inline _.filterHueRotate(degrees: int) = mk "filter" ("hue-rotate(" + (asString degrees) + "deg)")
+    static member inline filterHueRotate(degrees: int) = mk "filter" ("hue-rotate(" + (asString degrees) + "deg)")
     /// Inverts the element.
     ///
     /// This overload takes an integer that represents a percentage from 0 to 100.
-    member inline _.filterInvert(value: int) = mk "filter" ("invert(" + ((asString value) + "%)"))
+    static member inline filterInvert(value: int) = mk "filter" ("invert(" + ((asString value) + "%)"))
     /// Inverts the element.
     ///
     /// This overload takes a floating number that goes from 0 to 1
-    member inline _.filterInvert(value: double) = mk "filter" ("invert(" + ((asString value) + ")"))
+    static member inline filterInvert(value: double) = mk "filter" ("invert(" + ((asString value) + ")"))
     /// Sets the opacity of the element.
     ///
     /// This overload takes an integer that represents a percentage from 0 to 100.
-    member inline _.filterOpacity(value: int) = mk "filter" ("opacity(" + ((asString value) + "%)"))
+    static member inline filterOpacity(value: int) = mk "filter" ("opacity(" + ((asString value) + "%)"))
     /// Sets the opacity of the element.
     ///
     /// This overload takes a floating number that goes from 0 to 1
-    member inline _.filterOpacity(value: double) = mk "filter" ("opacity(" + ((asString value) + ")"))
+    static member inline filterOpacity(value: double) = mk "filter" ("opacity(" + ((asString value) + ")"))
     /// Sets the saturation of the element.
     ///
     /// This overload takes an integer that represents a percentage from 0 to 100.
-    member inline _.filterSaturate(value: int) = mk "filter" ("saturate(" + ((asString value) + "%)"))
+    static member inline filterSaturate(value: int) = mk "filter" ("saturate(" + ((asString value) + "%)"))
     /// Sets the saturation of the element.
     ///
     /// This overload takes a floating number that goes from 0 to 1
-    member inline _.filterSaturate(value: double) = mk "filter" ("saturate(" + ((asString value) + ")"))
+    static member inline filterSaturate(value: double) = mk "filter" ("saturate(" + ((asString value) + ")"))
     /// Applies Sepia filter to the element.
     ///
     /// This overload takes an integer that represents a percentage from 0 to 100.
-    member inline _.filterSepia(value: int) = mk "filter" ("sepia(" + ((asString value) + "%)"))
+    static member inline filterSepia(value: int) = mk "filter" ("sepia(" + ((asString value) + "%)"))
     /// Applies Sepia filter to the element.
     ///
     /// This overload takes a floating number that goes from 0 to 1
-    member inline _.filterSepia(value: double) = mk "filter" ("sepia(" + ((asString value) + ")"))
+    static member inline filterSepia(value: double) = mk "filter" ("sepia(" + ((asString value) + ")"))
     /// The url() function takes the location of an XML file that specifies an SVG filter, and may include an anchor to a specific filter element.
     ///
     /// Example: `filter: url(svg-url#element-id)`
-    member inline _.filterUrl(value: string) = mk "filter" ("url(" + value + ")")
+    static member inline filterUrl(value: string) = mk "filter" ("url(" + value + ")")
     /// Sets this property to its default value.
-    member inline _.filterInitial = mk "filter" "initial"
+    static member inline filterInitial = mk "filter" "initial"
     /// Inherits this property from its parent element.
-    member inline _.filterInheritFromParent = mk "filter" "inherit"
+    static member inline filterInheritFromParent = mk "filter" "inherit"
 
     /// Sets whether table borders should collapse into a single border or be separated as in standard HTML.
     /// Borders are separated; each cell will display its own borders. This is default.
-    member inline _.borderCollapseSeparate = mk "border-collapse" "separate"
+    static member inline borderCollapseSeparate = mk "border-collapse" "separate"
     /// Borders are collapsed into a single border when possible (border-spacing and empty-cells properties have no effect)
-    member inline _.borderCollapseCollapse = mk "border-collapse" "collapse"
+    static member inline borderCollapseCollapse = mk "border-collapse" "collapse"
     /// Sets this property to its default value
-    member inline _.borderCollapseInitial = mk "border-collapse" "initial"
+    static member inline borderCollapseInitial = mk "border-collapse" "initial"
     /// Inherits this property from its parent element.
-    member inline _.borderCollapseInheritFromParent = mk "border-collapse" "inherit"
+    static member inline borderCollapseInheritFromParent = mk "border-collapse" "inherit"
 
     /// Sets the distance between the borders of adjacent <table> cells. Applies only when border-collapse is separate.
-    member inline _.borderSpacing(horizontal: ICssUnit, ?vertical: ICssUnit) =
+    static member inline borderSpacing(horizontal: ICssUnit, ?vertical: ICssUnit) =
         mk "border-spacing" (asString horizontal + " " + asString vertical)
     /// Sets this property to its default value
-    member inline _.borderSpacingInitial = mk "border-spacing" "initial"
+    static member inline borderSpacingInitial = mk "border-spacing" "initial"
     /// Inherits this property from its parent element.
-    member inline _.borderSpacingInheritFromParent = mk "border-spacing" "inherit"
+    static member inline borderSpacingInheritFromParent = mk "border-spacing" "inherit"
 
     /// Sets the size of the element's background image.
     ///
     /// The image can be left to its natural size, stretched, or constrained to fit the available space.
-    member inline _.backgroundSize(value: string) = mk "background-size" (asString value)
+    static member inline backgroundSize(value: string) = mk "background-size" (asString value)
     /// Sets the size of the element's background image.
     ///
     /// The image can be left to its natural size, stretched, or constrained to fit the available space.
-    member inline _.backgroundSize(value: ICssUnit) = mk "background-size" (asString value)
+    static member inline backgroundSize(value: ICssUnit) = mk "background-size" (asString value)
     /// Sets the size of the element's background image.
     ///
     /// The image can be left to its natural size, stretched, or constrained to fit the available space.
-    member inline _.backgroundSize(width: ICssUnit, height: ICssUnit) =
+    static member inline backgroundSize(width: ICssUnit, height: ICssUnit) =
         mk "background-size" (
             asString width
             + " " +
@@ -630,653 +629,653 @@ type CssEngine() =
     /// Default value. The background image is displayed in its original size
     ///
     /// See [example here](https://www.w3schools.com/cssref/playit.asp?filename=playcss_background-size&preval=auto)
-    member inline _.backgroundSizeAuto = mk "background-size" "auto"
+    static member inline backgroundSizeAuto = mk "background-size" "auto"
     /// Resize the background image to cover the entire container, even if it has to stretch the image or cut a little bit off one of the edges.
     ///
     /// See [example here](https://www.w3schools.com/cssref/playit.asp?filename=playcss_background-size&preval=cover)
-    member inline _.backgroundSizeCover = mk "background-size" "cover"
+    static member inline backgroundSizeCover = mk "background-size" "cover"
     /// Resize the background image to make sure the image is fully visible
     ///
     /// See [example here](https://www.w3schools.com/cssref/playit.asp?filename=playcss_background-size&preval=contain)
-    member inline _.backgroundSizeContain = mk "background-size" "contain"
+    static member inline backgroundSizeContain = mk "background-size" "contain"
     /// Sets this property to its default value.
-    member inline _.backgroundSizeInitial = mk "background-size" "initial"
+    static member inline backgroundSizeInitial = mk "background-size" "initial"
     /// Inherits this property from its parent element.
-    member inline _.backgroundSizeInheritFromParent = mk "background-size" "inherit"
+    static member inline backgroundSizeInheritFromParent = mk "background-size" "inherit"
 
     /// Default value. The line will display as a single line.
     ///
     /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_text-decoration-style&preval=solid
-    member inline _.textDecorationStyleSolid = mk "text-decoration-style" "solid"
+    static member inline textDecorationStyleSolid = mk "text-decoration-style" "solid"
     /// The line will display as a double line.
     ///
     /// https://www.w3schools.com/cssref/playit.asp?filename=playcss_text-decoration-style&preval=double
-    member inline _.textDecorationStyleDouble = mk "text-decoration-style" "double"
+    static member inline textDecorationStyleDouble = mk "text-decoration-style" "double"
     /// The line will display as a dotted line.
     ///
     /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_text-decoration-style&preval=dotted
-    member inline _.textDecorationStyleDotted = mk "text-decoration-style" "dotted"
+    static member inline textDecorationStyleDotted = mk "text-decoration-style" "dotted"
     /// The line will display as a dashed line.
     ///
     /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_text-decoration-style&preval=dashed
-    member inline _.textDecorationStyleDashed = mk "text-decoration-style" "dashed"
+    static member inline textDecorationStyleDashed = mk "text-decoration-style" "dashed"
     /// The line will display as a wavy line.
     ///
     /// https://www.w3schools.com/cssref/playit.asp?filename=playcss_text-decoration-style&preval=wavy
-    member inline _.textDecorationStyleWavy = mk "text-decoration-style" "wavy"
+    static member inline textDecorationStyleWavy = mk "text-decoration-style" "wavy"
     /// Sets this property to its default value.
     ///
     /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_text-decoration-style&preval=initial
-    member inline _.textDecorationStyleInitial = mk "text-decoration-style" "initial"
+    static member inline textDecorationStyleInitial = mk "text-decoration-style" "initial"
     /// Inherits this property from its parent element.
-    member inline _.textDecorationStyleInheritFromParent = mk "text-decoration-style" "inherit"
+    static member inline textDecorationStyleInheritFromParent = mk "text-decoration-style" "inherit"
 
     /// Makes the text as narrow as it gets.
-    member inline _.fontStretchUltraCondensed = mk "font-stretch" "ultra-condensed"
+    static member inline fontStretchUltraCondensed = mk "font-stretch" "ultra-condensed"
     /// Makes the text narrower than condensed, but not as narrow as ultra-condensed
-    member inline _.fontStretchExtraCondensed = mk "font-stretch" "extra-condensed"
+    static member inline fontStretchExtraCondensed = mk "font-stretch" "extra-condensed"
     /// Makes the text narrower than semi-condensed, but not as narrow as extra-condensed.
-    member inline _.fontStretchCondensed = mk "font-stretch" "condensed"
+    static member inline fontStretchCondensed = mk "font-stretch" "condensed"
     /// Makes the text narrower than normal, but not as narrow as condensed.
-    member inline _.fontStretchSemiCondensed = mk "font-stretch" "semi-condensed"
+    static member inline fontStretchSemiCondensed = mk "font-stretch" "semi-condensed"
     /// Default value. No font stretching
-    member inline _.fontStretchNormal = mk "font-stretch" "normal"
+    static member inline fontStretchNormal = mk "font-stretch" "normal"
     /// Makes the text wider than normal, but not as wide as expanded
-    member inline _.fontStretchSemiExpanded = mk "font-stretch" "semi-expanded"
+    static member inline fontStretchSemiExpanded = mk "font-stretch" "semi-expanded"
     /// Makes the text wider than semi-expanded, but not as wide as extra-expanded
-    member inline _.fontStretchExpanded = mk "font-stretch" "expanded"
+    static member inline fontStretchExpanded = mk "font-stretch" "expanded"
     /// Makes the text wider than expanded, but not as wide as ultra-expanded
-    member inline _.fontStretchExtraExpanded = mk "font-stretch" "extra-expanded"
+    static member inline fontStretchExtraExpanded = mk "font-stretch" "extra-expanded"
     /// Makes the text as wide as it gets.
-    member inline _.fontStretchUltraExpanded = mk "font-stretch" "ultra-expanded"
+    static member inline fontStretchUltraExpanded = mk "font-stretch" "ultra-expanded"
     /// Sets this property to its default value.
-    member inline _.fontStretchInitial = mk "font-stretch" "initial"
+    static member inline fontStretchInitial = mk "font-stretch" "initial"
     /// Inherits this property from its parent element.
-    member inline _.fontStretchInheritFromParent = mk "font-stretch" "inherit"
+    static member inline fontStretchInheritFromParent = mk "font-stretch" "inherit"
 
     /// The element does not float, (will be displayed just where it occurs in the text). This is default
-    member inline _.floatStyleNone = mk "float" "none"
-    member inline _.floatStyleLeft = mk "float" "left"
-    member inline _.floatStyleRight = mk "float" "right"
+    static member inline floatStyleNone = mk "float" "none"
+    static member inline floatStyleLeft = mk "float" "left"
+    static member inline floatStyleRight = mk "float" "right"
     /// Sets this property to its default value.
-    member inline _.floatStyleInitial = mk "float" "initial"
+    static member inline floatStyleInitial = mk "float" "initial"
     /// Inherits this property from its parent element.
-    member inline _.floatStyleInheritFromParent = mk "float" "inherit"
+    static member inline floatStyleInheritFromParent = mk "float" "inherit"
 
     /// The element is aligned with the baseline of the parent. This is default.
-    member inline _.verticalAlignBaseline = mk "vertical-align" "baseline"
+    static member inline verticalAlignBaseline = mk "vertical-align" "baseline"
     /// The element is aligned with the subscript baseline of the parent
-    member inline _.verticalAlignSub = mk "vertical-align" "sup"
+    static member inline verticalAlignSub = mk "vertical-align" "sup"
     /// The element is aligned with the superscript baseline of the parent.
-    member inline _.verticalAlignSuper = mk "vertical-align" "super"
+    static member inline verticalAlignSuper = mk "vertical-align" "super"
     /// The element is aligned with the top of the tallest element on the line.
-    member inline _.verticalAlignTop = mk "vertical-align" "top"
+    static member inline verticalAlignTop = mk "vertical-align" "top"
     /// The element is aligned with the top of the parent element's font.
-    member inline _.verticalAlignTextTop = mk "vertical-align" "text-top"
+    static member inline verticalAlignTextTop = mk "vertical-align" "text-top"
     /// The element is placed in the middle of the parent element.
-    member inline _.verticalAlignMiddle = mk "vertical-align" "middle"
+    static member inline verticalAlignMiddle = mk "vertical-align" "middle"
     /// The element is aligned with the lowest element on the line.
-    member inline _.verticalAlignBottom = mk "vertical-align" "bottom"
+    static member inline verticalAlignBottom = mk "vertical-align" "bottom"
     /// The element is aligned with the bottom of the parent element's font
-    member inline _.verticalAlignTextBottom = mk "vertical-align" "text-bottom"
+    static member inline verticalAlignTextBottom = mk "vertical-align" "text-bottom"
     /// Sets this property to its default value.
-    member inline _.verticalAlignInitial = mk "vertical-align" "initial"
+    static member inline verticalAlignInitial = mk "vertical-align" "initial"
     /// Inherits this property from its parent element.
-    member inline _.verticalAlignInheritFromParent = mk "vertical-align" "inherit"
+    static member inline verticalAlignInheritFromParent = mk "vertical-align" "inherit"
 
     /// Let the content flow horizontally from left to right, vertically from top to bottom
-    member inline _.writingModeHorizontalTopBottom = mk "writing-mode" "horizontal-tb"
+    static member inline writingModeHorizontalTopBottom = mk "writing-mode" "horizontal-tb"
     /// Let the content flow vertically from top to bottom, horizontally from right to left
-    member inline _.writingModeVerticalRightLeft = mk "writing-mode" "vertical-rl"
+    static member inline writingModeVerticalRightLeft = mk "writing-mode" "vertical-rl"
     /// Let the content flow vertically from top to bottom, horizontally from left to right
-    member inline _.writingModeVerticalLeftRight = mk "writing-mode" "vertical-lr"
+    static member inline writingModeVerticalLeftRight = mk "writing-mode" "vertical-lr"
     /// Sets this property to its default value.
-    member inline _.writingModeInitial = mk "writing-mode" "initial"
+    static member inline writingModeInitial = mk "writing-mode" "initial"
     /// Inherits this property from its parent element.
-    member inline _.writingModeInheritFromParent = mk "writing-mode" "inherit"
+    static member inline writingModeInheritFromParent = mk "writing-mode" "inherit"
 
     /// Default value. Specifies a animation effect with a slow start, then fast, then end slowly (equivalent to cubic-bezier(0.25,0.1,0.25,1)).
-    member inline _.animationTimingFunctionEase = mk "animation-timing-function" "ease"
+    static member inline animationTimingFunctionEase = mk "animation-timing-function" "ease"
     /// Specifies a animation effect with the same speed from start to end (equivalent to cubic-bezier(0,0,1,1))
-    member inline _.animationTimingFunctionLinear = mk "animation-timing-function" "linear"
+    static member inline animationTimingFunctionLinear = mk "animation-timing-function" "linear"
     /// Specifies a animation effect with a slow start (equivalent to cubic-bezier(0.42,0,1,1)).
-    member inline _.animationTimingFunctionEaseIn = mk "animation-timing-function" "ease-in"
+    static member inline animationTimingFunctionEaseIn = mk "animation-timing-function" "ease-in"
     /// Specifies a animation effect with a slow end (equivalent to cubic-bezier(0,0,0.58,1)).
-    member inline _.animationTimingFunctionEaseOut = mk "animation-timing-function" "ease-out"
+    static member inline animationTimingFunctionEaseOut = mk "animation-timing-function" "ease-out"
     /// Specifies a animation effect with a slow start and end (equivalent to cubic-bezier(0.42,0,0.58,1))
-    member inline _.animationTimingFunctionEaseInOut = mk "animation-timing-function" "ease-in-out"
+    static member inline animationTimingFunctionEaseInOut = mk "animation-timing-function" "ease-in-out"
     /// Define your own values in the cubic-bezier function. Possible values are numeric values from 0 to 1
-    member inline _.animationTimingFunctionCubicBezier(n1: float, n2: float, n3: float, n4: float) = mk "animation-timing-function" ("cubic-bezier(" + (asString n1) + "," + (asString n2) + "," + (asString n3) + ", " + (asString n4) + ")")
+    static member inline animationTimingFunctionCubicBezier(n1: float, n2: float, n3: float, n4: float) = mk "animation-timing-function" ("cubic-bezier(" + (asString n1) + "," + (asString n2) + "," + (asString n3) + ", " + (asString n4) + ")")
     /// Sets this property to its default value
-    member inline _.animationTimingFunctionInitial = mk "animation-timing-function" "initial"
+    static member inline animationTimingFunctionInitial = mk "animation-timing-function" "initial"
     /// Inherits this property from its parent element.
-    member inline _.animationTimingFunctionInheritFromParent = mk "animation-timing-function" "inherit"
+    static member inline animationTimingFunctionInheritFromParent = mk "animation-timing-function" "inherit"
 
     /// Default value. Specifies a transition effect with a slow start, then fast, then end slowly (equivalent to cubic-bezier(0.25,0.1,0.25,1)).
-    member inline _.transitionTimingFunctionEase = mk "transition-timing-function" "ease"
+    static member inline transitionTimingFunctionEase = mk "transition-timing-function" "ease"
     /// Specifies a transition effect with the same speed from start to end (equivalent to cubic-bezier(0,0,1,1))
-    member inline _.transitionTimingFunctionLinear = mk "transition-timing-function" "linear"
+    static member inline transitionTimingFunctionLinear = mk "transition-timing-function" "linear"
     /// Specifies a transition effect with a slow start (equivalent to cubic-bezier(0.42,0,1,1)).
-    member inline _.transitionTimingFunctionEaseIn = mk "transition-timing-function" "ease-in"
+    static member inline transitionTimingFunctionEaseIn = mk "transition-timing-function" "ease-in"
     /// Specifies a transition effect with a slow end (equivalent to cubic-bezier(0,0,0.58,1)).
-    member inline _.transitionTimingFunctionEaseOut = mk "transition-timing-function" "ease-out"
+    static member inline transitionTimingFunctionEaseOut = mk "transition-timing-function" "ease-out"
     /// Specifies a transition effect with a slow start and end (equivalent to cubic-bezier(0.42,0,0.58,1))
-    member inline _.transitionTimingFunctionEaseInOut = mk "transition-timing-function" "ease-in-out"
+    static member inline transitionTimingFunctionEaseInOut = mk "transition-timing-function" "ease-in-out"
     /// Equivalent to steps(1, start)
-    member inline _.transitionTimingFunctionStepStart = mk "transition-timing-function" "step-start"
+    static member inline transitionTimingFunctionStepStart = mk "transition-timing-function" "step-start"
     /// Equivalent to steps(1, end)
-    member inline _.transitionTimingFunctionStepEnd = mk "transition-timing-function" "step-end"
+    static member inline transitionTimingFunctionStepEnd = mk "transition-timing-function" "step-end"
     /// Define your own values in the cubic-bezier function. Possible values are numeric values from 0 to 1
-    member inline _.transitionTimingFunctionCubicBezier(n1: float, n2: float, n3: float, n4: float) = mk "transition-timing-function" ("cubic-bezier(" + (asString n1) + "," + (asString n2) + "," + (asString n3) + ", " + (asString n4) + ")")
+    static member inline transitionTimingFunctionCubicBezier(n1: float, n2: float, n3: float, n4: float) = mk "transition-timing-function" ("cubic-bezier(" + (asString n1) + "," + (asString n2) + "," + (asString n3) + ", " + (asString n4) + ")")
     /// Sets this property to its default value
-    member inline _.transitionTimingFunctionInitial = mk "transition-timing-function" "initial"
+    static member inline transitionTimingFunctionInitial = mk "transition-timing-function" "initial"
     /// Inherits this property from its parent element.
-    member inline _.transitionTimingFunctionInheritFromParent = mk "transition-timing-function" "inherit"
+    static member inline transitionTimingFunctionInheritFromParent = mk "transition-timing-function" "inherit"
 
     /// Default. Text can be selected if the browser allows it.
-    member inline _.userSelectAuto = mk "user-select" "auto"
+    static member inline userSelectAuto = mk "user-select" "auto"
     /// Prevents text selection.
-    member inline _.userSelectNone = mk "user-select" "none"
+    static member inline userSelectNone = mk "user-select" "none"
     /// The text can be selected by the user.
-    member inline _.userSelectText = mk "user-select" "text"
+    static member inline userSelectText = mk "user-select" "text"
     /// Text selection is made with one click instead of a double-click.
-    member inline _.userSelectAll = mk "user-select" "all"
+    static member inline userSelectAll = mk "user-select" "all"
     /// Sets this property to its default value.
-    member inline _.userSelectInitial = mk "user-select" "initial"
+    static member inline userSelectInitial = mk "user-select" "initial"
     /// Inherits this property from its parent element.
-    member inline _.userSelectInheritFromParent = mk "user-select" "inherit"
+    static member inline userSelectInheritFromParent = mk "user-select" "inherit"
 
     /// Sets the line style for all four sides of an element's border.
-    member inline _.borderStyle(style: IBorderStyle) = mk "border-style" (asString style)
+    static member inline borderStyle(style: IBorderStyle) = mk "border-style" (asString style)
     /// Sets the line style for all four sides of an element's border.
-    member inline _.borderStyle(vertical: IBorderStyle, horizontal: IBorderStyle)  =
+    static member inline borderStyle(vertical: IBorderStyle, horizontal: IBorderStyle)  =
         mk "border-style" (asString vertical + " " + asString horizontal)
     /// Sets the line style for all four sides of an element's border.
-    member inline _.borderStyle(top: IBorderStyle, right: IBorderStyle, bottom: IBorderStyle, left: IBorderStyle) =
+    static member inline borderStyle(top: IBorderStyle, right: IBorderStyle, bottom: IBorderStyle, left: IBorderStyle) =
         mk "border-style" ((asString top) + " " + (asString right) + " " + (asString bottom) + " " +  (asString left))
     /// Specifies a dotted border.
     ///
     /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_border-style&preval=dotted
-    member inline _.borderStyleDotted = mk "border-style" "dotted"
+    static member inline borderStyleDotted = mk "border-style" "dotted"
     /// Specifies a dashed border.
     ///
     /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_border-style&preval=dotted
-    member inline _.borderStyleDashed = mk "border-style" "dashed"
+    static member inline borderStyleDashed = mk "border-style" "dashed"
     /// Specifies a solid border.
     ///
     /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_border-style&preval=dotted
-    member inline _.borderStyleSolid = mk "border-style" "solid"
+    static member inline borderStyleSolid = mk "border-style" "solid"
     /// Specifies a double border.
     ///
     /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_border-style&preval=dotted
-    member inline _.borderStyleDouble = mk "border-style" "double"
+    static member inline borderStyleDouble = mk "border-style" "double"
     /// Specifies a 3D grooved border. The effect depends on the border-color value.
     ///
     /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_border-style&preval=dotted
-    member inline _.borderStyleGroove = mk "border-style" "groove"
+    static member inline borderStyleGroove = mk "border-style" "groove"
     /// Specifies a 3D ridged border. The effect depends on the border-color value.
     ///
     /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_border-style&preval=dotted
-    member inline _.borderStyleRidge = mk "border-style" "ridge"
+    static member inline borderStyleRidge = mk "border-style" "ridge"
     /// Specifies a 3D inset border. The effect depends on the border-color value.
     ///
     /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_border-style&preval=dotted
-    member inline _.borderStyleInset = mk "border-style" "inset"
+    static member inline borderStyleInset = mk "border-style" "inset"
     /// Specifies a 3D outset border. The effect depends on the border-color value.
     ///
     /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_border-style&preval=dotted
-    member inline _.borderStyleOutset = mk "border-style" "outset"
+    static member inline borderStyleOutset = mk "border-style" "outset"
     /// Default value. Specifies no border.
     ///
     /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_border-style&preval=dotted
-    member inline _.borderStyleNone = mk "border-style" "none"
+    static member inline borderStyleNone = mk "border-style" "none"
     /// The same as "none", except in border conflict resolution for table elements.
     ///
     /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_border-style&preval=hidden
-    member inline _.borderStyleHidden = mk "border-style" "hidden"
+    static member inline borderStyleHidden = mk "border-style" "hidden"
     /// Sets this property to its default value.
     ///
     /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_border-style&preval=hidden
     ///
     /// Read about initial value https://www.w3schools.com/cssref/css_initial.asp
-    member inline _.borderStyleInitial = mk "border-style" "initial"
+    static member inline borderStyleInitial = mk "border-style" "initial"
     /// Inherits this property from its parent element.
     ///
     /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_border-style&preval=hidden
     ///
     /// Read about inherit https://www.w3schools.com/cssref/css_inherit.asp
-    member inline _.borderStyleInheritFromParent = mk "border-style" "inherit"
+    static member inline borderStyleInheritFromParent = mk "border-style" "inherit"
 
     /// Browsers use an automatic table layout algorithm. The column width is set by the widest unbreakable
     /// content in the cells. The content will dictate the layout
-    member inline _.tableLayoutAuto = mk "table-layout" "auto"
+    static member inline tableLayoutAuto = mk "table-layout" "auto"
     /// Sets a fixed table layout algorithm. The table and column widths are set by the widths of table and col
     /// or by the width of the first row of cells. Cells in other rows do not affect column widths. If no widths
     /// are present on the first row, the column widths are divided equally across the table, regardless of content
     /// inside the cells
-    member inline _.tableLayoutFixed' = mk "table-layout" "fixed"
+    static member inline tableLayoutFixed' = mk "table-layout" "fixed"
     /// Sets this property to its default value.
-    member inline _.tableLayoutInitial = mk "table-layout" "initial"
+    static member inline tableLayoutInitial = mk "table-layout" "initial"
     /// Inherits this property from its parent element.
-    member inline _.tableLayoutInheritFromParent = mk "table-layout" "inherit"
+    static member inline tableLayoutInheritFromParent = mk "table-layout" "inherit"
 
-    member inline _.cursor(value: string) = mk "cursor" (asString value)
+    static member inline cursor(value: string) = mk "cursor" (asString value)
     /// The User Agent will determine the cursor to display based on the current context. E.g., equivalent to text when hovering text.
-    member inline _.cursorAuto = mk "cursor" "auto"
+    static member inline cursorAuto = mk "cursor" "auto"
     /// The cursor indicates an alias of something is to be created
-    member inline _.cursorAlias = mk "cursor" "alias"
+    static member inline cursorAlias = mk "cursor" "alias"
     /// The platform-dependent default cursor. Typically an arrow.
-    member inline _.cursorDefaultCursor = mk "cursor" "default"
+    static member inline cursorDefaultCursor = mk "cursor" "default"
     /// No cursor is rendered.
-    member inline _.cursorNone = mk "cursor" "none"
+    static member inline cursorNone = mk "cursor" "none"
     /// A context menu is available.
-    member inline _.cursorContextMenu = mk "cursor" "context-menu"
+    static member inline cursorContextMenu = mk "cursor" "context-menu"
     /// Help information is available.
-    member inline _.cursorHelp = mk "cursor" "help"
+    static member inline cursorHelp = mk "cursor" "help"
     /// The cursor is a pointer that indicates a link. Typically an image of a pointing hand.
-    member inline _.cursorPointer = mk "cursor" "pointer"
+    static member inline cursorPointer = mk "cursor" "pointer"
     /// The program is busy in the background, but the user can still interact with the interface (in contrast to `wait`).
-    member inline _.cursorProgress = mk "cursor" "progress"
+    static member inline cursorProgress = mk "cursor" "progress"
     /// The program is busy, and the user can't interact with the interface (in contrast to progress). Sometimes an image of an hourglass or a watch.
-    member inline _.cursorWait = mk "cursor" "wait"
+    static member inline cursorWait = mk "cursor" "wait"
     /// The table cell or set of cells can be selected.
-    member inline _.cursorCell = mk "cursor" "cell"
+    static member inline cursorCell = mk "cursor" "cell"
     /// Cross cursor, often used to indicate selection in a bitmap.
-    member inline _.cursorCrosshair = mk "cursor" "crosshair"
+    static member inline cursorCrosshair = mk "cursor" "crosshair"
     /// The text can be selected. Typically the shape of an I-beam.
-    member inline _.cursorText = mk "cursor" "text"
+    static member inline cursorText = mk "cursor" "text"
     /// The vertical text can be selected. Typically the shape of a sideways I-beam.
-    member inline _.cursorVerticalText = mk "cursor" "vertical-text"
+    static member inline cursorVerticalText = mk "cursor" "vertical-text"
     /// Something is to be copied.
-    member inline _.cursorCopy = mk "cursor" "copy"
+    static member inline cursorCopy = mk "cursor" "copy"
     /// Something is to be moved.
-    member inline _.cursorMove = mk "cursor" "move"
+    static member inline cursorMove = mk "cursor" "move"
     /// An item may not be dropped at the current location. On Windows and Mac OS X, `no-drop` is the same as `not-allowed`.
-    member inline _.cursorNoDrop = mk "cursor" "no-drop"
+    static member inline cursorNoDrop = mk "cursor" "no-drop"
     /// The requested action will not be carried out.
-    member inline _.cursorNotAllowed = mk "cursor" "not-allowed"
+    static member inline cursorNotAllowed = mk "cursor" "not-allowed"
     /// Something can be grabbed (dragged to be moved).
-    member inline _.cursorGrab = mk "cursor" "grab"
+    static member inline cursorGrab = mk "cursor" "grab"
     /// Something is being grabbed (dragged to be moved).
-    member inline _.cursorGrabbing = mk "cursor" "grabbing"
+    static member inline cursorGrabbing = mk "cursor" "grabbing"
     /// Something can be scrolled in any direction (panned).
-    member inline _.cursorAllScroll = mk "cursor" "all-scroll"
+    static member inline cursorAllScroll = mk "cursor" "all-scroll"
     /// The item/column can be resized horizontally. Often rendered as arrows pointing left and right with a vertical bar separating them.
-    member inline _.cursorColumnResize = mk "cursor" "col-resize"
+    static member inline cursorColumnResize = mk "cursor" "col-resize"
     /// The item/row can be resized vertically. Often rendered as arrows pointing up and down with a horizontal bar separating them.
-    member inline _.cursorRowResize = mk "cursor" "row-resize"
+    static member inline cursorRowResize = mk "cursor" "row-resize"
     /// Directional resize arrow
-    member inline _.cursorNorthResize = mk "cursor" "n-resize"
+    static member inline cursorNorthResize = mk "cursor" "n-resize"
     /// Directional resize arrow
-    member inline _.cursorEastResize = mk "cursor" "e-resize"
+    static member inline cursorEastResize = mk "cursor" "e-resize"
     /// Directional resize arrow
-    member inline _.cursorSouthResize = mk "cursor" "s-resize"
+    static member inline cursorSouthResize = mk "cursor" "s-resize"
     /// Directional resize arrow
-    member inline _.cursorWestResize = mk "cursor" "w-resize"
+    static member inline cursorWestResize = mk "cursor" "w-resize"
     /// Directional resize arrow
-    member inline _.cursorNorthEastResize = mk "cursor" "ne-resize"
+    static member inline cursorNorthEastResize = mk "cursor" "ne-resize"
     /// Directional resize arrow
-    member inline _.cursorNorthWestResize = mk "cursor" "nw-resize"
+    static member inline cursorNorthWestResize = mk "cursor" "nw-resize"
     /// Directional resize arrow
-    member inline _.cursorSouthEastResize = mk "cursor" "se-resize"
+    static member inline cursorSouthEastResize = mk "cursor" "se-resize"
     /// Directional resize arrow
-    member inline _.cursorSouthWestResize = mk "cursor" "sw-resize"
+    static member inline cursorSouthWestResize = mk "cursor" "sw-resize"
     /// Directional resize arrow
-    member inline _.cursorEastWestResize = mk "cursor" "ew-resize"
+    static member inline cursorEastWestResize = mk "cursor" "ew-resize"
     /// Directional resize arrow
-    member inline _.cursorNorthSouthResize = mk "cursor" "ns-resize"
+    static member inline cursorNorthSouthResize = mk "cursor" "ns-resize"
     /// Directional resize arrow
-    member inline _.cursorNorthEastSouthWestResize = mk "cursor" "nesw-resize"
+    static member inline cursorNorthEastSouthWestResize = mk "cursor" "nesw-resize"
     /// Directional resize arrow
-    member inline _.cursorNorthWestSouthEastResize = mk "cursor" "nwse-resize"
+    static member inline cursorNorthWestSouthEastResize = mk "cursor" "nwse-resize"
     /// Something can be zoomed (magnified) in
-    member inline _.cursorZoomIn = mk "cursor" "zoom-in"
+    static member inline cursorZoomIn = mk "cursor" "zoom-in"
     /// Something can be zoomed out
-    member inline _.cursorZoomOut = mk "cursor" "zoom-out"
+    static member inline cursorZoomOut = mk "cursor" "zoom-out"
 
     /// Permits the user agent to render a custom outline style.
-    member inline _.outlineStyleAuto = mk "outline-style" "auto"
+    static member inline outlineStyleAuto = mk "outline-style" "auto"
     /// Specifies no outline. This is default.
-    member inline _.outlineStyleNone = mk "outline-style" "none"
+    static member inline outlineStyleNone = mk "outline-style" "none"
     /// Specifies a hidden outline
-    member inline _.outlineStyleHidden = mk "outline-style" "hidden"
+    static member inline outlineStyleHidden = mk "outline-style" "hidden"
     /// Specifies a dotted outline
-    member inline _.outlineStyleDotted = mk "outline-style" "dotted"
+    static member inline outlineStyleDotted = mk "outline-style" "dotted"
     /// Specifies a dashed outline
-    member inline _.outlineStyleDashed = mk "outline-style" "dashed"
+    static member inline outlineStyleDashed = mk "outline-style" "dashed"
     /// Specifies a solid outline
-    member inline _.outlineStyleSolid = mk "outline-style" "solid"
+    static member inline outlineStyleSolid = mk "outline-style" "solid"
     /// Specifies a double outliner
-    member inline _.outlineStyleDouble = mk "outline-style" "double"
+    static member inline outlineStyleDouble = mk "outline-style" "double"
     /// Specifies a 3D grooved outline. The effect depends on the outline-color value
-    member inline _.outlineStyleGroove = mk "outline-style" "groove"
+    static member inline outlineStyleGroove = mk "outline-style" "groove"
     /// Specifies a 3D ridged outline. The effect depends on the outline-color value
-    member inline _.outlineStyleRidge = mk "outline-style" "ridge"
+    static member inline outlineStyleRidge = mk "outline-style" "ridge"
     /// Specifies a 3D inset  outline. The effect depends on the outline-color value
-    member inline _.outlineStyleInset = mk "outline-style" "inset"
+    static member inline outlineStyleInset = mk "outline-style" "inset"
     /// Specifies a 3D outset outline. The effect depends on the outline-color value
-    member inline _.outlineStyleOutset = mk "outline-style" "outset"
+    static member inline outlineStyleOutset = mk "outline-style" "outset"
     /// Sets this property to its default value
-    member inline _.outlineStyleInitial = mk "outline-style" "initial"
+    static member inline outlineStyleInitial = mk "outline-style" "initial"
     /// Inherits this property from its parent element
-    member inline _.outlineStyleInheritFromParent = mk "outline-style" "inherit"
+    static member inline outlineStyleInheritFromParent = mk "outline-style" "inherit"
 
     /// Sets the initial position for each background image.
     ///
     /// The position is relative to the position layer set by background-origin.
-    member inline _.backgroundPosition(position: string) = mk "background-position" position
+    static member inline backgroundPosition(position: string) = mk "background-position" position
     /// The background image will scroll with the page. This is default.
-    member inline _.backgroundPositionScroll = mk "background-position" "scroll"
+    static member inline backgroundPositionScroll = mk "background-position" "scroll"
     /// The background image will not scroll with the page.
-    member inline _.backgroundPositionFixedNoScroll = mk "background-position" "fixed"
+    static member inline backgroundPositionFixedNoScroll = mk "background-position" "fixed"
     /// The background image will scroll with the element's contents.
-    member inline _.backgroundPositionLocal = mk "background-position" "local"
+    static member inline backgroundPositionLocal = mk "background-position" "local"
     /// Sets this property to its default value.
-    member inline _.backgroundPositionInitial = mk "background-position" "initial"
+    static member inline backgroundPositionInitial = mk "background-position" "initial"
     /// Inherits this property from its parent element.
-    member inline _.backgroundPositionInheritFromParent = mk "background-position" "inherit"
+    static member inline backgroundPositionInheritFromParent = mk "background-position" "inherit"
 
     /// This is default. Sets the blending mode to normal.
-    member inline _.backgroundBlendModeNormal = mk "background-blend-mode" "normal"
+    static member inline backgroundBlendModeNormal = mk "background-blend-mode" "normal"
     /// Sets the blending mode to screen
-    member inline _.backgroundBlendModeScreen = mk "background-blend-mode" "screen"
+    static member inline backgroundBlendModeScreen = mk "background-blend-mode" "screen"
     /// Sets the blending mode to overlay
-    member inline _.backgroundBlendModeOverlay = mk "background-blend-mode" "overlay"
+    static member inline backgroundBlendModeOverlay = mk "background-blend-mode" "overlay"
     /// Sets the blending mode to darken
-    member inline _.backgroundBlendModeDarken = mk "background-blend-mode" "darken"
+    static member inline backgroundBlendModeDarken = mk "background-blend-mode" "darken"
     /// Sets the blending mode to multiply
-    member inline _.backgroundBlendModeLighten = mk "background-blend-mode" "lighten"
+    static member inline backgroundBlendModeLighten = mk "background-blend-mode" "lighten"
     /// Sets the blending mode to color-dodge
-    member inline _.backgroundBlendModeCollorDodge = mk "background-blend-mode" "color-dodge"
+    static member inline backgroundBlendModeCollorDodge = mk "background-blend-mode" "color-dodge"
     /// Sets the blending mode to saturation
-    member inline _.backgroundBlendModeSaturation = mk "background-blend-mode" "saturation"
+    static member inline backgroundBlendModeSaturation = mk "background-blend-mode" "saturation"
     /// Sets the blending mode to color
-    member inline _.backgroundBlendModeColor = mk "background-blend-mode" "color"
+    static member inline backgroundBlendModeColor = mk "background-blend-mode" "color"
     /// Sets the blending mode to luminosity
-    member inline _.backgroundBlendModeLuminosity = mk "background-blend-mode" "luminosity"
+    static member inline backgroundBlendModeLuminosity = mk "background-blend-mode" "luminosity"
 
     /// Default value. The background extends behind the border.
-    member inline _.backgroundClipBorderBox = mk "background-clip" "border-box"
+    static member inline backgroundClipBorderBox = mk "background-clip" "border-box"
     /// The background extends to the inside edge of the border.
-    member inline _.backgroundClipPaddingBox = mk "background-clip" "padding-box"
+    static member inline backgroundClipPaddingBox = mk "background-clip" "padding-box"
     /// The background extends to the edge of the content box.
-    member inline _.backgroundClipContentBox = mk "background-clip" "content-box"
+    static member inline backgroundClipContentBox = mk "background-clip" "content-box"
     /// Sets this property to its default value.
-    member inline _.backgroundClipInitial = mk "background-clip" "initial"
+    static member inline backgroundClipInitial = mk "background-clip" "initial"
     /// Inherits this property from its parent element.
-    member inline _.backgroundClipInheritFromParent = mk "background-clip" "inherit"
+    static member inline backgroundClipInheritFromParent = mk "background-clip" "inherit"
 
-    member inline _.transform(transformation: ITransformProperty) =
+    static member inline transform(transformation: ITransformProperty) =
         mk "transform" (asString transformation)
-    member inline _.transform(transformations: ITransformProperty list) =
+    static member inline transform(transformations: ITransformProperty list) =
         mk "transform" (String.concat " " (transformations |> List.map asString))
     /// Defines that there should be no transformation.
-    member inline _.transformNone = mk "transform" "none"
+    static member inline transformNone = mk "transform" "none"
     /// Defines a 2D transformation, using a matrix of six values.
-    member inline _.transformMatrix(x1: int, y1: int, z1: int, x2: int, y2: int, z2: int) = mk "transform" ("matrix(" + (asString x1) + "," + (asString y1) + "," + (asString z1) + "," + (asString x2) + "," + (asString y2) + ", " + (asString z2) + ")")
+    static member inline transformMatrix(x1: int, y1: int, z1: int, x2: int, y2: int, z2: int) = mk "transform" ("matrix(" + (asString x1) + "," + (asString y1) + "," + (asString z1) + "," + (asString x2) + "," + (asString y2) + ", " + (asString z2) + ")")
     /// Defines a 2D translation.
-    member inline _.transformTranslate(x: int, y: int) = mk "transform" ("translate(" + (asString x) + "px," + (asString y) + "px)")
+    static member inline transformTranslate(x: int, y: int) = mk "transform" ("translate(" + (asString x) + "px," + (asString y) + "px)")
     /// Defines a 2D translation.
-    member inline _.transformTranslate(x: ICssUnit, y: ICssUnit) = mk "transform" ("translate(" + (asString x) + ", " + (asString y) + ")")
+    static member inline transformTranslate(x: ICssUnit, y: ICssUnit) = mk "transform" ("translate(" + (asString x) + ", " + (asString y) + ")")
     /// Defines a 3D translation.
-    member inline _.transformTranslate3D(x: int, y: int, z: int) = mk "transform" ("translate3d(" + (asString x) + "px," + (asString y) + "px," + (asString z) + "px)")
+    static member inline transformTranslate3D(x: int, y: int, z: int) = mk "transform" ("translate3d(" + (asString x) + "px," + (asString y) + "px," + (asString z) + "px)")
     /// Defines a 3D translation.
-    member inline _.transformTranslate3D(x: ICssUnit, y: ICssUnit, z: ICssUnit) = mk "transform" ("translate3d(" + (asString x) + "," + (asString y) + ", " + (asString z) + ")")
+    static member inline transformTranslate3D(x: ICssUnit, y: ICssUnit, z: ICssUnit) = mk "transform" ("translate3d(" + (asString x) + "," + (asString y) + ", " + (asString z) + ")")
     /// Defines a translation, using only the value for the X-axis.
-    member inline _.transformTranslateX(x: int) = mk "transform" ("translateX(" + (asString x) + "px)")
+    static member inline transformTranslateX(x: int) = mk "transform" ("translateX(" + (asString x) + "px)")
     /// Defines a translation, using only the value for the X-axis.
-    member inline _.transformTranslateX(x: ICssUnit) = mk "transform" ("translateX(" + (asString x) + ")")
+    static member inline transformTranslateX(x: ICssUnit) = mk "transform" ("translateX(" + (asString x) + ")")
     /// Defines a translation, using only the value for the Y-axis
-    member inline _.transformTranslateY(y: int) = mk "transform" ("translateY(" + (asString y) + "px)")
+    static member inline transformTranslateY(y: int) = mk "transform" ("translateY(" + (asString y) + "px)")
     /// Defines a translation, using only the value for the Y-axis
-    member inline _.transformTranslateY(y: ICssUnit) = mk "transform" ("translateY(" + (asString y) + ")")
+    static member inline transformTranslateY(y: ICssUnit) = mk "transform" ("translateY(" + (asString y) + ")")
     /// Defines a 3D translation, using only the value for the Z-axis
     /// Defines a 3D translation, using only the value for the Z-axis
-    member inline _.transformTranslateZ(z: ICssUnit) = mk "transform" ("translateZ(" + (asString z) + ")")
+    static member inline transformTranslateZ(z: ICssUnit) = mk "transform" ("translateZ(" + (asString z) + ")")
     /// Defines a 2D scale transformation.
-    member inline _.transformScale(x: int, y: int) = mk "transform" ("scale(" + (asString x) + ", " + (asString y) + ")")
+    static member inline transformScale(x: int, y: int) = mk "transform" ("scale(" + (asString x) + ", " + (asString y) + ")")
     /// Defines a scale transformation.
     /// Defines a scale transformation.
-    member inline _.transformScale(n: float) = mk "transform" ("scale(" + (asString n) + ")")
+    static member inline transformScale(n: float) = mk "transform" ("scale(" + (asString n) + ")")
     /// Defines a 3D scale transformation
-    member inline _.transformScale3D(x: int, y: int, z: int) = mk "transform" ("scale3d(" + (asString x) + "," + (asString y) + ", " + (asString z) + ")")
+    static member inline transformScale3D(x: int, y: int, z: int) = mk "transform" ("scale3d(" + (asString x) + "," + (asString y) + ", " + (asString z) + ")")
     /// Defines a scale transformation by giving a value for the X-axis.
-    member inline _.transformScaleX(x: int) = mk "transform" ("scaleX(" + (asString x) + ")")
+    static member inline transformScaleX(x: int) = mk "transform" ("scaleX(" + (asString x) + ")")
     /// Defines a scale transformation by giving a value for the Y-axis.
-    member inline _.transformScaleY(y: int) = mk "transform" ("scaleY(" + (asString y) + ")")
+    static member inline transformScaleY(y: int) = mk "transform" ("scaleY(" + (asString y) + ")")
     /// Defines a 3D translation, using only the value for the Z-axis
-    member inline _.transformScaleZ(z: int) = mk "transform" ("scaleZ(" + (asString z) + ")")
+    static member inline transformScaleZ(z: int) = mk "transform" ("scaleZ(" + (asString z) + ")")
     /// Defines a 2D rotation, the angle is specified in the parameter.
-    member inline _.transformRotate(deg: int) = mk "transform" ("rotate(" + (asString deg) + "deg)")
+    static member inline transformRotate(deg: int) = mk "transform" ("rotate(" + (asString deg) + "deg)")
     /// Defines a 2D rotation, the angle is specified in the parameter.
-    member inline _.transformRotate(deg: float) = mk "transform" ("rotate(" + (asString deg) + "deg)")
+    static member inline transformRotate(deg: float) = mk "transform" ("rotate(" + (asString deg) + "deg)")
     /// Defines a 3D rotation along the X-axis.
-    member inline _.transformRotateX(deg: float) = mk "transform" ("rotateX(" + (asString deg) + "deg)")
+    static member inline transformRotateX(deg: float) = mk "transform" ("rotateX(" + (asString deg) + "deg)")
     /// Defines a 3D rotation along the X-axis.
-    member inline _.transformRotateX(deg: int) = mk "transform" ("rotateX(" + (asString deg) + "deg)")
+    static member inline transformRotateX(deg: int) = mk "transform" ("rotateX(" + (asString deg) + "deg)")
     /// Defines a 3D rotation along the Y-axis
-    member inline _.transformRotateY(deg: float) = mk "transform" ("rotateY(" + (asString deg) + "deg)")
+    static member inline transformRotateY(deg: float) = mk "transform" ("rotateY(" + (asString deg) + "deg)")
     /// Defines a 3D rotation along the Y-axis
-    member inline _.transformRotateY(deg: int) = mk "transform" ("rotateY(" + (asString deg) + "deg)")
+    static member inline transformRotateY(deg: int) = mk "transform" ("rotateY(" + (asString deg) + "deg)")
     /// Defines a 3D rotation along the Z-axis
-    member inline _.transformRotateZ(deg: float) = mk "transform" ("rotateZ(" + (asString deg) + "deg)")
+    static member inline transformRotateZ(deg: float) = mk "transform" ("rotateZ(" + (asString deg) + "deg)")
     /// Defines a 3D rotation along the Z-axis
-    member inline _.transformRotateZ(deg: int) = mk "transform" ("rotateZ(" + (asString deg) + "deg)")
+    static member inline transformRotateZ(deg: int) = mk "transform" ("rotateZ(" + (asString deg) + "deg)")
     /// Defines a 2D skew transformation along the X- and the Y-axis.
-    member inline _.transformSkew(xAngle: int, yAngle: int) = mk "transform" ("skew(" + (asString xAngle) + "deg," + (asString yAngle) + "deg)")
+    static member inline transformSkew(xAngle: int, yAngle: int) = mk "transform" ("skew(" + (asString xAngle) + "deg," + (asString yAngle) + "deg)")
     /// Defines a 2D skew transformation along the X- and the Y-axis.
-    member inline _.transformSkew(xAngle: float, yAngle: float) = mk "transform" ("skew(" + (asString xAngle) + "deg," + (asString yAngle) + "deg)")
+    static member inline transformSkew(xAngle: float, yAngle: float) = mk "transform" ("skew(" + (asString xAngle) + "deg," + (asString yAngle) + "deg)")
     /// Defines a 2D skew transformation along the X-axis
-    member inline _.transformSkewX(xAngle: int) = mk "transform" ("skewX(" + (asString xAngle) + "deg)")
+    static member inline transformSkewX(xAngle: int) = mk "transform" ("skewX(" + (asString xAngle) + "deg)")
     /// Defines a 2D skew transformation along the X-axis
-    member inline _.transformSkewX(xAngle: float) = mk "transform" ("skewX(" + (asString xAngle) + "deg)")
+    static member inline transformSkewX(xAngle: float) = mk "transform" ("skewX(" + (asString xAngle) + "deg)")
     /// Defines a 2D skew transformation along the Y-axis
-    member inline _.transformSkewY(xAngle: int) = mk "transform" ("skewY(" + (asString xAngle) + "deg)")
+    static member inline transformSkewY(xAngle: int) = mk "transform" ("skewY(" + (asString xAngle) + "deg)")
     /// Defines a 2D skew transformation along the Y-axis
-    member inline _.transformSkewY(xAngle: float) = mk "transform" ("skewY(" + (asString xAngle) + "deg)")
+    static member inline transformSkewY(xAngle: float) = mk "transform" ("skewY(" + (asString xAngle) + "deg)")
     /// Defines a perspective view for a 3D transformed element
-    member inline _.transformPerspective(n: int) = mk "transform" ("perspective(" + (asString n) + ")")
+    static member inline transformPerspective(n: int) = mk "transform" ("perspective(" + (asString n) + ")")
     /// Sets this property to its default value.
-    member inline _.transformInitial = mk "transform" "initial"
+    static member inline transformInitial = mk "transform" "initial"
     /// Inherits this property from its parent element.
-    member inline _.transformInheritFromParent = mk "transform" "inherit"
+    static member inline transformInheritFromParent = mk "transform" "inherit"
 
     /// Text direction goes from right-to-left
-    member inline _.directionRightToLeft = mk "direction" "rtl"
+    static member inline directionRightToLeft = mk "direction" "rtl"
     /// Text direction goes from left-to-right. This is default
-    member inline _.directionLeftToRight = mk "direction" "ltr"
+    static member inline directionLeftToRight = mk "direction" "ltr"
     /// Sets this property to its default value.
-    member inline _.directionInitial = mk "direction" "initial"
+    static member inline directionInitial = mk "direction" "initial"
     /// Inherits this property from its parent element.
-    member inline _.directionInheritFromParent = mk "direction" "inherit"
+    static member inline directionInheritFromParent = mk "direction" "inherit"
 
     /// Display borders on empty cells. This is default
-    member inline _.emptyCellsShow = mk "empty-cells" "show"
+    static member inline emptyCellsShow = mk "empty-cells" "show"
     /// Hide borders on empty cells
-    member inline _.emptyCellsHide = mk "empty-cells" "hide"
+    static member inline emptyCellsHide = mk "empty-cells" "hide"
     /// Sets this property to its default value
-    member inline _.emptyCellsInitial = mk "empty-cells" "initial"
+    static member inline emptyCellsInitial = mk "empty-cells" "initial"
     /// Inherits this property from its parent element
-    member inline _.emptyCellsInheritFromParent = mk "empty-cells" "inherit"
+    static member inline emptyCellsInheritFromParent = mk "empty-cells" "inherit"
 
     /// Default value. The animation should be played as normal
-    member inline _.animationDirectionNormal = mk "animation-direction" "normal"
+    static member inline animationDirectionNormal = mk "animation-direction" "normal"
     /// The animation should play in reverse direction
-    member inline _.animationDirectionReverse = mk "animation-direction" "reverse"
+    static member inline animationDirectionReverse = mk "animation-direction" "reverse"
     /// The animation will be played as normal every odd time (1, 3, 5, etc..) and in reverse direction every even time (2, 4, 6, etc...).
-    member inline _.animationDirectionAlternate = mk "animation-direction" "alternate"
+    static member inline animationDirectionAlternate = mk "animation-direction" "alternate"
     /// The animation will be played in reverse direction every odd time (1, 3, 5, etc..) and in a normal direction every even time (2,4,6,etc...)
-    member inline _.animationDirectionAlternateReverse = mk "animation-direction" "alternate-reverse"
+    static member inline animationDirectionAlternateReverse = mk "animation-direction" "alternate-reverse"
     /// Sets this property to its default value
-    member inline _.animationDirectionInitial = mk "animation-direction" "initial"
+    static member inline animationDirectionInitial = mk "animation-direction" "initial"
     /// Inherits this property from its parent element.
-    member inline _.animationDirectionInheritFromParent = mk "animation-direction" "inherit"
+    static member inline animationDirectionInheritFromParent = mk "animation-direction" "inherit"
 
     /// Default value. Specifies that the animation is running.
-    member inline _.animationPlayStateRunning = mk "animation-play-state" "running"
+    static member inline animationPlayStateRunning = mk "animation-play-state" "running"
     /// Specifies that the animation is paused
-    member inline _.animationPlayStatePaused = mk "animation-play-state" "paused"
+    static member inline animationPlayStatePaused = mk "animation-play-state" "paused"
     /// Sets this property to its default value
-    member inline _.animationPlayStateInitial = mk "animation-play-state" "initial"
+    static member inline animationPlayStateInitial = mk "animation-play-state" "initial"
     /// Inherits this property from its parent element.
-    member inline _.animationPlayStateInheritFromParent = mk "animation-play-state" "inherit"
+    static member inline animationPlayStateInheritFromParent = mk "animation-play-state" "inherit"
 
     /// Specifies that the animation should be played infinite times (forever)
-    member inline _.animationIterationCountInfinite = mk "animation-iteration-count" "infinite"
+    static member inline animationIterationCountInfinite = mk "animation-iteration-count" "infinite"
     /// Sets this property to its default value
-    member inline _.animationIterationCountInitial = mk "animation-iteration-count" "initial"
+    static member inline animationIterationCountInitial = mk "animation-iteration-count" "initial"
     /// Inherits this property from its parent element.
-    member inline _.animationIterationCountInheritFromParent = mk "animation-iteration-count" "inherit"
+    static member inline animationIterationCountInheritFromParent = mk "animation-iteration-count" "inherit"
 
     /// Default value. Animation will not apply any styles to the element before or after it is executing
-    member inline _.animationFillModeNone = mk "animation-fill-mode" "none"
+    static member inline animationFillModeNone = mk "animation-fill-mode" "none"
     /// The element will retain the style values that is set by the last keyframe (depends on animation-direction and animation-iteration-count).
-    member inline _.animationFillModeForwards = mk "animation-fill-mode" "forwards"
+    static member inline animationFillModeForwards = mk "animation-fill-mode" "forwards"
     /// The element will get the style values that is set by the first keyframe (depends on animation-direction), and retain this during the animation-delay period
-    member inline _.animationFillModeBackwards = mk "animation-fill-mode" "backwards"
+    static member inline animationFillModeBackwards = mk "animation-fill-mode" "backwards"
     /// The animation will follow the rules for both forwards and backwards, extending the animation properties in both directions
-    member inline _.animationFillModeBoth = mk "animation-fill-mode" "both"
+    static member inline animationFillModeBoth = mk "animation-fill-mode" "both"
     /// Sets this property to its default value
-    member inline _.animationFillModeInitial = mk "animation-fill-mode" "initial"
+    static member inline animationFillModeInitial = mk "animation-fill-mode" "initial"
     /// Inherits this property from its parent element
-    member inline _.animationFillModeInheritFromParent = mk "animation-fill-mode" "inherit"
+    static member inline animationFillModeInheritFromParent = mk "animation-fill-mode" "inherit"
 
     /// Sets how background images are repeated.
     ///
     /// A background image can be repeated along the horizontal and vertical axes, or not repeated at all.
-    member inline _.backgroundRepeat(repeat: IBackgroundRepeat) = mk "background-repeat" (asString repeat)
+    static member inline backgroundRepeat(repeat: IBackgroundRepeat) = mk "background-repeat" (asString repeat)
     /// The background image is repeated both vertically and horizontally. This is default.
-    member inline _.backgroundRepeatRepeat = mk "background-repeat" "repeat"
+    static member inline backgroundRepeatRepeat = mk "background-repeat" "repeat"
     /// The background image is only repeated horizontally.
-    member inline _.backgroundRepeatRepeatX = mk "background-repeat" "repeat-x"
+    static member inline backgroundRepeatRepeatX = mk "background-repeat" "repeat-x"
     /// The background image is only repeated vertically.
-    member inline _.backgroundRepeatRepeatY = mk "background-repeat" "repeat-y"
+    static member inline backgroundRepeatRepeatY = mk "background-repeat" "repeat-y"
     /// The background-image is not repeated.
-    member inline _.backgroundRepeatNoRepeat = mk "background-repeat" "no-repeat"
+    static member inline backgroundRepeatNoRepeat = mk "background-repeat" "no-repeat"
     /// Sets this property to its default value.
-    member inline _.backgroundRepeatInitial = mk "background-repeat" "initial"
+    static member inline backgroundRepeatInitial = mk "background-repeat" "initial"
     /// Inherits this property from its parent element.
-    member inline _.backgroundRepeatInheritFromParent = mk "background-repeat" "inherit"
+    static member inline backgroundRepeatInheritFromParent = mk "background-repeat" "inherit"
 
     /// Default value. Elements render in order, as they appear in the document flow.
-    member inline _.positionDefaultStatic = mk "position" "static"
+    static member inline positionDefaultStatic = mk "position" "static"
     /// The element is positioned relative to its first positioned (not static) ancestor element.
-    member inline _.positionAbsolute = mk "position" "absolute"
+    static member inline positionAbsolute = mk "position" "absolute"
     /// The element is positioned relative to the browser window
-    member inline _.positionFixed = mk "position" "fixed"
+    static member inline positionFixed = mk "position" "fixed"
     /// The element is positioned relative to its normal position, so "left:20px" adds 20 pixels to the element's LEFT position.
-    member inline _.positionRelative = mk "position" "relative"
+    static member inline positionRelative = mk "position" "relative"
     /// The element is positioned based on the user's scroll position
     ///
     /// A sticky element toggles between relative and fixed, depending on the scroll position. It is positioned relative until a given offset position is met in the viewport - then it "sticks" in place (like position:fixed).
     ///
     /// Note: Not supported in IE/Edge 15 or earlier. Supported in Safari from version 6.1 with a -webkit- prefix.
-    member inline _.positionSticky = mk "position" "sticky"
-    member inline _.positionInitial = mk "position" "initial"
+    static member inline positionSticky = mk "position" "sticky"
+    static member inline positionInitial = mk "position" "initial"
     /// Inherits this property from its parent element.
-    member inline _.positionInheritFromParent = mk "position" "inherit"
+    static member inline positionInheritFromParent = mk "position" "inherit"
 
     /// Default value. The width and height properties include the content, but does not include the padding, border, or margin.
-    member inline _.boxSizingContentBox = mk "box-sizing" "content-box"
+    static member inline boxSizingContentBox = mk "box-sizing" "content-box"
     /// The width and height properties include the content, padding, and border, but do not include the margin. Note that padding and border will be inside of the box.
-    member inline _.boxSizingBorderBox = mk "box-sizing" "border-box"
+    static member inline boxSizingBorderBox = mk "box-sizing" "border-box"
     /// Sets this property to its default value.
-    member inline _.boxSizingInitial = mk "box-sizing" "initial"
+    static member inline boxSizingInitial = mk "box-sizing" "initial"
     /// Inherits this property from its parent element.
-    member inline _.boxSizingInheritFromParent = mk "box-sizing" "inherit"
+    static member inline boxSizingInheritFromParent = mk "box-sizing" "inherit"
 
     /// Default value. The element offers no user-controllable method for resizing it.
-    member inline _.resizeNone = mk "resize" "none"
+    static member inline resizeNone = mk "resize" "none"
     /// The element displays a mechanism for allowing the user to resize it, which may be resized both horizontally and vertically.
-    member inline _.resizeBoth = mk "resize" "both"
+    static member inline resizeBoth = mk "resize" "both"
     /// The element displays a mechanism for allowing the user to resize it in the horizontal direction.
-    member inline _.resizeHorizontal = mk "resize" "horizontal"
+    static member inline resizeHorizontal = mk "resize" "horizontal"
     /// The element displays a mechanism for allowing the user to resize it in the vertical direction.
-    member inline _.resizeVertical = mk "resize" "vertical"
+    static member inline resizeVertical = mk "resize" "vertical"
     /// The element displays a mechanism for allowing the user to resize it in the block direction (either horizontally or vertically, depending on the writing-mode and direction value).
-    member inline _.resizeBlock = mk "resize" "block"
+    static member inline resizeBlock = mk "resize" "block"
     /// The element displays a mechanism for allowing the user to resize it in the inline direction (either horizontally or vertically, depending on the writing-mode and direction value).
-    member inline _.resizeInline' = mk "resize" "inline"
+    static member inline resizeInline' = mk "resize" "inline"
     /// Sets this property to its default value.
-    member inline _.resizeInitial = mk "resize" "initial"
+    static member inline resizeInitial = mk "resize" "initial"
     /// Inherits this property from its parent element.
-    member inline _.resizeInheritFromParent = mk "resize" "inherit"
+    static member inline resizeInheritFromParent = mk "resize" "inherit"
 
     /// Aligns the text to the left.
     ///
     /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_text-align
-    member inline _.textAlignLeft = mk "text-align" "left"
+    static member inline textAlignLeft = mk "text-align" "left"
     /// Aligns the text to the right.
     ///
     /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_text-align&preval=right
-    member inline _.textAlignRight = mk "text-align" "right"
+    static member inline textAlignRight = mk "text-align" "right"
     /// Centers the text.
     ///
     /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_text-align&preval=center
-    member inline _.textAlignCenter = mk "text-align" "center"
+    static member inline textAlignCenter = mk "text-align" "center"
     /// Stretches the lines so that each line has equal width (like in newspapers and magazines).
     ///
     /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_text-align&preval=justify
-    member inline _.textAlignJustify = mk "text-align" "justify"
+    static member inline textAlignJustify = mk "text-align" "justify"
     /// Sets this property to its default value.
     ///
     /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_text-align&preval=initial
-    member inline _.textAlignInitial = mk "text-align" "initial"
+    static member inline textAlignInitial = mk "text-align" "initial"
     /// Inherits this property from its parent element.
     ///
     /// See example https://www.w3schools.com/cssref/playit.asp?filename=playcss_text-align&preval=initial
-    member inline _.textAlignInheritFromParent = mk "text-align" "inherit"
+    static member inline textAlignInheritFromParent = mk "text-align" "inherit"
 
     /// Displays an element as an inline element (like `<span> `). Any height and width properties will have no effect.
-    member inline _.displayInlineElement = mk "display" "inline"
+    static member inline displayInlineElement = mk "display" "inline"
     /// Displays an element as a block element (like `<p> `). It starts on a new line, and takes up the whole width.
-    member inline _.displayBlock = mk "display" "block"
+    static member inline displayBlock = mk "display" "block"
     /// Makes the container disappear, making the child elements children of the element the next level up in the DOM.
-    member inline _.displayContents = mk "display" "contents"
+    static member inline displayContents = mk "display" "contents"
     /// Displays an element as a block-level flex container.
-    member inline _.displayFlex = mk "display" "flex"
+    static member inline displayFlex = mk "display" "flex"
     /// Displays an element as a block container box, and lays out its contents using flow layout.
     ///
     /// It always establishes a new block formatting context for its contents.
-    member inline _.displayFlowRoot = mk "display" "flow-root"
+    static member inline displayFlowRoot = mk "display" "flow-root"
     /// Displays an element as a block-level grid container.
-    member inline _.displayGrid = mk "display" "grid"
+    static member inline displayGrid = mk "display" "grid"
     /// Displays an element as an inline-level block container. The element itself is formatted as an inline element, but you can apply height and width values.
-    member inline _.displayInlineBlock = mk "display" "inline-block"
+    static member inline displayInlineBlock = mk "display" "inline-block"
     /// Displays an element as an inline-level flex container.
-    member inline _.displayInlineFlex = mk "display" "inline-flex"
+    static member inline displayInlineFlex = mk "display" "inline-flex"
     /// Displays an element as an inline-level grid container
-    member inline _.displayInlineGrid = mk "display" "inline-grid"
+    static member inline displayInlineGrid = mk "display" "inline-grid"
     /// The element is displayed as an inline-level table.
-    member inline _.displayInlineTable = mk "display" "inline-table"
+    static member inline displayInlineTable = mk "display" "inline-table"
     /// Let the element behave like a `<li> ` element
-    member inline _.displayListItem = mk "display" "list-item"
+    static member inline displayListItem = mk "display" "list-item"
     /// Displays an element as either block or inline, depending on context.
-    member inline _.displayRunIn = mk "display" "run-in"
+    static member inline displayRunIn = mk "display" "run-in"
     /// Let the element behave like a `<table> ` element.
-    member inline _.displayTable = mk "display" "table"
+    static member inline displayTable = mk "display" "table"
     /// Let the element behave like a <caption> element.
-    member inline _.displayTableCaption = mk "display" "table-caption"
+    static member inline displayTableCaption = mk "display" "table-caption"
     /// Let the element behave like a <colgroup> element.
-    member inline _.displayTableColumnGroup = mk "display" "table-column-group"
+    static member inline displayTableColumnGroup = mk "display" "table-column-group"
     /// Let the element behave like a <thead> element.
-    member inline _.displayTableHeaderGroup = mk "display" "table-header-group"
+    static member inline displayTableHeaderGroup = mk "display" "table-header-group"
     /// Let the element behave like a <tfoot> element.
-    member inline _.displayTableFooterGroup = mk "display" "table-footer-group"
+    static member inline displayTableFooterGroup = mk "display" "table-footer-group"
     /// Let the element behave like a <tbody> element.
-    member inline _.displayTableRowGroup = mk "display" "table-row-group"
+    static member inline displayTableRowGroup = mk "display" "table-row-group"
     /// Let the element behave like a <td> element.
-    member inline _.displayTableCell = mk "display" "table-cell"
+    static member inline displayTableCell = mk "display" "table-cell"
     /// Let the element behave like a <col> element.
-    member inline _.displayTableColumn = mk "display" "table-column"
+    static member inline displayTableColumn = mk "display" "table-column"
     /// Let the element behave like a <tr> element.
-    member inline _.displayTableRow = mk "display" "table-row"
+    static member inline displayTableRow = mk "display" "table-row"
     /// The element is completely removed.
-    member inline _.displayNone = mk "display" "none"
+    static member inline displayNone = mk "display" "none"
     /// Sets this property to its default value.
-    member inline _.displayInitial = mk "display" "initial"
+    static member inline displayInitial = mk "display" "initial"
     /// Inherits this property from its parent element.
-    member inline _.displayInheritFromParent = mk "display" "inherit"
+    static member inline displayInheritFromParent = mk "display" "inherit"
 
     /// The zIndex property sets or returns the stack order of a positioned element.
     ///
@@ -1285,29 +1284,29 @@ type CssEngine() =
     /// **Tip**: A positioned element is an element with the position property set to: relative, absolute, or fixed.
     ///
     /// **Tip**: This property is useful if you want to create overlapping elements.
-    member inline _.zIndex(value: int) = mk "z-index" (asString value)
+    static member inline zIndex(value: int) = mk "z-index" (asString value)
 
     /// Sets the margin area on all four sides of an element. It is a shorthand for margin-top, margin-right,
     /// margin-bottom, and margin-left.
-    member inline _.margin(value: int) = mk "margin" (asString value + "px")
+    static member inline margin(value: int) = mk "margin" (asString value + "px")
     /// Sets the margin area on all four sides of an element. It is a shorthand for margin-top, margin-right,
     /// margin-bottom, and margin-left.
-    member inline _.margin(value: ICssUnit) = mk "margin" (asString value)
+    static member inline margin(value: ICssUnit) = mk "margin" (asString value)
     /// Sets the margin area on the vertical and horizontal axis.
-    member inline _.margin(vertical: int, horizonal: int) =
+    static member inline margin(vertical: int, horizonal: int) =
         mk "margin" (
             (asString vertical) + "px " +
             (asString horizonal) + "px"
         )
     /// Sets the margin area on the vertical and horizontal axis.
-    member inline _.margin(vertical: ICssUnit, horizonal: ICssUnit) =
+    static member inline margin(vertical: ICssUnit, horizonal: ICssUnit) =
         mk "margin" (
             (asString vertical) + " " +
             (asString horizonal)
         )
     /// Sets the margin area on all four sides of an element. It is a shorthand for margin-top, margin-right,
     /// margin-bottom, and margin-left.
-    member inline _.margin(top: int, right: int, bottom: int, left: int) =
+    static member inline margin(top: int, right: int, bottom: int, left: int) =
         mk "margin" (
             (asString top) + "px " +
             (asString right) + "px " +
@@ -1316,7 +1315,7 @@ type CssEngine() =
         )
     /// Sets the margin area on all four sides of an element. It is a shorthand for margin-top, margin-right,
     /// margin-bottom, and margin-left.
-    member inline _.margin(top: ICssUnit, right: ICssUnit, bottom: ICssUnit, left: ICssUnit) =
+    static member inline margin(top: ICssUnit, right: ICssUnit, bottom: ICssUnit, left: ICssUnit) =
         mk "margin" (
             (asString top) + " " +
             (asString right) + " " +
@@ -1325,44 +1324,44 @@ type CssEngine() =
         )
     /// Sets the margin area on the left side of an element. A positive value places it farther from its
     /// neighbors, while a negative value places it closer.
-    member inline _.marginLeft(value: int) = mk "margin-left" (asString value + "px")
+    static member inline marginLeft(value: int) = mk "margin-left" (asString value + "px")
     /// Sets the margin area on the left side of an element. A positive value places it farther from its
     /// neighbors, while a negative value places it closer.
-    member inline _.marginLeft(value: ICssUnit) = mk "margin-left" (asString value)
+    static member inline marginLeft(value: ICssUnit) = mk "margin-left" (asString value)
     /// sets the margin area on the right side of an element. A positive value places it farther from its
     /// neighbors, while a negative value places it closer.
-    member inline _.marginRight(value: int) = mk "margin-right" (asString value + "px")
+    static member inline marginRight(value: int) = mk "margin-right" (asString value + "px")
     /// sets the margin area on the right side of an element. A positive value places it farther from its
     /// neighbors, while a negative value places it closer.
-    member inline _.marginRight(value: ICssUnit) = mk "margin-right" (asString value)
+    static member inline marginRight(value: ICssUnit) = mk "margin-right" (asString value)
     /// Sets the margin area on the top of an element. A positive value places it farther from its
     /// neighbors, while a negative value places it closer.
-    member inline _.marginTop(value: int) = mk "margin-top" (asString value + "px")
+    static member inline marginTop(value: int) = mk "margin-top" (asString value + "px")
     /// Sets the margin area on the top of an element. A positive value places it farther from its
     /// neighbors, while a negative value places it closer.
-    member inline _.marginTop(value: ICssUnit) = mk "margin-top" (asString value)
+    static member inline marginTop(value: ICssUnit) = mk "margin-top" (asString value)
     /// Sets the margin area on the bottom of an element. A positive value places it farther from its
     /// neighbors, while a negative value places it closer.
-    member inline _.marginBottom(value: int) = mk "margin-bottom" (asString value + "px")
+    static member inline marginBottom(value: int) = mk "margin-bottom" (asString value + "px")
     /// Sets the margin area on the bottom of an element. A positive value places it farther from its
     /// neighbors, while a negative value places it closer.
-    member inline _.marginBottom(value: ICssUnit) = mk "margin-bottom" (asString value)
+    static member inline marginBottom(value: ICssUnit) = mk "margin-bottom" (asString value)
 
     /// Sets the padding area on all four sides of an element. It is a shorthand for padding-top,
     /// padding-right, padding-bottom, and padding-left.
-    member inline _.padding(value: int) = mk "padding" (asString value + "px")
+    static member inline padding(value: int) = mk "padding" (asString value + "px")
     /// Sets the padding area on all four sides of an element. It is a shorthand for padding-top,
     /// padding-right, padding-bottom, and padding-left.
-    member inline _.padding(value: ICssUnit) = mk "padding" (asString value)
+    static member inline padding(value: ICssUnit) = mk "padding" (asString value)
     /// Sets the padding area for vertical and horizontal axis.
-    member inline _.padding(vertical: ICssUnit, horizontal: ICssUnit) =
+    static member inline padding(vertical: ICssUnit, horizontal: ICssUnit) =
         mk "padding" (
             (asString vertical) + " " +
             (asString horizontal)
         )
     /// Sets the padding area on all four sides of an element. It is a shorthand for padding-top,
     /// padding-right, padding-bottom, and padding-left.
-    member inline _.padding(top: ICssUnit, right: ICssUnit, bottom: ICssUnit, left: ICssUnit) =
+    static member inline padding(top: ICssUnit, right: ICssUnit, bottom: ICssUnit, left: ICssUnit) =
         mk "padding" (
             (asString top) + " " +
             (asString right) + " " +
@@ -1370,38 +1369,38 @@ type CssEngine() =
             (asString left)
         )
     /// Sets the height of the padding area on the bottom of an element.
-    member inline _.paddingBottom(value: int) = mk "padding-bottom" (asString value + "px")
+    static member inline paddingBottom(value: int) = mk "padding-bottom" (asString value + "px")
     /// Sets the height of the padding area on the bottom of an element.
-    member inline _.paddingBottom(value: ICssUnit) = mk "padding-bottom" (asString value)
+    static member inline paddingBottom(value: ICssUnit) = mk "padding-bottom" (asString value)
     /// Sets the width of the padding area to the left of an element.
-    member inline _.paddingLeft(value: int) = mk "padding-left" (asString value + "px")
+    static member inline paddingLeft(value: int) = mk "padding-left" (asString value + "px")
     /// Sets the width of the padding area to the left of an element.
-    member inline _.paddingLeft(value: ICssUnit) = mk "padding-left" (asString value)
+    static member inline paddingLeft(value: ICssUnit) = mk "padding-left" (asString value)
     /// Sets the width of the padding area on the right of an element.
-    member inline _.paddingRight(value: int) = mk "padding-right" (asString value + "px")
+    static member inline paddingRight(value: int) = mk "padding-right" (asString value + "px")
     /// Sets the width of the padding area on the right of an element.
-    member inline _.paddingRight(value: ICssUnit) = mk "padding-right" (asString value)
+    static member inline paddingRight(value: ICssUnit) = mk "padding-right" (asString value)
     /// Sets the height of the padding area on the top of an element.
-    member inline _.paddingTop(value: int) = mk "padding-top" (asString value + "px")
+    static member inline paddingTop(value: int) = mk "padding-top" (asString value + "px")
     /// Sets the height of the padding area on the top of an element.
-    member inline _.paddingTop(value: ICssUnit) = mk "padding-top" (asString value)
+    static member inline paddingTop(value: ICssUnit) = mk "padding-top" (asString value)
 
     /// Sets the flex shrink factor of a flex item. If the size of all flex items is larger than
     /// the flex container, items shrink to fit according to flex-shrink.
-    member inline _.flexShrink(value: int) = mk "flex-shrink" (asString value)
+    static member inline flexShrink(value: int) = mk "flex-shrink" (asString value)
     /// Sets the initial main size of a flex item. It sets the size of the content box unless
     /// otherwise set with box-sizing.
-    member inline _.flexBasis (value: int) = mk "flex-basis" (asString value + "px")
+    static member inline flexBasis (value: int) = mk "flex-basis" (asString value + "px")
     /// Sets the initial main size of a flex item. It sets the size of the content box unless
     /// otherwise set with box-sizing.
-    member inline _.flexBasis (value: ICssUnit) = mk "flex-basis" (asString value)
+    static member inline flexBasis (value: ICssUnit) = mk "flex-basis" (asString value)
     /// Sets the flex grow factor of a flex item main size. It specifies how much of the remaining
     /// space in the flex container should be assigned to the item (the flex grow factor).
-    member inline _.flexGrow (value: int) = mk "flex-grow" (asString value)
+    static member inline flexGrow (value: int) = mk "flex-grow" (asString value)
     /// Shorthand of flex-grow, flex-shrink and flex-basis
-    member inline _.flex (grow: int, ?shrink: int, ?basis: ICssUnit) = mk "flex" (asString grow + " " + asString shrink + " " + asString basis)
+    static member inline flex (grow: int, ?shrink: int, ?basis: ICssUnit) = mk "flex" (asString grow + " " + asString shrink + " " + asString basis)
     /// Shorthand of flex-grow, flex-shrink and flex-basis
-    member inline _.flex (value: string) = mk "flex" value
+    static member inline flex (value: string) = mk "flex" value
 
     /// Sets the width of each individual grid column in pixels.
     ///
@@ -1413,7 +1412,7 @@ type CssEngine() =
     /// ```f#
     /// gridTemplateColumns: [100; 200; 100]
     /// ```
-    member inline _.gridTemplateColumns(value: int seq) =
+    static member inline gridTemplateColumns(value: int seq) =
         let addPixels = fun x -> x + "px"
         mk "grid-template-columns" (value |> Seq.map (asString >> addPixels) |> String.concat " ")
     /// Sets the width of each individual grid column.
@@ -1426,7 +1425,7 @@ type CssEngine() =
     /// ```f#
     /// gridTemplateColumns: [length.fr 1; length.fr 1; length.fr 2]
     /// ```
-    member inline _.gridTemplateColumns(value: ICssUnit seq) =
+    static member inline gridTemplateColumns(value: ICssUnit seq) =
         mk "grid-template-columns" (value |> Seq.map asString |> String.concat " ")
     /// Sets the width of each individual grid column. It can also name the lines between them
     /// There can be multiple names for the same line
@@ -1445,7 +1444,7 @@ type CssEngine() =
     ///     grid.namedLine "second-line-end"
     /// ]
     /// ```
-    member inline _.gridTemplateColumns(value: IGridTemplateItem seq) =
+    static member inline gridTemplateColumns(value: IGridTemplateItem seq) =
         mk "grid-template-columns" (value |> Seq.map asString |> String.concat " ")
     /// Sets the width of a number of grid columns to the defined width, as well as naming the lines between them
     ///
@@ -1457,7 +1456,7 @@ type CssEngine() =
     /// ```f#
     /// style.gridTemplateColumns (3, length.fr 1, "col-start")
     /// ```
-    member inline _.gridTemplateColumns(count: int, size: ICssUnit, ?areaName: string) =
+    static member inline gridTemplateColumns(count: int, size: ICssUnit, ?areaName: string) =
         let areaName = match areaName with Some n -> " [" + n + "]" | None -> ""
         mk "grid-template-columns" (
             "repeat(" +
@@ -1474,7 +1473,7 @@ type CssEngine() =
     /// ```f#
     /// style.gridTemplateRows [100, 200, 100]
     /// ```
-    member inline _.gridTemplateRows(value: int seq) =
+    static member inline gridTemplateRows(value: int seq) =
         let addPixels = (fun x -> x + "px")
         mk "grid-template-rows" (value |> Seq.map (asString >> addPixels) |> String.concat " ")
     /// Sets the width of a number of grid rows to the defined width
@@ -1487,7 +1486,7 @@ type CssEngine() =
     /// ```f#
     /// style.gridTemplateRows [length.fr 1; length.percent 10; length.px 250; length.auto]
     /// ```
-    member inline _.gridTemplateRows(value: ICssUnit seq) =
+    static member inline gridTemplateRows(value: ICssUnit seq) =
         mk "grid-template-rows" (value |> Seq.map asString |> String.concat " ")
     /// Sets the width of a number of grid rows to the defined width as well as naming the spaces between
     ///
@@ -1505,7 +1504,7 @@ type CssEngine() =
     ///     grid.namedLine "row-2-end"
     /// ]
     /// ```
-    member inline _.gridTemplateRows(value: IGridTemplateItem seq) =
+    static member inline gridTemplateRows(value: IGridTemplateItem seq) =
         mk "grid-template-rows" (value |> Seq.map asString |> String.concat " ")
     /// Sets the width of a number of grid rows to the defined width
     ///
@@ -1517,7 +1516,7 @@ type CssEngine() =
     /// ```f#
     /// style.gridTemplateRows (3, length.percent 10)
     /// ```
-    member inline _.gridTemplateRows(count: int, size: ICssUnit, ?areaName: string) =
+    static member inline gridTemplateRows(count: int, size: ICssUnit, ?areaName: string) =
         let areaName = match areaName with Some n -> " [" + n + "]" | None -> ""
         mk "grid-template-rows" (
             "repeat("+
@@ -1541,7 +1540,7 @@ type CssEngine() =
     ///     ["footer"; "footer"; "footer"; "footer" ]
     /// ]
     /// ```
-    member inline _.gridTemplateAreas(value: string list list) =
+    static member inline gridTemplateAreas(value: string list list) =
         let wrapLine = (fun x -> "'" + x + "'")
         let lines = List.map (String.concat " " >> wrapLine) value
         let block = String.concat "\n" lines
@@ -1563,7 +1562,7 @@ type CssEngine() =
     ///     [|"footer"; "footer"; "footer"; "footer" |]
     /// |]
     /// ```
-    member inline _.gridTemplateAreas(value: string[][]) =
+    static member inline gridTemplateAreas(value: string[][]) =
         let wrapLine = (fun x -> "'" + x + "'")
         let lines = Array.map (String.concat " " >> wrapLine) value
         let block = String.concat "\n" lines
@@ -1578,7 +1577,7 @@ type CssEngine() =
     /// ```f#
     /// style.gridTemplateAreas ["first"; "second"; "third"; "fourth"]
     /// ```
-    member inline _.gridTemplateAreas(value: string seq) =
+    static member inline gridTemplateAreas(value: string seq) =
         let block = String.concat " " value
         mk "grid-template-areas" ("'" + block + "'")
     /// Specifies the size of the grid lines. You can think of it like
@@ -1592,7 +1591,7 @@ type CssEngine() =
     /// ```f#
     /// style.columnGap 10
     /// ```
-    member inline _.columnGap(value: int) =
+    static member inline columnGap(value: int) =
         mk "column-gap" (asString value + "px")
     /// Specifies the size of the grid lines. You can think of it like
     /// setting the width of the gutters between the columns.
@@ -1605,7 +1604,7 @@ type CssEngine() =
     /// ```f#
     /// style.columnGap (length.em 1)
     /// ```
-    member inline _.columnGap(value: ICssUnit) =
+    static member inline columnGap(value: ICssUnit) =
         mk "column-gap" (asString value)
     /// Specifies the size of the grid lines. You can think of it like
     /// setting the width of the gutters between the rows.
@@ -1618,7 +1617,7 @@ type CssEngine() =
     /// ```f#
     /// style.rowGap 10
     /// ```
-    member inline _.rowGap(value: int) =
+    static member inline rowGap(value: int) =
         mk "row-gap" (asString value + "px")
     /// Specifies the size of the grid lines. You can think of it like
     /// setting the width of the gutters between the rows.
@@ -1631,7 +1630,7 @@ type CssEngine() =
     /// ```f#
     /// style.rowGap (length.em 1)
     /// ```
-    member inline _.rowGap(value: ICssUnit) =
+    static member inline rowGap(value: ICssUnit) =
         mk "row-gap" (asString value)
     /// Specifies the size of the grid lines. You can think of it like
     /// setting the width of the gutters between the rows/columns.
@@ -1646,12 +1645,12 @@ type CssEngine() =
     /// ```f#
     /// style.gap (length.em 1, length.em 2)
     /// ```
-    member inline _.gap(rowGap: ICssUnit, columnGap: ICssUnit) =
+    static member inline gap(rowGap: ICssUnit, columnGap: ICssUnit) =
         mk "gap" (
             (asString rowGap) + " " +
             (asString columnGap)
         )
-    member inline _.gap(rowColumnGap: ICssUnit) =
+    static member inline gap(rowColumnGap: ICssUnit) =
         mk "gap" (
             (asString rowColumnGap) + " " +
             (asString rowColumnGap)
@@ -1674,7 +1673,7 @@ type CssEngine() =
     /// ```f#
     /// style.gridColumnStart ("col", 2)
     /// ```
-    member inline _.gridColumnStart(value: string, ?count: int) =
+    static member inline gridColumnStart(value: string, ?count: int) =
         mk "grid-column-start" (asString value + " " + (asString count))
     /// Sets where an item in the grid starts
     /// The value can be one of the following options:
@@ -1692,7 +1691,7 @@ type CssEngine() =
     /// ```f#
     /// style.gridColumnStart 2
     /// ```
-    member inline _.gridColumnStart(value: int) = mk "grid-column-start" (asString value)
+    static member inline gridColumnStart(value: int) = mk "grid-column-start" (asString value)
     /// Sets where an item in the grid starts
     /// The value can be one of the following options:
     /// - a named line
@@ -1709,7 +1708,7 @@ type CssEngine() =
     /// ```f#
     /// style.gridColumnStart (gridColumn.span "odd-col")
     /// ```
-    member inline _.gridColumnStart(value: IGridSpan) = mk "grid-column-start" (asString value)
+    static member inline gridColumnStart(value: IGridSpan) = mk "grid-column-start" (asString value)
     /// Sets where an item in the grid ends
     /// The value can be one of the following options:
     /// - a named line
@@ -1728,7 +1727,7 @@ type CssEngine() =
     /// ```f#
     /// style.gridColumnEnd ("odd-col", 2)
     /// ```
-    member inline _.gridColumnEnd(value: string, ?count: int) =
+    static member inline gridColumnEnd(value: string, ?count: int) =
         mk "grid-column-end" (asString value + " " + (asString count))
     /// Sets where an item in the grid ends
     /// The value can be one of the following options:
@@ -1746,7 +1745,7 @@ type CssEngine() =
     /// ```f#
     /// style.gridColumnEnd 2
     /// ```
-    member inline _.gridColumnEnd(value: int) = mk "grid-column-end" (asString value)
+    static member inline gridColumnEnd(value: int) = mk "grid-column-end" (asString value)
     /// Sets where an item in the grid ends
     /// The value can be one of the following options:
     /// - a named line
@@ -1763,7 +1762,7 @@ type CssEngine() =
     /// ```f#
     /// style.gridColumnEnd (gridColumn.span 2)
     /// ```
-    member inline _.gridColumnEnd(value: IGridSpan) = mk "grid-column-end" (asString value)
+    static member inline gridColumnEnd(value: IGridSpan) = mk "grid-column-end" (asString value)
     /// Sets where an item in the grid starts
     /// The value can be one of the following options:
     /// - a named line
@@ -1780,7 +1779,7 @@ type CssEngine() =
     /// ```f#
     /// style.gridRowStart ("col", 2)
     /// ```
-    member inline _.gridRowStart(value: string, ?count: int) =
+    static member inline gridRowStart(value: string, ?count: int) =
         mk "grid-row-start" (asString value + " " + (asString count))
     /// Sets where an item in the grid starts
     /// The value can be one of the following options:
@@ -1798,7 +1797,7 @@ type CssEngine() =
     /// ```f#
     /// style.gridRowStart 2
     /// ```
-    member inline _.gridRowStart(value: int) = mk "grid-row-start" (asString value)
+    static member inline gridRowStart(value: int) = mk "grid-row-start" (asString value)
     /// Sets where an item in the grid starts
     /// The value can be one of the following options:
     /// - a named line
@@ -1815,7 +1814,7 @@ type CssEngine() =
     /// ```f#
     /// style.gridRowStart (gridRow.span "odd-col")
     /// ```
-    member inline _.gridRowStart(value: IGridSpan) = mk "grid-row-start" (asString value)
+    static member inline gridRowStart(value: IGridSpan) = mk "grid-row-start" (asString value)
     /// Sets where an item in the grid ends
     /// The value can be one of the following options:
     /// - a named line
@@ -1834,7 +1833,7 @@ type CssEngine() =
     /// ```f#
     /// style.gridRowEnd ("odd-col", 2)
     /// ```
-    member inline _.gridRowEnd(value: string, ?count: int) =
+    static member inline gridRowEnd(value: string, ?count: int) =
         mk "grid-row-end" (asString value + " " + (asString count))
     /// Sets where an item in the grid ends
     /// The value can be one of the following options:
@@ -1852,7 +1851,7 @@ type CssEngine() =
     /// ```f#
     /// style.gridRowEnd 2
     /// ```
-    member inline _.gridRowEnd(value: int) = mk "grid-row-end" (asString value)
+    static member inline gridRowEnd(value: int) = mk "grid-row-end" (asString value)
     /// Sets where an item in the grid ends
     /// The value can be one of the following options:
     /// - a named line
@@ -1869,7 +1868,7 @@ type CssEngine() =
     /// ```f#
     /// style.gridRowEnd (gridRow.span 2)
     /// ```
-    member inline _.gridRowEnd(value: IGridSpan) = mk "grid-row-end" (asString value)
+    static member inline gridRowEnd(value: IGridSpan) = mk "grid-row-end" (asString value)
     /// Determines a grid item’s location within the grid by referring to specific grid lines.
     /// start is the line where the item begins, end' is the line where it ends.
     /// They can be one of the following options:
@@ -1889,7 +1888,7 @@ type CssEngine() =
     /// ```f#
     /// style.gridColumn ("col-2", "col-4")
     /// ```
-    member inline _.gridColumn(start: string, end': string) =
+    static member inline gridColumn(start: string, end': string) =
         mk "grid-column" (start + " / " + end')
     /// Determines a grid item’s location within the grid by referring to specific grid lines.
     /// start is the line where the item begins, end' is the line where it ends.
@@ -1910,7 +1909,7 @@ type CssEngine() =
     /// ```f#
     /// style.gridColumn (1, 3)
     /// ```
-    member inline _.gridColumn(start: int, end': int) =
+    static member inline gridColumn(start: int, end': int) =
         mk "grid-column" (asString start + " / " + asString end')
     /// Determines a grid item’s location within the grid by referring to specific grid lines.
     /// start is the line where the item begins, end' is the line where it ends.
@@ -1931,7 +1930,7 @@ type CssEngine() =
     /// ```f#
     /// style.gridColumn (gridColumn.span 2, gridColumn.span 3)
     /// ```
-    member inline _.gridColumn(start: IGridSpan, end': IGridSpan) =
+    static member inline gridColumn(start: IGridSpan, end': IGridSpan) =
         mk "grid-column" (asString start + " / " + asString end')
     /// Determines a grid item’s location within the grid by referring to specific grid lines.
     /// start is the line where the item begins, end' is the line where it ends.
@@ -1952,7 +1951,7 @@ type CssEngine() =
     /// ```f#
     /// style.gridRow ("row-2", "row-4")
     /// ```
-    member inline _.gridRow(start: string, end': string) =
+    static member inline gridRow(start: string, end': string) =
         mk "grid-row" (start + " / " + end')
     /// Determines a grid item’s location within the grid by referring to specific grid lines.
     /// start is the line where the item begins, end' is the line where it ends.
@@ -1973,7 +1972,7 @@ type CssEngine() =
     /// ```f#
     /// style.gridRow (2, 4)
     /// ```
-    member inline _.gridRow(start: int, end': int) =
+    static member inline gridRow(start: int, end': int) =
         mk "grid-row" (asString start + " / " + asString end')
     /// Determines a grid item’s location within the grid by referring to specific grid lines.
     /// start is the line where the item begins, end' is the line where it ends.
@@ -1994,7 +1993,7 @@ type CssEngine() =
     /// ```f#
     /// style.gridRow (gridRow.span 2, gridRow.span 3)
     /// ```
-    member inline _.gridRow(start: IGridSpan, end': IGridSpan) =
+    static member inline gridRow(start: IGridSpan, end': IGridSpan) =
         mk "grid-row" (asString start + " / " + asString end')
     /// Sets the named grid area the item is placed in
     ///
@@ -2006,7 +2005,7 @@ type CssEngine() =
     /// ```f#
     /// style.gridArea "header"
     /// ```
-    member inline _.gridArea(value: string) =
+    static member inline gridArea(value: string) =
         mk "grid-area" (asString value)
     /// Shorthand for `grid-template-areas`, `grid-template-columns` and `grid-template-rows`.
     ///
@@ -2024,110 +2023,110 @@ type CssEngine() =
     ///                      "[main-top] 'b b b' 1fr  [main-bottom] " +
     ///                                "/ auto 1fr auto"
     /// ```
-    member inline _.gridTemplate(value: string) =
+    static member inline gridTemplate(value: string) =
         mk "grid-template" (asString value)
-    member inline _.transition(value: string) =
+    static member inline transition(value: string) =
         mk "transition" value
     /// Sets the length of time a transition animation should take to complete. By default, the
     /// value is 0s, meaning that no animation will occur.
-    member inline _.transitionDuration(timespan: TimeSpan) =
+    static member inline transitionDuration(timespan: TimeSpan) =
         mk "transition-duration" (asString timespan.TotalMilliseconds + "ms")
     /// Sets the length of time a transition animation should take to complete. By default, the
     /// value is 0s, meaning that no animation will occur.
-    member inline _.transitionDurationSeconds(n: float) =
+    static member inline transitionDurationSeconds(n: float) =
         mk "transition-duration" (asString n + "s")
     /// Sets the length of time a transition animation should take to complete. By default, the
     /// value is 0s, meaning that no animation will occur.
-    member inline _.transitionDurationMilliseconds(n: float) =
+    static member inline transitionDurationMilliseconds(n: float) =
         mk "transition-duration" (asString n + "ms")
     /// Sets the length of time a transition animation should take to complete. By default, the
     /// value is 0s, meaning that no animation will occur.
-    member inline _.transitionDurationSeconds(n: int) =
+    static member inline transitionDurationSeconds(n: int) =
         mk "transition-duration" (asString n + "s")
     /// Sets the length of time a transition animation should take to complete. By default, the
     /// value is 0s, meaning that no animation will occur.
-    member inline _.transitionDurationMilliseconds(n: int) =
+    static member inline transitionDurationMilliseconds(n: int) =
         mk "transition-duration" (asString n + "ms")
     /// Specifies the duration to wait before starting a property's transition effect when its value changes.
-    member inline _.transitionDelay(timespan: TimeSpan) =
+    static member inline transitionDelay(timespan: TimeSpan) =
         mk "transition-delay" (asString timespan.TotalMilliseconds + "ms")
     /// Specifies the duration to wait before starting a property's transition effect when its value changes.
-    member inline _.transitionDelaySeconds(n: float) =
+    static member inline transitionDelaySeconds(n: float) =
         mk "transition-delay" (asString n + "s")
     /// Specifies the duration to wait before starting a property's transition effect when its value changes.
-    member inline _.transitionDelayMilliseconds(n: float) =
+    static member inline transitionDelayMilliseconds(n: float) =
         mk "transition-delay" (asString n + "ms")
     /// Specifies the duration to wait before starting a property's transition effect when its value changes.
-    member inline _.transitionDelaySeconds(n: int) =
+    static member inline transitionDelaySeconds(n: int) =
         mk "transition-delay" (asString n + "s")
     /// Specifies the duration to wait before starting a property's transition effect when its value changes.
-    member inline _.transitionDelayMilliseconds(n: int) =
+    static member inline transitionDelayMilliseconds(n: int) =
         mk "transition-delay" (asString n + "ms")
     /// Sets the CSS properties to which a transition effect should be applied.
-    member inline _.transitionProperty ([<ParamArray>] properties: ITransitionProperty[]) =
+    static member inline transitionProperty ([<ParamArray>] properties: ITransitionProperty[]) =
         mk "transition-property" (String.concat "," (properties |> Array.map asString))
     /// Sets the CSS properties to which a transition effect should be applied.
-    member inline _.transitionProperty (properties: ITransitionProperty list) =
+    static member inline transitionProperty (properties: ITransitionProperty list) =
         mk "transition-property" (String.concat "," (properties |> List.map asString))
     /// Sets the CSS properties to which a transition effect should be applied.
-    member inline _.transitionProperty (property: ITransitionProperty) =
+    static member inline transitionProperty (property: ITransitionProperty) =
         mk "transition-property" (asString property)
     /// Sets the CSS properties to which a transition effect should be applied.
-    member inline _.transitionProperty (property: string) =
+    static member inline transitionProperty (property: string) =
         mk "transition-property" property
 
     /// Sets the size of the font.
     ///
     /// This property is also used to compute the size of em, ex, and other relative <length> units.
-    member inline _.fontSize(size: int) = mk "font-size" (asString size + "px")
+    static member inline fontSize(size: int) = mk "font-size" (asString size + "px")
     /// Sets the size of the font.
     ///
     /// This property is also used to compute the size of em, ex, and other relative <length> units.
-    member inline _.fontSize(size: ICssUnit) = mk "font-size" (asString size)
+    static member inline fontSize(size: ICssUnit) = mk "font-size" (asString size)
     /// Specifies the height of a text lines.
     ///
     /// This property is also used to compute the size of em, ex, and other relative <length> units.
     ///
     /// Note: Negative values are not allowed.
-    member inline _.lineHeight(size: int) = mk "line-height" (asString size + "px")
+    static member inline lineHeight(size: int) = mk "line-height" (asString size + "px")
     /// Specifies the height of a text lines.
     ///
     /// This property is also used to compute the size of em, ex, and other relative <length> units.
     ///
     /// Note: Negative values are not allowed.
-    member inline _.lineHeight(size: ICssUnit) = mk "line-height" (asString size)
+    static member inline lineHeight(size: ICssUnit) = mk "line-height" (asString size)
     /// Sets the background color of an element.
-    member inline _.backgroundColor (color: string) = mk "background-color" color
+    static member inline backgroundColor (color: string) = mk "background-color" color
     /// Sets the color of the insertion caret, the visible marker where the next character typed will be inserted.
     ///
     /// This is sometimes referred to as the text input cursor. The caret appears in elements such as <input> or
     /// those with the contenteditable attribute. The caret is typically a thin vertical line that flashes to
     /// help make it more noticeable. By default, it is black, but its color can be altered with this property.
-    member inline _.caretColor (color: string) = mk "caret-color" color
+    static member inline caretColor (color: string) = mk "caret-color" color
     /// Sets the foreground color value of an element's text and text decorations, and sets the
     /// `currentcolor` value. `currentcolor` may be used as an indirect value on other properties
     /// and is the default for other color properties, such as border-color.
-    member inline _.color (color: string) = mk "color" color
+    static member inline color (color: string) = mk "color" color
     /// Specifies the vertical position of a positioned element. It has no effect on non-positioned elements.
-    member inline _.top(value: int) = mk "top" (asString value + "px")
+    static member inline top(value: int) = mk "top" (asString value + "px")
     /// Specifies the vertical position of a positioned element. It has no effect on non-positioned elements.
-    member inline _.top(value: ICssUnit) = mk "top" (asString value)
+    static member inline top(value: ICssUnit) = mk "top" (asString value)
     /// Specifies the vertical position of a positioned element. It has no effect on non-positioned elements.
-    member inline _.bottom(value: int) = mk "bottom" (asString value + "px")
+    static member inline bottom(value: int) = mk "bottom" (asString value + "px")
     /// Specifies the vertical position of a positioned element. It has no effect on non-positioned elements.
-    member inline _.bottom(value: ICssUnit) = mk "bottom" (asString value)
+    static member inline bottom(value: ICssUnit) = mk "bottom" (asString value)
     /// Specifies the horizontal position of a positioned element. It has no effect on non-positioned elements.
-    member inline _.left(value: int) = mk "left" (asString value + "px")
+    static member inline left(value: int) = mk "left" (asString value + "px")
     /// Specifies the horizontal position of a positioned element. It has no effect on non-positioned elements.
-    member inline _.left(value: ICssUnit) = mk "left" (asString value)
+    static member inline left(value: ICssUnit) = mk "left" (asString value)
     /// Specifies the horizontal position of a positioned element. It has no effect on non-positioned elements.
-    member inline _.right(value: int) = mk "right" (asString value + "px")
+    static member inline right(value: int) = mk "right" (asString value + "px")
     /// Specifies the horizontal position of a positioned element. It has no effect on non-positioned elements.
-    member inline _.right(value: ICssUnit) = mk "right" (asString value)
+    static member inline right(value: ICssUnit) = mk "right" (asString value)
 
     /// Sets an element's bottom border. It sets the values of border-bottom-width,
     /// border-bottom-style and border-bottom-color.
-    member inline _.borderBottom(width: ICssUnit, style: IBorderStyle, color: string) =
+    static member inline borderBottom(width: ICssUnit, style: IBorderStyle, color: string) =
         mk "border-bottom" (
             (asString width) + " " +
             (asString style) + " " +
@@ -2144,7 +2143,7 @@ type CssEngine() =
     ///  - An outline does not take up space
     ///  - An outline may be non-rectangular
     ///
-    member inline _.outlineOffset (offset:int) =
+    static member inline outlineOffset (offset:int) =
         mk "outline-width" (asString offset + "px")
 
     /// The outline-offset property adds space between an outline and the edge or border of an element.
@@ -2157,7 +2156,7 @@ type CssEngine() =
     ///  - An outline does not take up space
     ///  - An outline may be non-rectangular
     ///
-    member inline _.outlineOffset (offset: ICssUnit) =
+    static member inline outlineOffset (offset: ICssUnit) =
         mk "outline-width" (asString offset)
 
     /// An outline is a line that is drawn around elements (outside the borders) to make the element "stand out".
@@ -2165,74 +2164,74 @@ type CssEngine() =
     /// The `outline-color` property specifies the color of an outline.
 
     /// **Note**: Always declare the outline-style property before the outline-color property. An element must have an outline before you change the color of it.
-    member inline _.outlineColor (color: string) =
+    static member inline outlineColor (color: string) =
         mk "outline-color" color
 
     /// Set an element's left border.
-    member inline _.borderLeft(width: ICssUnit, style: IBorderStyle, color: string) =
+    static member inline borderLeft(width: ICssUnit, style: IBorderStyle, color: string) =
         mk "border-left" (
             (asString width) + " " +
             (asString style) + " " +
             color
         )
     /// Set an element's right border.
-    member inline _.borderRight(width: ICssUnit, style: IBorderStyle, color: string) =
+    static member inline borderRight(width: ICssUnit, style: IBorderStyle, color: string) =
         mk "border-right" (
             (asString width) + " " +
             (asString style) + " " +
             color
         )
     /// Set an element's top border.
-    member inline _.borderTop(width: ICssUnit, style: IBorderStyle, color: string) =
+    static member inline borderTop(width: ICssUnit, style: IBorderStyle, color: string) =
         mk "border-top" (
             (asString width) + " " +
             (asString style) + " " +
             color
         )
     /// Sets the line style of an element's bottom border.
-    member inline _.borderBottomStyle(style: IBorderStyle) = mk "border-bottom-style" (asString style)
+    static member inline borderBottomStyle(style: IBorderStyle) = mk "border-bottom-style" (asString style)
     /// Sets the width of the bottom border of an element.
-    member inline _.borderBottomWidth (width: int) = mk "border-bottom-width" (asString width + "px")
+    static member inline borderBottomWidth (width: int) = mk "border-bottom-width" (asString width + "px")
     /// Sets the width of the bottom border of an element.
-    member inline _.borderBottomWidth (width: ICssUnit) = mk "border-bottom-width" (asString width)
+    static member inline borderBottomWidth (width: ICssUnit) = mk "border-bottom-width" (asString width)
     /// Sets the color of an element's bottom border.
     ///
     /// It can also be set with the shorthand CSS properties border-color or border-bottom.
-    member inline _.borderBottomColor (color: string) = mk "border-bottom-color" color
+    static member inline borderBottomColor (color: string) = mk "border-bottom-color" color
     /// Sets the line style of an element's top border.
-    member inline _.borderTopStyle(style: IBorderStyle) = mk "border-top-style" (asString style)
+    static member inline borderTopStyle(style: IBorderStyle) = mk "border-top-style" (asString style)
     /// Sets the width of the top border of an element.
-    member inline _.borderTopWidth (width: int) = mk "border-top-width" (asString width + "px")
+    static member inline borderTopWidth (width: int) = mk "border-top-width" (asString width + "px")
     /// Sets the width of the top border of an element.
-    member inline _.borderTopWidth (width: ICssUnit) = mk "border-top-width" (asString width)
+    static member inline borderTopWidth (width: ICssUnit) = mk "border-top-width" (asString width)
     /// Sets the color of an element's top border.
     ///
     /// It can also be set with the shorthand CSS properties border-color or border-bottom.
-    member inline _.borderTopColor (color: string) = mk "border-top-color" color
+    static member inline borderTopColor (color: string) = mk "border-top-color" color
     /// Sets the line style of an element's right border.
-    member inline _.borderRightStyle(style: IBorderStyle) = mk "border-right-style" (asString style)
+    static member inline borderRightStyle(style: IBorderStyle) = mk "border-right-style" (asString style)
     /// Sets the width of the right border of an element.
-    member inline _.borderRightWidth (width: int) = mk "border-right-width" (asString width + "px")
+    static member inline borderRightWidth (width: int) = mk "border-right-width" (asString width + "px")
     /// Sets the width of the right border of an element.
-    member inline _.borderRightWidth (width: ICssUnit) = mk "border-right-width" (asString width)
+    static member inline borderRightWidth (width: ICssUnit) = mk "border-right-width" (asString width)
     /// Sets the color of an element's right border.
     ///
     /// It can also be set with the shorthand CSS properties border-color or border-bottom.
-    member inline _.borderRightColor (color: string) = mk "border-right-color" color
+    static member inline borderRightColor (color: string) = mk "border-right-color" color
     /// Sets the line style of an element's left border.
-    member inline _.borderLeftStyle(style: IBorderStyle) = mk "border-left-style" (asString style)
+    static member inline borderLeftStyle(style: IBorderStyle) = mk "border-left-style" (asString style)
     /// Sets the width of the left border of an element.
-    member inline _.borderLeftWidth (width: int) = mk "border-left-width" (asString width + "px")
+    static member inline borderLeftWidth (width: int) = mk "border-left-width" (asString width + "px")
     /// Sets the width of the left border of an element.
-    member inline _.borderLeftWidth (width: ICssUnit) = mk "border-left-width" (asString width)
+    static member inline borderLeftWidth (width: ICssUnit) = mk "border-left-width" (asString width)
     /// Sets the color of an element's left border.
     ///
     /// It can also be set with the shorthand CSS properties border-color or border-bottom.
-    member inline _.borderLeftColor (color: string) = mk "border-left-color" color
+    static member inline borderLeftColor (color: string) = mk "border-left-color" color
     /// Sets an element's border.
     ///
     /// It sets the values of border-width, border-style, and border-color.
-    member inline _.border(width: ICssUnit, style: IBorderStyle, color: string) =
+    static member inline border(width: ICssUnit, style: IBorderStyle, color: string) =
         mk "border" (
             (asString width) + " " +
             (asString style) + " " +
@@ -2241,28 +2240,28 @@ type CssEngine() =
     /// Sets an element's border.
     ///
     /// It sets the values of border-width, border-style, and border-color.
-    member inline _.border(width: string, style: IBorderStyle, color: string) =
+    static member inline border(width: string, style: IBorderStyle, color: string) =
         mk "border" (
             width + " " +
             (asString style) + " " +
             color
         )
     /// Sets the color of an element's border.
-    member inline _.borderColor (color: string) = mk "border-color" color
+    static member inline borderColor (color: string) = mk "border-color" color
     /// Rounds the corners of an element's outer border edge. You can set a single radius to make
     /// circular corners, or two radii to make elliptical corners.
-    member inline _.borderRadius (radius: int) = mk "border-radius" (asString radius + "px")
+    static member inline borderRadius (radius: int) = mk "border-radius" (asString radius + "px")
     /// Rounds the corners of an element's outer border edge. You can set a single radius to make
     /// circular corners, or two radii to make elliptical corners.
-    member inline _.borderRadius (radius: ICssUnit) = mk "border-radius" (asString radius)
+    static member inline borderRadius (radius: ICssUnit) = mk "border-radius" (asString radius)
     /// Sets the width of an element's border.
-    member inline _.borderWidth (width: int) = mk "border-width" (asString width + "px")
+    static member inline borderWidth (width: int) = mk "border-width" (asString width + "px")
     /// Sets the width of an element's border.
-    member inline _.borderWidth (top: ICssUnit, ?right: ICssUnit) =
+    static member inline borderWidth (top: ICssUnit, ?right: ICssUnit) =
         mk "border-width" (
             asString top + (match right with Some x -> " " + asString x | None -> ""))
     /// Sets the width of an element's border.
-    member inline _.borderWidth (top: ICssUnit, right: ICssUnit, bottom: ICssUnit, ?left: ICssUnit) =
+    static member inline borderWidth (top: ICssUnit, right: ICssUnit, bottom: ICssUnit, ?left: ICssUnit) =
         mk "border-width" (
             (asString top) + " " +
             (asString right) + " " +
@@ -2270,69 +2269,69 @@ type CssEngine() =
             (match left with Some x -> " " + asString x | None -> ""))
     /// Sets one or more animations to apply to an element. Each name is an @keyframes at-rule that
     /// sets the property values for the animation sequence.
-    member inline _.animationName(keyframeName: string) = mk "animation-name" keyframeName
+    static member inline animationName(keyframeName: string) = mk "animation-name" keyframeName
     /// Sets the length of time that an animation takes to complete one cycle.
-    member inline _.animationDuration(timespan: TimeSpan) = mk "animation-duration" (asString timespan.TotalMilliseconds + "ms")
+    static member inline animationDuration(timespan: TimeSpan) = mk "animation-duration" (asString timespan.TotalMilliseconds + "ms")
     /// Sets the length of time that an animation takes to complete one cycle.
-    member inline _.animationDuration(seconds: int) = mk "animation-duration" (asString seconds + "s")
+    static member inline animationDuration(seconds: int) = mk "animation-duration" (asString seconds + "s")
     /// Sets when an animation starts.
     ///
     /// The animation can start later, immediately from its beginning, or immediately and partway through the animation.
-    member inline _.animationDelay(timespan: TimeSpan) = mk "animation-delay" (asString timespan.TotalMilliseconds + "ms")
+    static member inline animationDelay(timespan: TimeSpan) = mk "animation-delay" (asString timespan.TotalMilliseconds + "ms")
     /// Sets when an animation starts.
     ///
     /// The animation can start later, immediately from its beginning, or immediately and partway through the animation.
-    member inline _.animationDelay(seconds: int) = mk "animation-delay" (asString seconds + "s")
+    static member inline animationDelay(seconds: int) = mk "animation-delay" (asString seconds + "s")
     /// The number of times the animation runs.
-    member inline _.animationDurationCount(count: int) = mk "animation-duration-count" (asString count)
+    static member inline animationDurationCount(count: int) = mk "animation-duration-count" (asString count)
     /// Sets the font family for the font specified in a @font-face rule.
-    member inline _.fontFamily (family: string) = mk "font-family" family
+    static member inline fontFamily (family: string) = mk "font-family" family
     /// Sets the color of decorations added to text by text-decoration-line.
-    member inline _.textDecorationColor(color: string) = mk "text-decoration-color" color
+    static member inline textDecorationColor(color: string) = mk "text-decoration-color" color
     /// Sets the length of empty space (indentation) that is put before lines of text in a block.
-    member inline _.textIndent(value: int) = mk "text-indent" (asString value)
+    static member inline textIndent(value: int) = mk "text-indent" (asString value)
     /// Sets the length of empty space (indentation) that is put before lines of text in a block.
-    member inline _.textIndent(value: string) = mk "text-indent" (asString value)
+    static member inline textIndent(value: string) = mk "text-indent" (asString value)
     /// Sets the opacity of an element.
     ///
     /// Opacity is the degree to which content behind an element is hidden, and is the opposite of transparency.
-    member inline _.opacity(value: double) = mk "opacity" (asString value)
+    static member inline opacity(value: double) = mk "opacity" (asString value)
     /// Sets the minimum width of an element.
     ///
     /// It prevents the used value of the width property from becoming smaller than the value specified for min-width.
-    member inline _.minWidth (value: int) = mk "min-width" (asString value + "px")
+    static member inline minWidth (value: int) = mk "min-width" (asString value + "px")
     /// Sets the minimum width of an element.
     ///
     /// It prevents the used value of the width property from becoming smaller than the value specified for min-width.
-    member inline _.minWidth (value: ICssUnit) = mk "min-width" (asString value)
+    static member inline minWidth (value: ICssUnit) = mk "min-width" (asString value)
     /// Sets the minimum width of an element.
     ///
     /// It prevents the used value of the width property from becoming smaller than the value specified for min-width.
-    member inline _.minWidth (value: string) = mk "min-width" (asString value)
+    static member inline minWidth (value: string) = mk "min-width" (asString value)
     /// Sets the maximum width of an element.
     ///
     /// It prevents the used value of the width property from becoming larger than the value specified by max-width.
-    member inline _.maxWidth (value: int) = mk "max-width" (asString value + "px")
+    static member inline maxWidth (value: int) = mk "max-width" (asString value + "px")
     /// Sets the maximum width of an element.
     ///
     /// It prevents the used value of the width property from becoming larger than the value specified by max-width.
-    member inline _.maxWidth (value: ICssUnit) = mk "max-width" (asString value)
+    static member inline maxWidth (value: ICssUnit) = mk "max-width" (asString value)
     /// Sets the width of an element.
     ///
     /// By default, the property defines the width of the content area.
-    member inline _.width (value: int) = mk "width" (asString value + "px")
+    static member inline width (value: int) = mk "width" (asString value + "px")
     /// Sets the width of an element.
     ///
     /// By default, the property defines the width of the content area.
-    member inline _.width (value: ICssUnit) = mk "width" (asString value)
+    static member inline width (value: ICssUnit) = mk "width" (asString value)
 
     /// Sets one or more background images on an element.
-    member inline _.backgroundImage (value: string) = mk "background-image" (asString value)
+    static member inline backgroundImage (value: string) = mk "background-image" (asString value)
     /// Short-hand for `style.backgroundImage(sprintf "url('%s')" value)` to set the backround image using a url.
-    member inline _.backgroundImageUrl (value: string) = mk "background-image" ("url('" + value + "')")
+    static member inline backgroundImageUrl (value: string) = mk "background-image" ("url('" + value + "')")
 
     /// Sets the color of an SVG shape.
-    member inline _.fill (color: string) = mk "fill" color
+    static member inline fill (color: string) = mk "fill" color
 
 /// Contains a list of HTML5 colors from https://htmlcolorcodes.com/color-names/
 module color =
