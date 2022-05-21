@@ -4,11 +4,11 @@ open System
 open Fable.Core
 open Fable.Core.JsInterop
 
-module AttrUtil =
-    let concatClasses classList =
-        classList |> Seq.choose (function false, _ -> None | true, c -> Some c) |> String.concat " "
+// module AttrUtil =
+//     let concatClasses classList =
+//         classList |> Seq.choose (function false, _ -> None | true, c -> Some c) |> String.concat " "
 
-open AttrUtil
+// open AttrUtil
 
 /// <summary>HTML Attribute generator API.</summary>
 type Attr =
@@ -356,8 +356,8 @@ type Attr =
     /// `prop.classes [ "one"; "two" ]` => `prop.className "one two"`
     static member inline classes (names: seq<string>): JSX.Prop = "class", box(String.concat " " names)
 
-    static member inline classes (names: seq<bool * string>): JSX.Prop =
-        "class", box(concatClasses names)
+    // static member inline classes (names: seq<bool * string>): JSX.Prop =
+    //     "class", box(concatClasses names)
 
     /// Defines the number of columns in a textarea.
     static member inline cols (value: int): JSX.Prop = "cols", box(Util.asString value)

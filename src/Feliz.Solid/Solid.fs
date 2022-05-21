@@ -4,6 +4,14 @@ open System
 open Fable.Core
 open Fable.Core.JsInterop
 
+[<AutoOpen>]
+module SolidExtensions =
+    open Feliz.JSX
+
+    type Attr with
+        static member inline classList (names: list<string * bool>): JSX.Prop =
+            "classList", createObj !!names
+
 type Solid =
     [<ImportMember("solid-js/web")>]
     static member render(f: unit -> JSX.Element, el: Browser.Types.Element): unit = jsNative
@@ -41,14 +49,8 @@ type Solid =
     [<ImportMember("solid-js"); JSX.Component>]
     static member Index(each: 'T[], child: (unit -> 'T) -> int -> JSX.Element, ?fallback: JSX.Element): JSX.Element = jsNative
 
-    static member inline Index(each: 'T list, child, ?fallback) =
-        Solid.Index(List.toArray each, child, ?fallback=fallback)
-
     [<ImportMember("solid-js"); JSX.Component>]
     static member For(each: 'T[], child: 'T -> (unit -> int) -> JSX.Element, ?fallback: JSX.Element): JSX.Element = jsNative
-
-    static member inline For(each: 'T list, child, ?fallback) =
-        Solid.For(List.toArray each, child, ?fallback=fallback)
 
     [<ImportMember("solid-js"); JSX.Component>]
     static member Show(``when``: bool, child: JSX.Element): JSX.Element = jsNative
@@ -68,8 +70,8 @@ type Solid =
     [<ImportMember("solid-js/store")>]
     static member createStore(store: 'T): 'T * ('T -> unit) = jsNative
 
-    [<ImportMember("solid-js/store")>]
-    static member reconcile(store: 'T): 'T = jsNative
+    [<ImportMember("solid-js/store"); NamedParams(fromIndex=1)>]
+    static member reconcile(store: 'T, ?merge: bool, ?key: string): 'T = jsNative
 
     [<ImportMember("solid-js/store")>]
     static member unwrap(store: 'T): 'T = jsNative

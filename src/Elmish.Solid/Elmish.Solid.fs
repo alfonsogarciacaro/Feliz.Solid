@@ -2,31 +2,34 @@ module Elmish.Solid
 
 open Elmish
 
+// TODO: Return a termination handle
+
 type Solid with
-    static member createElmishStore(program: Program<'Arg, 'Model, 'Msg, unit>, arg: 'Arg) =
-        let mutable storeAndDispatch = None
+    /// Initialize a SolidJS store using an Elmish program: https://www.solidjs.com/tutorial/stores_nested_reactivity
+    /// SolidJS can optimize updates for plain JS objects and arrays in the store, so you can provide a projection
+    /// to do this transformation (e.g. convert records into anonymous records and lists into arrays)
+    static member createElmishStore(program: Program<'Arg, 'Model, 'Msg, unit>, projection: 'Model -> 'ViewModel, arg: 'Arg) =
+        let mutable dispatch' = Unchecked.defaultof<_>
+        let model, cmd = Program.init program arg
+        let store, setStore = model |> projection |> Solid.createStore
 
         program
+        |> Program.map (fun _ _ -> model, cmd) id id id id id
         |> Program.withSetState (fun model dispatch ->
-            match storeAndDispatch with
-            | None ->
-                let store, setStore = Solid.createStore(model)
-                storeAndDispatch <- Some(store, setStore, dispatch)
-            | Some (_store, setStore, _dispatch) ->
-                Solid.reconcile model |> setStore)
+            dispatch' <- dispatch
+            model |> projection |> Solid.reconcile |> setStore)
         |> Program.runWith arg
 
-        let (store, _setStore, dispatch) = Option.get storeAndDispatch
-        store, dispatch
+        store, dispatch'
 
-    static member createElmishStore(program: Program<unit, 'Model, 'Msg, unit>) =
-        Solid.createElmishStore(program, ())
+    /// Initialize a SolidJS store using an Elmish program: https://www.solidjs.com/tutorial/stores_nested_reactivity
+    /// SolidJS can optimize updates for plain JS objects and arrays in the store, so you can provide a projection
+    /// to do this transformation (e.g. convert records into anonymous records and lists into arrays)
+    static member createElmishStore(init: 'Arg -> 'Model * Cmd<'Msg>, update: 'Msg -> 'Model -> 'Model * Cmd<'Msg>, projection, arg: 'Arg) =
+        Solid.createElmishStore(Program.mkProgram init update (fun _ _ -> ()), projection, arg)
 
-    static member createElmishStore(init: 'Arg -> 'Model * Cmd<'Msg>, update: 'Msg -> 'Model -> 'Model * Cmd<'Msg>, arg: 'Arg) =
-        Solid.createElmishStore(Program.mkProgram init update (fun _ _ -> ()), arg)
-
-    static member createElmishStore(init: unit -> 'Model * Cmd<'Msg>, update: 'Msg -> 'Model -> 'Model * Cmd<'Msg>) =
-        Solid.createElmishStore(Program.mkProgram init update (fun _ _ -> ()))
-
-    static member createElmishStore(init: 'Model * Cmd<'Msg>, update: 'Msg -> 'Model -> 'Model * Cmd<'Msg>) =
-        Solid.createElmishStore(Program.mkProgram (fun () -> init) update (fun _ _ -> ()))
+    /// Initialize a SolidJS store using an Elmish program: https://www.solidjs.com/tutorial/stores_nested_reactivity
+    /// SolidJS can optimize updates for plain JS objects and arrays in the store, so you can provide a projection
+    /// to do this transformation (e.g. convert records into anonymous records and lists into arrays)
+    static member createElmishStore(init: unit -> 'Model * Cmd<'Msg>, update: 'Msg -> 'Model -> 'Model * Cmd<'Msg>, projection) =
+        Solid.createElmishStore(Program.mkProgram init update (fun _ _ -> ()), projection, ())

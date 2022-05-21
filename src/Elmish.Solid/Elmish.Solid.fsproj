@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Fable.Solid\Fable.Solid.fsproj" />
+    <ProjectReference Include="..\Feliz.Solid\Feliz.Solid.fsproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -8,18 +8,28 @@ open Components
 // Entry point must be in a separate file
 // for Vite Hot Reload to work
 
+[<RequireQualifiedAccess>]
+type Tab =
+    | Counter
+    | Styles
+    | Sketch
+    | TodoMVC
+    member this.Name =
+        match this with
+        | Counter -> "Counter"
+        | Styles -> "Styles"
+        | Sketch -> "Sketch"
+        | TodoMVC -> "TodoMVC"
+
 [<JSX.Component>]
-let Tab(tab: string, activeTab, setActiveTab) =
+let TabEl(tab: Tab, activeTab, setActiveTab) =
     Html.li [
-        Attr.classes [tab = activeTab(), "is-active"]
+        Attr.classList ["is-active", tab = activeTab()]
         Html.children [
             Html.a [
-                Ev.onClick (fun ev ->
-                    ev.preventDefault()
-                    tab |> setActiveTab
-                )
+                Ev.onClick (fun _ -> tab |> setActiveTab)
                 Html.children [
-                    Html.text tab
+                    Html.text tab.Name
                 ]
             ]
         ]
@@ -27,7 +37,7 @@ let Tab(tab: string, activeTab, setActiveTab) =
 
 [<JSX.Component>]
 let Tabs() =
-    let activeTab, setActiveTab = Solid.createSignal("Sketch")
+    let activeTab, setActiveTab = Solid.createSignal(Tab.Sketch)
     Html.fragment [
         Html.div [
             Attr.className "tabs"
@@ -37,10 +47,10 @@ let Tabs() =
             Html.children [
                 Html.ul [
                     Html.children [
-                        Tab("Counter", activeTab, setActiveTab)
-                        Tab("Styles", activeTab, setActiveTab)
-                        Tab("Sketch", activeTab, setActiveTab)
-                        Tab("TodoMVC", activeTab, setActiveTab)
+                        TabEl(Tab.Counter, activeTab, setActiveTab)
+                        TabEl(Tab.Styles, activeTab, setActiveTab)
+                        TabEl(Tab.Sketch, activeTab, setActiveTab)
+                        TabEl(Tab.TodoMVC, activeTab, setActiveTab)
                     ]
                 ]
             ]
@@ -53,10 +63,10 @@ let Tabs() =
             ]
             Html.children [
                 Solid.Switch([
-                    Solid.Match(activeTab() = "Counter", Counter())
-                    Solid.Match(activeTab() = "Styles", Styles())
-                    Solid.Match(activeTab() = "Sketch", Sketch.App(10.))
-                    Solid.Match(activeTab() = "TodoMVC", TodoMVC.App())
+                    Solid.Match(activeTab() = Tab.Counter, Counter())
+                    Solid.Match(activeTab() = Tab.Styles, Styles())
+                    Solid.Match(activeTab() = Tab.Sketch, Sketch.App(10.))
+                    Solid.Match(activeTab() = Tab.TodoMVC, TodoMVC.App())
                 ])
             ]
         ]

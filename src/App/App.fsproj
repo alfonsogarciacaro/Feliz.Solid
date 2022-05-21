@@ -10,7 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Feliz.JSX\Feliz.JSX.fsproj" />
     <ProjectReference Include="..\Elmish.Solid\Elmish.Solid.fsproj" />
   </ItemGroup>
 

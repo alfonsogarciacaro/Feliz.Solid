@@ -113,12 +113,15 @@ module Sketch =
 
 module TodoMVC =
     open System
+    open Elmish
+    open Elmish.Solid
 
-    type Todo =
-        { Id: Guid
-          Description: string
-          Editing: string option
-          Completed: bool }
+    type Todo = {
+        Id: Guid
+        Description: string
+        Editing: string option
+        Completed: bool
+    }
 
     type State =
         { Todos: Todo list }
@@ -132,31 +135,37 @@ module TodoMVC =
         | StartEditingTodo of Guid
 
     let init () =
-        { Todos =
-            [ { Id = Guid.NewGuid()
+        let todos = [
+            {
+                Id = Guid.NewGuid()
                 Description = "Learn F#"
                 Completed = false
-                Editing = None }
-              { Id = Guid.NewGuid()
+                Editing = None
+            }
+            {
+                Id = Guid.NewGuid()
                 Description = "Learn Elmish"
                 Completed = true
-                Editing = None } ] }
+                Editing = None
+            }
+        ]
+        { Todos = todos }, Cmd.none
 
     let update (msg: Msg) (state: State) =
         match msg with
         | AddNewTodo txt ->
-            let nextTodo =
-                { Id = Guid.NewGuid()
-                  Description = txt
-                  Completed = false
-                  Editing = None }
-            { state with
-                Todos = nextTodo::state.Todos }
+            let nextTodo = {
+                Id = Guid.NewGuid()
+                Description = txt
+                Completed = false
+                Editing = None
+            }
+            { state with Todos = nextTodo::state.Todos }, Cmd.none
 
         | DeleteTodo todoId ->
             state.Todos
             |> List.filter (fun todo -> todo.Id <> todoId)
-            |> fun todos -> { state with Todos = todos }
+            |> fun todos -> { state with Todos = todos }, Cmd.none
 
         | ToggleCompleted todoId ->
             state.Todos
@@ -168,7 +177,7 @@ module TodoMVC =
                             Completed = completed }
                     else
                         todo)
-            |> fun todos -> { state with Todos = todos }
+            |> fun todos -> { state with Todos = todos }, Cmd.none
 
         | StartEditingTodo todoId ->
             state.Todos |> List.map (fun t ->
@@ -176,14 +185,14 @@ module TodoMVC =
                 | _ when t.Id = todoId -> { t with Editing = Some t.Description }
                 | Some _ -> { t with Editing = None }
                 | _ -> t)
-            |> fun todos -> { state with Todos = todos }
+            |> fun todos -> { state with Todos = todos }, Cmd.none
 
         | CancelEdit ->
             state.Todos |> List.map (fun t ->
                 if Option.isSome t.Editing
                 then { t with Editing = None }
                 else t)
-            |> fun todos -> { state with Todos = todos }
+            |> fun todos -> { state with Todos = todos }, Cmd.none
 
         | ApplyEdit txt ->
             state.Todos |> List.map (fun t ->
@@ -191,7 +200,19 @@ module TodoMVC =
                 | Some _ ->
                     { t with Description = txt; Editing = None }
                 | None -> t)
-            |> fun todos -> { state with Todos = todos }
+            |> fun todos -> { state with Todos = todos }, Cmd.none
+
+    // View
+
+    // Solid can optimize updates better if we only use plain objects and arrays
+    // so we create an according transformation to be used in the view
+    // See `Solid.createElmishStore` below
+
+    type TodoVM = {| Id: Guid; Description: string; Completed: bool; Editing: string option |}
+
+    let toViewModel (model: State): TodoVM[] =
+        model.Todos |> List.toArray |> Array.map (fun t ->
+            {| Id = t.Id; Description = t.Description; Completed = t.Completed; Editing = t.Editing |})
 
     let onEnterOrEscape dispatchOnEnter dispatchOnEscape (ev: KeyboardEvent) =
         let el = ev.target :?> HTMLInputElement
@@ -242,17 +263,15 @@ module TodoMVC =
     [<JSX.Component>]
     let Button isVisible dispatch classes (iconClasses: string list) =
         Html.button [
-            Attr.classes [
-                true, "button"
-                not(isVisible()), "is-invisible"
+            Attr.classList [
+                "button", true
+                "is-invisible", not(isVisible())
                 yield! classes
             ]
             Attr.style [
                 Css.marginRight(length.px 4)
             ]
-            Ev.onClick (fun ev ->
-                ev.preventDefault()
-                dispatch())
+            Ev.onClick (fun _ -> dispatch())
             Html.children [
                 Html.i [
                     Attr.classes iconClasses
@@ -261,7 +280,7 @@ module TodoMVC =
         ]
 
     [<JSX.Component>]
-    let TodoEl (todo: Todo) dispatch =
+    let TodoEl (todo: TodoVM) dispatch =
         let inputRef = Solid.createRef<HTMLInputElement>()
         let isEditing() = Option.isSome todo.Editing
         let isNotEditing() = Option.isNone todo.Editing
@@ -300,32 +319,28 @@ module TodoMVC =
 
                     Div [ "column"; "is-4" ] [
                         Button isEditing (fun () -> ApplyEdit inputRef.Value.value |> dispatch)
-                            [ true, "is-primary" ]
+                            [ "is-primary", true ]
                             [ "fa"; "fa-save" ]
 
                         Button isNotEditing (fun () -> ToggleCompleted todo.Id |> dispatch)
-                            [ todo.Completed, "is-success" ]
+                            [ "is-success", todo.Completed ]
                             [ "fa"; "fa-check" ]
 
                         Button isNotEditing (fun () -> StartEditingTodo todo.Id |> dispatch)
-                            [ true, "is-primary" ]
+                            [ "is-primary", true ]
                             [ "fa"; "fa-edit" ]
 
                         Button isNotEditing (fun () -> DeleteTodo todo.Id |> dispatch)
-                            [ true, "is-danger" ]
+                            [ "is-danger", true ]
                             [ "fa"; "fa-times" ]
                     ]
                 ]
             ]
         ]
 
-    open Elmish.Solid
-
     [<JSX.Component>]
     let App() =
-        let init() = init(), []
-        let update msg model = update msg model, []
-        let model, dispatch = Solid.createElmishStore(init, update)
+        let todos, dispatch = Solid.createElmishStore(init, update, toViewModel)
 
         Html.fragment [
             Html.p [
@@ -339,7 +354,7 @@ module TodoMVC =
 
             Html.ul [
                 Html.children [
-                    Solid.For(model.Todos, fun todo _ ->
+                    Solid.For(todos, fun todo _ ->
                         TodoEl todo dispatch)
                 ]
             ]
