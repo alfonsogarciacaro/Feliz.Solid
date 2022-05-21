@@ -3,6 +3,13 @@
 open System
 open Feliz.Styles
 open Fable.Core
+open Fable.Core.JsInterop
+
+module AttrUtil =
+    let concatClasses classList =
+        classList |> Seq.choose (function false, _ -> None | true, c -> Some c) |> String.concat " "
+
+open AttrUtil
 
 /// <summary>HTML Attribute generator API.</summary>
 type AttrEngine() =
@@ -10,6 +17,9 @@ type AttrEngine() =
     ///
     /// You generally shouldn't need to use this, if you notice an attribute missing please submit an issue.
     member inline _.custom (key: string, value: string): JSX.Prop = key, value
+
+    member inline _.style (styles: (string * string) seq): JSX.Prop =
+        "style", createObj !!styles
 
     /// List of types the server accepts, typically a file type.
     member inline _.accept (value: string): JSX.Prop = "accept", value
@@ -348,7 +358,7 @@ type AttrEngine() =
     member inline _.classes (names: seq<string>): JSX.Prop = "class", box(String.concat " " names)
 
     member inline _.classes (names: seq<bool * string>): JSX.Prop =
-        "class", box(names |> Seq.choose (function false, _ -> None | true, c -> Some c) |> String.concat " ")
+        "class", box(concatClasses names)
 
     /// Defines the number of columns in a textarea.
     member inline _.cols (value: int): JSX.Prop = "cols", box(Util.asString value)

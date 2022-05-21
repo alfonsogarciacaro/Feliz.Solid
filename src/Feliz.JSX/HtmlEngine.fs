@@ -1,8 +1,6 @@
 ﻿namespace Feliz
 
-open System
 open Fable.Core
-open Fable.Core.JsInterop
 
 module HtmlUtil =
     let inline childrenToProp (children: JSX.Element list): JSX.Prop = "children", children
@@ -22,12 +20,13 @@ type HtmlEngine() =
     member inline _.none : JSX.Element = null
 
     /// Cast multiple elements into one
-    member inline _.fragment (children: JSX.Element list): JSX.Element = JSX. create "" ["children", children]
+    member inline _.fragment (children: JSX.Element list): JSX.Element = JSX.create "" ["children", children]
 
-    member inline _.children (children: JSX.Element list): JSX.Prop = childrenToProp children
+    /// To be used only with static list literals (no generators)
+    member inline _.children (children: JSX.Element list): JSX.Prop = "children", children
 
-    member inline _.style (styles: (string * string) seq): JSX.Prop =
-        "style", createObj !!styles
+    /// To be used when passing children from props
+    member inline _.propsChildren (children: JSX.Element list): JSX.Element = unbox children
 
     member inline _.a (props: JSX.Prop list) = JSX.create "a" props
 
@@ -154,7 +153,7 @@ type HtmlEngine() =
 
     member inline _.div (value: float) = JSX.create "div" [childStrToProp(Util.asString value)]
     member inline _.div (value: int) = JSX.create "div" [childStrToProp(Util.asString value)]
-    member inline _.div (value: JSX.Element) = JSX.create "div" [childToProp value]
+    // member inline _.div (value: JSX.Element) = JSX.create "div" [childToProp value]
     member inline _.div (children: JSX.Element list) = JSX.create "div" [childrenToProp children]
     member inline _.div (value: string) = JSX.create "div" [childStrToProp value]
     /// The `<div>` tag defines a division or a section in an HTML document
@@ -478,6 +477,7 @@ type HtmlEngine() =
     member inline _.u (props: JSX.Prop list) = JSX.create "u" props
 
     member inline _.ul (props: JSX.Prop list) = JSX.create "ul" props
+    member inline _.ul (children: JSX.Element list) = JSX.create "ul" [childrenToProp children]
 
     member inline _.unorderedList (props: JSX.Prop list) = JSX.create "ul" props
 

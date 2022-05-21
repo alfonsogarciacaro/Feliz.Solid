@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Solid.fs" />
+    <Compile Include="Elmish.Solid.fs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,7 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Feliz.JSX\Feliz.JSX.fsproj" />
+    <ProjectReference Include="..\Feliz.Solid\Feliz.Solid.fsproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Fable.Elmish" Version="4.0.0-beta-3" />
   </ItemGroup>
 
 </Project>
