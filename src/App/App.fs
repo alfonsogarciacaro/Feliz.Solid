@@ -1,6 +1,7 @@
 module App
 
 open Browser
+open Browser.Types
 open Feliz.JSX
 open Fable.Core
 open Components
@@ -13,13 +14,15 @@ type Tab =
     | Counter
     | Styles
     | Sketch
-    | TodoMVC
+    | TodoElmish
+    | TodoNonElmish
     member this.Name =
         match this with
         | Counter -> "Counter"
         | Styles -> "Styles"
         | Sketch -> "Sketch"
-        | TodoMVC -> "TodoMVC"
+        | TodoElmish -> "Todo Elmish"
+        | TodoNonElmish -> "Todo Non-Elmish"
 
 [<JSX.Component>]
 let TabEl(tab: Tab, activeTab, setActiveTab) =
@@ -27,7 +30,10 @@ let TabEl(tab: Tab, activeTab, setActiveTab) =
         Attr.classList ["is-active", tab = activeTab()]
         Html.children [
             Html.a [
-                Ev.onClick (fun _ -> tab |> setActiveTab)
+                Ev.onClick (fun _ ->
+                    assert false
+                    (document.activeElement :?> HTMLInputElement).blur()
+                    tab |> setActiveTab)
                 Html.children [
                     Html.text tab.Name
                 ]
@@ -50,7 +56,8 @@ let Tabs() =
                         TabEl(Tab.Counter, activeTab, setActiveTab)
                         TabEl(Tab.Styles, activeTab, setActiveTab)
                         TabEl(Tab.Sketch, activeTab, setActiveTab)
-                        TabEl(Tab.TodoMVC, activeTab, setActiveTab)
+                        TabEl(Tab.TodoElmish, activeTab, setActiveTab)
+                        TabEl(Tab.TodoNonElmish, activeTab, setActiveTab)
                     ]
                 ]
             ]
@@ -66,7 +73,8 @@ let Tabs() =
                     Solid.Match(activeTab() = Tab.Counter, Counter())
                     Solid.Match(activeTab() = Tab.Styles, Styles())
                     Solid.Match(activeTab() = Tab.Sketch, Sketch.App(10.))
-                    Solid.Match(activeTab() = Tab.TodoMVC, TodoMVC.App())
+                    Solid.Match(activeTab() = Tab.TodoElmish, TodoElmish.App())
+                    Solid.Match(activeTab() = Tab.TodoNonElmish, TodoNonElmish.App())
                 ])
             ]
         ]

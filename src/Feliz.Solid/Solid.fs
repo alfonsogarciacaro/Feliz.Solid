@@ -4,6 +4,26 @@ open System
 open Fable.Core
 open Fable.Core.JsInterop
 
+type SolidStore<'T> =
+    [<Emit("$0")>]
+    abstract Value: 'T
+
+type SolidStoreSetter<'T> =
+    [<Emit("$0($1)")>]
+    abstract Update: 'T -> unit
+    [<Emit("$0($1)")>]
+    abstract Update: ('T -> 'T) -> unit
+    [<Emit("$0(...$1)")>]
+    abstract UpdatePath: obj[] -> unit
+
+type SolidStorePath<'T, 'Value>(setter: SolidStoreSetter<'T>, path: obj[]) =
+    member _.Setter = setter
+    member _.Path = path
+    member inline this.Map(map: 'Value -> 'Value2) =
+        SolidStorePath<'T, 'Value2>(this.Setter, Experimental.namesofLambda map |> Array.map box |> Array.append this.Path)
+    member this.Update(value: 'Value): unit = this.Setter.UpdatePath(Array.append this.Path [|value|])
+    member this.Update(updater: 'Value -> 'Value): unit = this.Setter.UpdatePath(Array.append this.Path [|updater|])
+
 [<AutoOpen>]
 module SolidExtensions =
     open Feliz.JSX
@@ -11,6 +31,19 @@ module SolidExtensions =
     type Attr with
         static member inline classList (names: list<string * bool>): JSX.Prop =
             "classList", createObj !!names
+
+    type SolidStoreSetter<'T> with
+        member this.Path = SolidStorePath<'T, 'T>(this, [||])
+
+[<Runtime.CompilerServices.Extension>]
+type SolidStorePathExtensions =
+    [<Runtime.CompilerServices.Extension>]
+    static member inline Item(this: SolidStorePath<'T, 'Value array>, index: int) =
+        SolidStorePath<'T, 'Value>(this.Setter, Array.append this.Path [|index|])
+
+    [<Runtime.CompilerServices.Extension>]
+    static member inline Find(this: SolidStorePath<'T, 'Value array>, predicate: 'Value -> bool) =
+        SolidStorePath<'T, 'Value>(this.Setter, Array.append this.Path [|predicate|])
 
 type Solid =
     [<ImportMember("solid-js/web")>]
@@ -68,7 +101,7 @@ type Solid =
     static member Match(``when``: 'T option, child: 'T -> JSX.Element): JSX.Element = jsNative
 
     [<ImportMember("solid-js/store")>]
-    static member createStore(store: 'T): 'T * ('T -> unit) = jsNative
+    static member createStore(store: 'T): SolidStore<'T> * SolidStoreSetter<'T> = jsNative
 
     [<ImportMember("solid-js/store"); NamedParams(fromIndex=1)>]
     static member reconcile(store: 'T, ?merge: bool, ?key: string): 'T = jsNative
