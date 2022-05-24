@@ -251,6 +251,7 @@ type Html =
     static member inline kbd (props: JSX.Prop list) = JSX.create "kbd" props
 
     static member inline label (value: string) = JSX.create "label" [childStrToProp value]
+    static member inline label (children: JSX.Element list) = JSX.create "kbd" [childrenToProp children]
     static member inline label (props: JSX.Prop list) = JSX.create "label" props
 
     static member inline legend (value: float) = JSX.create "legend" [childStrToProp(Util.asString value)]
@@ -476,8 +477,8 @@ type Html =
     static member inline u (value: string) = JSX.create "u" [childStrToProp value]
     static member inline u (props: JSX.Prop list) = JSX.create "u" props
 
-    static member inline ul (props: JSX.Prop list) = JSX.create "ul" props
     static member inline ul (children: JSX.Element list) = JSX.create "ul" [childrenToProp children]
+    static member inline ul (props: JSX.Prop list) = JSX.create "ul" props
 
     static member inline unorderedList (props: JSX.Prop list) = JSX.create "ul" props
 

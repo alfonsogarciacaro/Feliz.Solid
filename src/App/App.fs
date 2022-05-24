@@ -16,6 +16,7 @@ type Tab =
     | Sketch
     | TodoElmish
     | TodoNonElmish
+    | Shoelace
     member this.Name =
         match this with
         | Counter -> "Counter"
@@ -23,6 +24,7 @@ type Tab =
         | Sketch -> "Sketch"
         | TodoElmish -> "Todo Elmish"
         | TodoNonElmish -> "Todo Non-Elmish"
+        | Shoelace -> "Shoelace Web Components"
 
 [<JSX.Component>]
 let TabEl(tab: Tab, activeTab, setActiveTab) =
@@ -30,10 +32,7 @@ let TabEl(tab: Tab, activeTab, setActiveTab) =
         Attr.classList ["is-active", tab = activeTab()]
         Html.children [
             Html.a [
-                Ev.onClick (fun _ ->
-                    assert false
-                    (document.activeElement :?> HTMLInputElement).blur()
-                    tab |> setActiveTab)
+                Ev.onClick (fun _ -> tab |> setActiveTab)
                 Html.children [
                     Html.text tab.Name
                 ]
@@ -58,6 +57,7 @@ let Tabs() =
                         TabEl(Tab.Sketch, activeTab, setActiveTab)
                         TabEl(Tab.TodoElmish, activeTab, setActiveTab)
                         TabEl(Tab.TodoNonElmish, activeTab, setActiveTab)
+                        TabEl(Tab.Shoelace, activeTab, setActiveTab)
                     ]
                 ]
             ]
@@ -75,6 +75,7 @@ let Tabs() =
                     Solid.Match(activeTab() = Tab.Sketch, Sketch.App(10.))
                     Solid.Match(activeTab() = Tab.TodoElmish, TodoElmish.App())
                     Solid.Match(activeTab() = Tab.TodoNonElmish, TodoNonElmish.App())
+                    Solid.Match(activeTab() = Tab.Shoelace, Shoelace.ImageComparer())
                 ])
             ]
         ]
