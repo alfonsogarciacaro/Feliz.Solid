@@ -4,8 +4,8 @@ open Fable.Core
 
 module HtmlUtil =
     let inline childrenToProp (children: JSX.Element list): JSX.Prop = "children", children
-    let inline childToProp (child: JSX.Element): JSX.Prop = "children", [child]
-    let inline childStrToProp (child: string): JSX.Prop = "children", [child]
+    let inline childToProp (child: JSX.Element): JSX.Prop = "child", child
+    let inline childStrToProp (child: string): JSX.Prop = "child", child
 
 open HtmlUtil
 
@@ -14,7 +14,7 @@ type Html =
     /// Create a custom element
     ///
     /// You generally shouldn't need to use this, if you notice an element missing please submit an issue.
-    static member inline custom (key: string, props: JSX.Prop list) = JSX.create key props
+    static member inline custom (key: string) (props: JSX.Prop list) = JSX.create key props
 
     /// The empty element, renders nothing on screen
     static member inline none : JSX.Element = null

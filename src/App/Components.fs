@@ -35,20 +35,94 @@ let Counter() =
     ]
 
 [<JSX.Component>]
-let Styles() =
-    let num, setNum = Solid.createSignal(0)
-    let _ = JS.setInterval (fun () -> num() + 1 % 255 |> setNum) 30
+let Svg() =
+    let gradient, setGradient = Solid.createSignal(5)
 
-    Html.div [
-        Attr.style [
-            Css.color $"rgb({num()}, 180, {num()})"
-            Css.fontWeight 800
-            Css.fontSize (length.px(num()))
+    // let num, setNum = Solid.createSignal(0)
+    // let _ = JS.setInterval (fun () -> num() + 1 % 255 |> setNum) 30
+
+    Html.fragment [
+        Html.div [
+            Html.input [
+                Attr.typeRange
+                Attr.min 1
+                Attr.max 100
+                Attr.value $"{gradient()}"
+                Ev.onTextInput (fun (value: string) -> value |> int |> setGradient)
+            ]
         ]
-        Html.children [
-            Html.text $"Number is {num()}"
+
+        Html.p "This is created using Feliz API"
+
+        Svg.svg [
+            Attr.height 150
+            Attr.width 300
+            Svg.children [
+                Svg.defs [
+                    Svg.linearGradient [
+                        Attr.id "gr1"
+                        Attr.x1 (length.perc 0)
+                        Attr.y1 (length.perc 60)
+                        Attr.x2 (length.perc 100)
+                        Attr.y2 (length.perc 0)
+                        Svg.children [
+                            Svg.stop [
+                                Attr.offset (length.perc (gradient()))
+                                Attr.style [
+                                    "stop-color", "rgb(255,255,3)"
+                                    "stop-opacity", "1"
+                                ]
+                            ]
+                            Svg.stop [
+                                Attr.offset (length.perc 100)
+                                Attr.style [
+                                    "stop-color", "rgb(255,0,0)"
+                                    "stop-opacity", "1"
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+                Svg.ellipse [
+                    Attr.cx 125
+                    Attr.cy 75
+                    Attr.rx 100
+                    Attr.ry 60
+                    Attr.fill "url(#gr1)"
+                ]
+            ]
         ]
+
+        Html.p "This is created using HTML template"
+        // Note the interpolation hole must replace the whole attribute value (as in standard JSX)
+        // We cannot interpolate only part of the attribute, e.g. `offset="{gradient()}%%"
+
+        JSX.html $"""
+        <svg height="150" width="300">
+            <defs>
+                <linearGradient id="gr2" x1="0%%" y1="60%%" x2="100%%" y2="0%%">
+                <stop offset={ length.perc (gradient()) } style="stop-color:rgb(52, 235, 82);stop-opacity:1" />
+                <stop offset="100%%" style="stop-color:rgb(52, 150, 235);stop-opacity:1" />
+                </linearGradient>
+            </defs>
+            <ellipse cx="125" cy="75" rx="100" ry="60" fill="url(#gr2)" />
+            Sorry but this browser does not support inline SVG.
+        </svg>
+        """
+
+        // Html.div [
+        //     Attr.style [
+        //         Css.color $"rgb({num()}, 180, {num()})"
+        //         Css.fontWeight 800
+        //         Css.fontSize (length.px(num()))
+        //     ]
+        //     Html.children [
+        //         Html.text $"Number is {num()}"
+        //     ]
+        // ]
     ]
+
+
 
 module Sketch =
     let setStyle (el: HTMLElement) ((key, value): string * string) =
@@ -117,15 +191,15 @@ module TodoElmish =
     open Elmish
     open Elmish.Solid
 
-    type Todo = {|
+    type Todo = {
         Id: Guid
         Description: string
         Editing: string option
         Completed: bool
-    |}
+    }
 
     type State =
-        {| Todos: Todo list |}
+        { Todos: Todo list }
 
     type Msg =
         | AddNewTodo of string
@@ -136,31 +210,31 @@ module TodoElmish =
         | StartEditingTodo of Guid
 
     let newTodo txt =
-        {|
+        {
             Id = Guid.NewGuid()
             Description = txt
             Completed = false
             Editing = None
-        |}
+        }
 
 
     let initTodos() = [
         newTodo "Learn F#"
-        {| newTodo "Learn Elmish" with Completed = true |}
+        { newTodo "Learn Elmish" with Completed = true }
     ]
 
     let init () =
-        {| Todos = initTodos() |}, Cmd.none
+        { Todos = initTodos() }, Cmd.none
 
     let update (msg: Msg) (state: State) =
         match msg with
         | AddNewTodo txt ->
-            {| state with Todos = (newTodo txt)::state.Todos |}, Cmd.none
+            { state with Todos = (newTodo txt)::state.Todos }, Cmd.none
 
         | DeleteTodo todoId ->
             state.Todos
             |> List.filter (fun todo -> todo.Id <> todoId)
-            |> fun todos -> {| state with Todos = todos |}, Cmd.none
+            |> fun todos -> { state with Todos = todos }, Cmd.none
 
         | ToggleCompleted todoId ->
             state.Todos
@@ -168,34 +242,34 @@ module TodoElmish =
                 (fun todo ->
                     if todo.Id = todoId then
                         let completed = not todo.Completed
-                        {| todo with
-                            Completed = completed |}
+                        { todo with
+                            Completed = completed }
                     else
                         todo)
-            |> fun todos -> {| state with Todos = todos |}, Cmd.none
+            |> fun todos -> { state with Todos = todos }, Cmd.none
 
         | StartEditingTodo todoId ->
             state.Todos |> List.map (fun t ->
                 match t.Editing with
-                | _ when t.Id = todoId -> {| t with Editing = Some t.Description |}
-                | Some _ -> {| t with Editing = None |}
+                | _ when t.Id = todoId -> { t with Editing = Some t.Description }
+                | Some _ -> { t with Editing = None }
                 | _ -> t)
-            |> fun todos -> {| state with Todos = todos |}, Cmd.none
+            |> fun todos -> { state with Todos = todos }, Cmd.none
 
         | CancelEdit ->
             state.Todos |> List.map (fun t ->
                 if Option.isSome t.Editing
-                then {| t with Editing = None |}
+                then { t with Editing = None }
                 else t)
-            |> fun todos -> {| state with Todos = todos |}, Cmd.none
+            |> fun todos -> { state with Todos = todos }, Cmd.none
 
         | ApplyEdit txt ->
             state.Todos |> List.map (fun t ->
                 match t.Editing with
                 | Some _ ->
-                    {| t with Description = txt; Editing = None |}
+                    { t with Description = txt; Editing = None }
                 | None -> t)
-            |> fun todos -> {| state with Todos = todos |}, Cmd.none
+            |> fun todos -> { state with Todos = todos }, Cmd.none
 
     // View
 
@@ -266,7 +340,8 @@ module TodoElmish =
         ]
 
     [<JSX.Component>]
-    let TodoEl (todo: Todo) dispatch =
+    let TodoView (todo: Todo) dispatch =
+        printfn "Render todo"
         let inputRef = Solid.createRef<HTMLInputElement>()
         let isEditing() = Option.isSome todo.Editing
         let isNotEditing() = Option.isNone todo.Editing
@@ -309,7 +384,10 @@ module TodoElmish =
                             [ "fa"; "fa-save" ]
 
                         Button isNotEditing (fun () -> ToggleCompleted todo.Id |> dispatch)
-                            [ "is-success", todo.Completed ]
+                            [ "is-success", (
+                                printfn "Render complete"
+                                todo.Completed
+                            ) ]
                             [ "fa"; "fa-check" ]
 
                         Button isNotEditing (fun () -> StartEditingTodo todo.Id |> dispatch)
@@ -343,11 +421,12 @@ module TodoElmish =
             Html.ul [
                 Html.children [
                     Solid.For(todos, fun todo _ ->
-                        TodoEl todo dispatch)
+                        TodoView todo dispatch)
                 ]
             ]
         ]
 
+(*
 module TodoNonElmish =
     // Reuse model, msg and view from the Elmish version
     open TodoElmish
@@ -372,19 +451,19 @@ module TodoNonElmish =
             // Update all todos because we need to make sure there is not more than one todo being edited at the same time
             store.Update(Array.map (fun (t: Todo) ->
                 match t.Editing with
-                | _ when t.Id = todoId -> {| t with Editing = Some t.Description |}
-                | Some _ -> {| t with Editing = None |}
+                | _ when t.Id = todoId -> { t with Editing = Some t.Description }
+                | Some _ -> { t with Editing = None }
                 | _ -> t))
 
         | CancelEdit ->
             store.Update(Array.map (fun (t: Todo) ->
                 if Option.isSome t.Editing
-                then {| t with Editing = None |}
+                then { t with Editing = None }
                 else t))
 
         | ApplyEdit txt ->
             store.Path.Find(fun (t: Todo) -> Option.isSome t.Editing).Update(fun t ->
-                {| t with Description = txt; Editing = None |})
+                { t with Description = txt; Editing = None })
 
     [<JSX.Component>]
     let App() =
@@ -405,14 +484,16 @@ module TodoNonElmish =
             Html.ul [
                 Html.children [
                     Solid.For(todos, fun todo _ ->
-                        TodoEl todo dispatch)
+                        TodoView todo dispatch)
                 ]
             ]
         ]
+*)
 
 module Shoelace =
     // Cherry-pick Shoelace image comparer element, see https://shoelace.style/components/image-comparer?id=importing
     importSideEffects "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.73/dist/components/image-comparer/image-comparer.js"
+    importSideEffects "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.73/dist/components/qr-code/qr-code.js"
 
     [<JSX.Component>]
     let ImageComparer() =
@@ -420,17 +501,14 @@ module Shoelace =
         let position, setPosition = Solid.createSignal(25)
 
         Html.fragment [
-            Html.label [
-                Html.text "Native HTML Input"
-                Html.div [
-                    Html.input [
-                        Solid.ref inputRef
-                        Attr.typeRange
-                        Attr.min 1
-                        Attr.max 100
-                        Attr.value (position() |> string)
-                        Ev.onTextInput (fun (value: string) -> value |> int |> setPosition)
-                    ]
+            Html.div [
+                Html.input [
+                    Solid.ref inputRef
+                    Attr.typeRange
+                    Attr.min 1
+                    Attr.max 100
+                    Attr.value (position() |> string)
+                    Ev.onTextInput (fun (value: string) -> value |> int |> setPosition)
                 ]
             ]
 
@@ -459,4 +537,29 @@ module Shoelace =
             ]
         ]
 
+    [<JSX.Component>]
+    let QrCode() =
+        let value, setValue = Solid.createSignal("https://shoelace.style/")
 
+        Html.fragment [
+            Html.input [
+                Attr.className "input mb-5"
+                Attr.typeText
+                Attr.autoFocus true
+                Attr.value (value())
+                Ev.onTextChange setValue
+            ]
+            Html.div [
+                JSX.html $"""
+                    <sl-qr-code value={value()} radius="0.5"></sl-qr-code>
+                """
+            ]
+        ]
+
+    [<JSX.Component>]
+    let App() =
+        Html.fragment [
+            QrCode()
+            Html.br []
+            ImageComparer()
+        ]

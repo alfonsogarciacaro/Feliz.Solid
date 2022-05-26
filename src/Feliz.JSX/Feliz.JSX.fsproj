@@ -9,7 +9,7 @@
     <Compile Include="Util.fs" />
     <Compile Include="CssEngine.fs" />
     <Compile Include="HtmlEngine.fs" />
-    <!-- <Compile Include="SvgEngine.fs" /> -->
+    <Compile Include="SvgEngine.fs" />
     <Compile Include="AttrEngine.fs" />
     <Compile Include="EventEngine.fs" />
   </ItemGroup>
@@ -17,7 +17,7 @@
     <Content Include="*.fsproj; *.fs" PackagePath="fable\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Fable.Core" Version="4.0.0-snake-island-alpha-002" />
+    <PackageReference Include="Fable.Core" Version="4.0.0-snake-island-alpha-004" />
     <PackageReference Include="Fable.Browser.Dom" Version="2.10.0" />
   </ItemGroup>
 </Project>

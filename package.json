@@ -2,10 +2,10 @@
     "private": "true",
     "scripts": {
         "postinstall": "dotnet tool restore",
-        "start": "dotnet fable watch src/App -o dist -e .jsx --run vite"
+        "start": "dotnet fable watch src/App -s -o dist -e .jsx --run vite"
     },
     "dependencies": {
-        "solid-js": "^1.4.1"
+        "solid-js": "^1.4.2"
     },
     "devDependencies": {
         "vite": "^2.9.9",

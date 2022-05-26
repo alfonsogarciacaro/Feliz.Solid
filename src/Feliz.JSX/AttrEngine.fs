@@ -15,7 +15,7 @@ type Attr =
     /// Create a custom attribute
     ///
     /// You generally shouldn't need to use this, if you notice an attribute missing please submit an issue.
-    static member inline custom (key: string, value: string): JSX.Prop = key, value
+    static member inline custom (key: string) (value: string): JSX.Prop = key, value
 
     static member inline style (styles: (string * string) seq): JSX.Prop =
         "style", createObj !!styles
