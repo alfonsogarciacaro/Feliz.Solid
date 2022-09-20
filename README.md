@@ -1,3 +1,8 @@
+> **ATTENTION**: This repo has been now superseded by the following repos:
+>
+> - https://github.com/fable-compiler/Feliz.JSX
+> - https://github.com/fable-compiler/Fable.Solid
+
 # Feliz.Solid
 
 This is an early prototype to compile F# to JSX in order to use a [Feliz-like](https://zaid-ajaj.github.io/Feliz/) HTML API with [SolidJS](https://www.solidjs.com/).
